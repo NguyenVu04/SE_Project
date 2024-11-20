@@ -3,7 +3,7 @@ package spss.project.backend.print.printer;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "printers")
+@Document(collection = "Printers")
 public class Printer {
     @Id
     private String id;

@@ -1,8 +1,6 @@
 package spss.project.backend.document;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -26,10 +24,7 @@ public class DocumentService {
      * @throws Exception if the document cannot be saved
      */
     public void saveDocument(MultipartFile file, String studentId) throws Exception {
-        Map<String, Object> metadata = new HashMap<>();
-        metadata.put("uploadDate", new Date());
-        metadata.put("fileSize", file.getSize());
-        metadata.put("author", studentId);
+        DocumentMetadata metadata = new DocumentMetadata(new Date(), file.getSize());
 
         operations.store(file.getInputStream(),
                 this.convertToGridFsFileName(studentId, studentId),
