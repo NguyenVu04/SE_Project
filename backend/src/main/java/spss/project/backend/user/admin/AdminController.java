@@ -1,4 +1,4 @@
-package spss.project.backend.printer;
+package spss.project.backend.user.admin;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +11,10 @@ import spss.project.backend.Environment;
 
 @RestController
 @CrossOrigin(origins = {Environment.FRONTEND_URL})
-@RequestMapping("/printer")
-public class PrinterController {
+@RequestMapping("admin")
+public class AdminController {
     @Autowired
-    private PrinterService service;
+    private AdminService service;
 
-    private static final Logger logger = LoggerFactory.getLogger(PrinterController.class); 
+    private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 }

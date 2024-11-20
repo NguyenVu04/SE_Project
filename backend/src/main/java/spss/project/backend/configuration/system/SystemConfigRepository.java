@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SystemConfigRepository extends MongoRepository<SystemConfig, String> {
-    public SystemConfig findTopByOrderByCreateAtDesc();
+    public SystemConfig findTopByOrderByCreatedAtDesc();
 }

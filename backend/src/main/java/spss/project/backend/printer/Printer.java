@@ -231,7 +231,7 @@ public class Printer {
      * @param fileUrl        the URL of the document to print
      * @param paperSize      the size of the paper to print on
      * @param pageNumbers    the page numbers of the document to print
-     * @param singleSide     whether to print single or double sided
+     * @param singleSided     whether to print single or double sided
      * @param numberOfCopies the number of copies to print
      * @throws Exception if the document cannot be printed
      */
@@ -239,7 +239,7 @@ public class Printer {
             String fileUrl,
             PaperSize paperSize,
             List<Integer> pageNumbers,
-            boolean singleSide,
+            boolean singleSided,
             int numberOfCopies) throws Exception {
 
         Map<String, Object> printInfo = new HashMap<>();
@@ -247,7 +247,7 @@ public class Printer {
         printInfo.put("fileUrl", fileUrl);
         printInfo.put("paperSize", paperSize.toString());
         printInfo.put("pageNumbers", pageNumbers);
-        printInfo.put("singleSide", singleSide);
+        printInfo.put("singleSide", singleSided);
         printInfo.put("numberOfCopies", numberOfCopies);
 
         RestClient client = RestClient.builder()

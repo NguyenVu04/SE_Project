@@ -75,7 +75,6 @@ public class StudentService {
      * Updates a student in the database.
      * 
      * @param id         the id of the student to update
-     * @param email      the new email of the student
      * @param firstName  the new first name of the student
      * @param lastName   the new last name of the student
      * @param dateOfBirth the new date of birth of the student
@@ -86,7 +85,6 @@ public class StudentService {
      */
     public Student updateStudent(
             String id,
-            String email,
             String firstName,
             String lastName,
             Date dateOfBirth,
@@ -98,7 +96,6 @@ public class StudentService {
             throw new NotFoundException();
         }
 
-        student.setEmail(email);
         student.setFirstName(firstName);
         student.setLastName(lastName);
         student.setDateOfBirth(dateOfBirth);

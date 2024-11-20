@@ -25,7 +25,7 @@ public class SystemConfigController {
 
     private static final Logger logger = LoggerFactory.getLogger(SystemConfigController.class);
 
-    @GetMapping
+    @GetMapping("")
     public ResponseEntity<Object> getCurrentConfig() {
         try {
             return ResponseEntity.ok()
@@ -49,16 +49,14 @@ public class SystemConfigController {
         return ResponseEntity.internalServerError().build();
     }
 
-    @PostMapping
+    @PostMapping("")
     public ResponseEntity<Object> saveCurrentConfig(@RequestBody Map<String, Object> body) {
         try {
             int paperSupplyDay = (int) body.get("paperSupplyDay");
-            String createBy = (String) body.get("createBy");
+            String createdBy = (String) body.get("createdBy");
             String cloudUrl = (String) body.get("cloudUrl");
-            SystemConfig config = new SystemConfig(paperSupplyDay, createBy, cloudUrl);
-
-            service.getRepo()
-                    .save(config);
+            
+            service.saveCurrentSystemConfig(paperSupplyDay, createdBy, cloudUrl);
 
             return ResponseEntity.ok()
                     .build();

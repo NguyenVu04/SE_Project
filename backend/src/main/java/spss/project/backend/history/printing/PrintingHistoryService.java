@@ -1,0 +1,137 @@
+package spss.project.backend.history.printing;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.stereotype.Service;
+
+import spss.project.backend.document.PaperSize;
+
+@Service
+/**
+ * This class provides methods for interacting with the printing history of the
+ * students. The printing history is stored in a MongoDB database and can be
+ * accessed using the methods of this class.
+ */
+public class PrintingHistoryService {
+    @Autowired
+    private PrintingHistoryRepository repo;
+
+    /**
+     * Saves a printing history item in the database.
+     *
+     * @param studentId      the id of the student who printed the document
+     * @param printerId      the id of the printer on which the document was
+     *                       printed
+     * @param documentId     the id of the document which was printed
+     * @param paperSize      the size of the paper the document was printed on
+     * @param pageNumbers    the page numbers of the document which were printed
+     * @param numberOfCopies the number of copies of the document which were
+     *                       printed
+     * @param singleSided     whether the document was printed single or double
+     *                       sided
+     * @param timeOrdered    the time at which the printing job was requested
+     * @param timePrinted    the time at which the printing job was completed
+     * @return the saved printing history item
+     * @throws Exception if an error occurs while saving the printing history
+     *                    item
+     */
+    public PrintingHistoryItem save(
+            String studentId,
+            String printerId,
+            String documentId,
+            PaperSize paperSize,
+            List<Integer> pageNumbers,
+            int numberOfCopies,
+            boolean singleSided,
+            LocalDateTime timeOrdered,
+            LocalDateTime timePrinted) throws Exception {
+
+        PrintingHistoryItem item = new PrintingHistoryItem(
+                studentId,
+                printerId,
+                documentId,
+                paperSize,
+                pageNumbers,
+                numberOfCopies,
+                singleSided,
+                timeOrdered,
+                timePrinted);
+
+        return repo.save(item);
+    }
+
+    /**
+     * Finds a printing history item by its id.
+     *
+     * @param id the id of the printing history item to find
+     * @return the printing history item with the given id, or null if no such
+     *         item exists
+     * @throws Exception if an error occurs while retrieving the printing
+     *                   history item
+     */
+    public PrintingHistoryItem getHistoryItem(String id) throws Exception {
+        return repo.findById(id).orElse(null);
+    }
+
+    /**
+     * Updates a printing history item in the database.
+     *
+     * @param id          the id of the printing history item to update
+     * @param successful  whether the printing job was successful or not
+     * @return the updated printing history item
+     * @throws NotFoundException if the printing history item with the given id
+     *                            does not exist
+     * @throws Exception        if an error occurs while updating the printing
+     *                           history item
+     */
+    public PrintingHistoryItem updateHistoryItem(String id, boolean successful) throws NotFoundException, Exception {
+        PrintingHistoryItem item = this.getHistoryItem(id);
+
+        if (item == null) {
+            throw new NotFoundException();
+        }
+
+        item.setDone(true);
+        item.setSuccessful(successful);
+        return repo.save(item);
+    }
+
+    /**
+     * Finds all printing history items which were printed between the given
+     * times.
+     *
+     * @param from the start time of the range (inclusive)
+     * @param to   the end time of the range (inclusive)
+     * @return a list of all printing history items which were printed between the
+     *         given times
+     * @throws Exception if an error occurs while retrieving the printing
+     *                   history items
+     */
+    public List<PrintingHistoryItem> getPrintingHistory(LocalDateTime from, LocalDateTime to) throws Exception {
+        return repo.findByTimeOrderedBetween(from, to);
+    }
+
+    /**
+     * Finds all printing history items of a student.
+     *
+     * @param studentId the id of the student whose printing history to retrieve
+     * @return a list of all printing history items of the student
+     * @throws Exception if an error occurs while retrieving the printing
+     *                   history items
+     */
+    public List<PrintingHistoryItem> getStudentPrintingHistory(String studentId) throws Exception {
+        return repo.findAllByStudentId(studentId);
+    }
+
+    /**
+     * Returns the repository used by this service.
+     *
+     * @return the repository used by this service
+     */
+    public PrintingHistoryRepository getRepo() {
+        return repo;
+    }
+}

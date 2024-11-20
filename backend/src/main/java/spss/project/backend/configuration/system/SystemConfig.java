@@ -32,12 +32,12 @@ public class SystemConfig {
      * The date that the configuration was created. This is the date that the
      * configuration was added to the database.
      */
-    private Date createAt;
+    private Date createdAt;
     /**
      * The user who created the configuration. This is the user who added the
      * configuration to the database.
      */
-    private String createBy;
+    private String createdBy;
     /**
      * The URL to the cloud service that store files.
      */
@@ -52,15 +52,15 @@ public class SystemConfig {
      * @throws Exception if the paper supply date is outside the range of 1
      *                   to 28
      */
-    public SystemConfig(int paperSupplyDay, String createBy, String cloudUrl) throws InvalidParameterException, Exception {
+    public SystemConfig(int paperSupplyDay, String createdBy, String cloudUrl) throws InvalidParameterException, Exception {
         if (paperSupplyDay < 1 || paperSupplyDay > 28) {
             throw new InvalidParameterException("Paper supply day must be between 1 and 28.");
         }
 
         this.paperSupplyDay = paperSupplyDay;
         fileTypes = new ArrayList<>();
-        this.createAt = new Date();
-        this.createBy = createBy;
+        this.createdAt = new Date();
+        this.createdBy = createdBy;
         this.cloudUrl = cloudUrl;
     }
 
@@ -154,8 +154,8 @@ public class SystemConfig {
      * 
      * @return the user who created the configuration
      */
-    public String getCreateBy() {
-        return createBy;
+    public String getCreatedBy() {
+        return createdBy;
     }
 
     /**
@@ -163,8 +163,8 @@ public class SystemConfig {
      * 
      * @return the date that the configuration was created
      */
-    public Date getCreateAt() {
-        return createAt;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
     /**

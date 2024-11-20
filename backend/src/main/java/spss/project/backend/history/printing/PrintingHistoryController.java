@@ -1,4 +1,4 @@
-package spss.project.backend.printer;
+package spss.project.backend.history.printing;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +11,10 @@ import spss.project.backend.Environment;
 
 @RestController
 @CrossOrigin(origins = {Environment.FRONTEND_URL})
-@RequestMapping("/printer")
-public class PrinterController {
+@RequestMapping("history/printing")
+public class PrintingHistoryController {
     @Autowired
-    private PrinterService service;
+    private PrintingHistoryService service;
 
-    private static final Logger logger = LoggerFactory.getLogger(PrinterController.class); 
+    private static final Logger logger = LoggerFactory.getLogger(PrintingHistoryController.class);
 }

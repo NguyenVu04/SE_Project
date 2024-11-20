@@ -83,15 +83,6 @@ public class Student {
     }
 
     /**
-     * Sets the email of the student.
-     * 
-     * @param email the email to set
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
      * Gets the first name of the student.
      * 
      * @return the first name of the student
