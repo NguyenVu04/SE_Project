@@ -7,10 +7,18 @@ import javax.naming.NameNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * A service for working with printers.
+ */
 @Service
 public class PrinterService {
+
+    /**
+     * The repository used by this service to interact with the database.
+     */
     @Autowired
     private PrinterRepository repo;
+
 
     /**
      * Saves a printer to the database.

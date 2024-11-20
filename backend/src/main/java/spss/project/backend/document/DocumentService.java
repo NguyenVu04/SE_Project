@@ -16,8 +16,16 @@ import com.mongodb.client.gridfs.model.GridFSFile;
 
 import spss.project.backend.Environment;
 
+/**
+ * A service for working with documents. This service provides methods for
+ * saving, retrieving, and deleting documents from the database.
+ */
 @Service
 public class DocumentService {
+    /**
+     * An instance of GridFsOperations, which provides methods for saving and
+     * retrieving documents from the database.
+     */
     @Autowired
     private GridFsOperations operations;
 
