@@ -1,5 +1,6 @@
 package spss.project.backend.configuration.system;
 
+import java.security.InvalidParameterException;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import spss.project.backend.Environment;
+
 @RestController
 @CrossOrigin(origins = { Environment.FRONTEND_URL })
 @RequestMapping("config")
@@ -52,15 +54,24 @@ public class SystemConfigController {
         try {
             int paperSupplyDay = (int) body.get("paperSupplyDay");
             String createBy = (String) body.get("createBy");
-            SystemConfig config = new SystemConfig(paperSupplyDay, createBy);
+            String cloudUrl = (String) body.get("cloudUrl");
+            SystemConfig config = new SystemConfig(paperSupplyDay, createBy, cloudUrl);
 
             service.getRepo()
                     .save(config);
 
             return ResponseEntity.ok()
                     .build();
+        } catch (InvalidParameterException e) {
+
+            logger.error("Invalid parameter", e);
+            return ResponseEntity.badRequest()
+                    .build();
+
         } catch (Exception e) {
+
             logger.error("Error saving current config", e);
+
         }
 
         return ResponseEntity.internalServerError()

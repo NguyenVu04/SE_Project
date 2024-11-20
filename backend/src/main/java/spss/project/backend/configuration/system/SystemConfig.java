@@ -1,5 +1,6 @@
 package spss.project.backend.configuration.system;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,6 +38,10 @@ public class SystemConfig {
      * configuration to the database.
      */
     private String createBy;
+    /**
+     * The URL to the cloud service that store files.
+     */
+    private String cloudUrl;
 
     /**
      * Creates a new configuration with the given paper supply date and the
@@ -44,18 +49,19 @@ public class SystemConfig {
      * 
      * @param paperSupplyDay the paper supply date
      * @param createBy       the user who created the configuration
-     * @throws Exception     if the paper supply date is outside the range of 1
-     *                       to 28
+     * @throws Exception if the paper supply date is outside the range of 1
+     *                   to 28
      */
-    public SystemConfig(int paperSupplyDay, String createBy) throws Exception {
+    public SystemConfig(int paperSupplyDay, String createBy, String cloudUrl) throws InvalidParameterException, Exception {
         if (paperSupplyDay < 1 || paperSupplyDay > 28) {
-            throw new Exception("Paper supply day must be between 1 and 28.");
+            throw new InvalidParameterException("Paper supply day must be between 1 and 28.");
         }
 
         this.paperSupplyDay = paperSupplyDay;
         fileTypes = new ArrayList<>();
         this.createAt = new Date();
         this.createBy = createBy;
+        this.cloudUrl = cloudUrl;
     }
 
     /**
@@ -80,8 +86,8 @@ public class SystemConfig {
      * Sets the paper supply date of the configuration.
      * 
      * @param paperSupplyDate the new paper supply date
-     * @throws Exception      if the paper supply date is outside the range of 1
-     *                       to 28
+     * @throws Exception if the paper supply date is outside the range of 1
+     *                   to 28
      */
     public void setPaperSupplyDate(int paperSupplyDate) throws Exception {
         if (paperSupplyDate < 0 || paperSupplyDate > 28) {
@@ -159,5 +165,23 @@ public class SystemConfig {
      */
     public Date getCreateAt() {
         return createAt;
+    }
+
+    /**
+     * Gets the URL of the cloud storage service.
+     * 
+     * @return the URL of the cloud storage service
+     */
+    public String getCloudUrl() {
+        return cloudUrl;
+    }
+
+    /**
+     * Sets the URL of the cloud storage service.
+     * 
+     * @param cloudUrl the URL to set for the cloud storage service
+     */
+    public void setCloudUrl(String cloudUrl) {
+        this.cloudUrl = cloudUrl;
     }
 }

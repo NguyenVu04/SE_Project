@@ -1,4 +1,4 @@
-package spss.project.backend.print.printer;
+package spss.project.backend.printer;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
