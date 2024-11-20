@@ -8,13 +8,13 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "SystemConfig")
 /**
  * This class represents a configuration for the system. The configuration is
  * stored in the database and contains information about the system such as the
  * default paper supply date, the file types that are allowed and the user who
  * created the configuration.
  */
+@Document(collection = "SystemConfig")
 public class SystemConfig {
     @Id
     private String id;
@@ -48,17 +48,21 @@ public class SystemConfig {
      * given user who created the configuration.
      * 
      * @param paperSupplyDay the paper supply date
-     * @param createBy       the user who created the configuration
+     * @param createdBy       the user who created the configuration
+     * @param cloudUrl       the URL to the cloud service that store files
+     * @param fileTypes      the list of allowed file types
+     * @throws InvalidParameterException if the paper supply date is outside the
+     *                                   range of 1 to 28
      * @throws Exception if the paper supply date is outside the range of 1
      *                   to 28
      */
-    public SystemConfig(int paperSupplyDay, String createdBy, String cloudUrl) throws InvalidParameterException, Exception {
+    public SystemConfig(int paperSupplyDay, String createdBy, String cloudUrl, List<String> fileTypes) throws InvalidParameterException, Exception {
         if (paperSupplyDay < 1 || paperSupplyDay > 28) {
             throw new InvalidParameterException("Paper supply day must be between 1 and 28.");
         }
 
         this.paperSupplyDay = paperSupplyDay;
-        fileTypes = new ArrayList<>();
+        this.fileTypes = fileTypes;
         this.createdAt = new Date();
         this.createdBy = createdBy;
         this.cloudUrl = cloudUrl;

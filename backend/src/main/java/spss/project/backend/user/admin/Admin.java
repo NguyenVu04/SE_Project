@@ -3,10 +3,10 @@ package spss.project.backend.user.admin;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "Admins")
 /**
  * A class representing an admin user in the system.
  */
+@Document(collection = "Admins")
 public class Admin {
     /**
      * The unique identifier of the admin, which is their email address.

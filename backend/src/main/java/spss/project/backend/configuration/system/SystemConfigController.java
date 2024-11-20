@@ -1,6 +1,8 @@
 package spss.project.backend.configuration.system;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -16,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import spss.project.backend.Environment;
 
+/**
+ * Handles all requests related to the system configuration.
+ */
 @RestController
 @CrossOrigin(origins = { Environment.FRONTEND_URL })
 @RequestMapping("config")
@@ -25,6 +30,17 @@ public class SystemConfigController {
 
     private static final Logger logger = LoggerFactory.getLogger(SystemConfigController.class);
 
+    /**
+     * The default constructor for the SystemConfigController.
+     * This constructor is protected to prevent external instantiation.
+     */
+    protected SystemConfigController() {}
+
+    /**
+     * Returns the current system configuration.
+     * 
+     * @return the current system configuration
+     */
     @GetMapping("")
     public ResponseEntity<Object> getCurrentConfig() {
         try {
@@ -38,6 +54,11 @@ public class SystemConfigController {
                 .build();
     }
 
+    /**
+     * Returns all saved system configurations.
+     * 
+     * @return a list of all saved system configurations
+     */
     @GetMapping("all")
     public ResponseEntity<Object> getAllConfig() {
         try {
@@ -49,14 +70,24 @@ public class SystemConfigController {
         return ResponseEntity.internalServerError().build();
     }
 
+    /**
+     * Saves the current system configuration.
+     * @param body the request body containing the new system configuration
+     * @return a success response if the configuration was saved successfully
+     */
     @PostMapping("")
     public ResponseEntity<Object> saveCurrentConfig(@RequestBody Map<String, Object> body) {
         try {
             int paperSupplyDay = (int) body.get("paperSupplyDay");
             String createdBy = (String) body.get("createdBy");
+            @SuppressWarnings("unchecked")
+            List<String> fileTypes = (ArrayList<String>) body.get("fileTypes");
             String cloudUrl = (String) body.get("cloudUrl");
-            
-            service.saveCurrentSystemConfig(paperSupplyDay, createdBy, cloudUrl);
+
+            service.saveCurrentSystemConfig(paperSupplyDay,
+                    createdBy,
+                    cloudUrl,
+                    fileTypes);
 
             return ResponseEntity.ok()
                     .build();
@@ -69,10 +100,9 @@ public class SystemConfigController {
         } catch (Exception e) {
 
             logger.error("Error saving current config", e);
-
-        }
-
-        return ResponseEntity.internalServerError()
+            return ResponseEntity.internalServerError()
                 .build();
+                
+        }
     }
 }

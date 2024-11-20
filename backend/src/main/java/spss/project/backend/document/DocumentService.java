@@ -37,16 +37,18 @@ public class DocumentService {
      * @throws Exception if the document cannot be saved
      */
     public void saveDocument(MultipartFile file, String studentId) throws AlreadyBoundException, Exception {
-        GridFsResource resource = operations.getResource(
-                this.convertToGridFsFileName(
-                        file.getOriginalFilename(), studentId));
+        String gridFsFileName = this.convertToGridFsFileName(
+                file.getOriginalFilename(),
+                studentId);
+
+        GridFsResource resource = operations.getResource(gridFsFileName);
 
         if (resource.exists()) {
             throw new AlreadyBoundException();
         }
 
         operations.store(file.getInputStream(),
-                this.convertToGridFsFileName(studentId, studentId),
+                gridFsFileName,
                 file.getContentType());
     }
 

@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class AdminService {
+    /**
+     * The repository for admins.
+     */
     @Autowired
     private AdminRepository repo;
 

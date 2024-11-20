@@ -9,12 +9,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 import spss.project.backend.Environment;
 
+/**
+ * Handles all requests related to the system's administrators.
+ */
 @RestController
 @CrossOrigin(origins = {Environment.FRONTEND_URL})
 @RequestMapping("admin")
 public class AdminController {
+
+    /**
+     * A service for working with admins.
+     */
     @Autowired
     private AdminService service;
 
+    /**
+     * A logger for logging events.
+     */
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
+
+    /**
+     * Prevents the instantiation of this class.
+     */
+    protected AdminController() {}
 }

@@ -18,6 +18,12 @@ public class StudentService {
     private StudentRepository repo;
 
     /**
+     * Protected constructor for StudentService.
+     * This is used by the framework for dependency injection.
+     */
+    protected StudentService() {}
+
+    /**
      * Saves a student to the database.
      * 
      * @param email       the email of the student
