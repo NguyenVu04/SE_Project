@@ -1,6 +1,7 @@
 package spss.project.backend.document;
 
 import java.nio.channels.AlreadyBoundException;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,12 +24,18 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.gridfs.model.GridFSFile;
 
+import spss.project.backend.configuration.system.SystemConfig;
+import spss.project.backend.configuration.system.SystemConfigService;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("document")
 public class DocumentController {
     @Autowired
     private DocumentService service;
+
+    @Autowired
+    private SystemConfigService systemConfigService;
 
     private static final Logger logger = LoggerFactory.getLogger(DocumentController.class);
 
@@ -90,6 +98,11 @@ public class DocumentController {
             @RequestPart("file") MultipartFile file) {
         
         try {
+            SystemConfig config = systemConfigService.getCurrentSystemConfig();
+            if (!config.hasFileType(file.getContentType())) {
+                logger.error("File type not allowed: " + file.getContentType(), new InvalidParameterException());
+                return ResponseEntity.badRequest().build();
+            }            
 
             service.saveDocument(file, studentId);
             return ResponseEntity.ok().build();
@@ -97,7 +110,7 @@ public class DocumentController {
         } catch (AlreadyBoundException e) {
 
             logger.error("Document already bound", e);
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
 
         } catch (Exception e) {
 
