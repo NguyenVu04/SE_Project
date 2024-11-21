@@ -27,49 +27,68 @@ import com.mongodb.client.gridfs.model.GridFSFile;
 import spss.project.backend.configuration.system.SystemConfig;
 import spss.project.backend.configuration.system.SystemConfigService;
 
+/**
+ * Handles all requests related to documents. This controller provides methods
+ * for saving, retrieving, and deleting documents from the database.
+ */
 @RestController
 @CrossOrigin("*")
 @RequestMapping("document")
 public class DocumentController {
+
+    /**
+     * Service class for working with documents. This service provides methods for
+     * saving, retrieving, and deleting documents from the database.
+     */
     @Autowired
     private DocumentService service;
 
+    /**
+     * Service class for managing system configurations. This service provides methods
+     * for saving and retrieving system configurations from the database.
+     */
     @Autowired
     private SystemConfigService systemConfigService;
 
     private static final Logger logger = LoggerFactory.getLogger(DocumentController.class);
 
+    /**
+     * Retrieves a document for a given student ID and file name.
+     * 
+     * @param studentId the ID of the student
+     * @param fileName the name of the document
+     * @return the document as a byte array wrapped in a ResponseEntity
+     */
     @GetMapping("")
     public ResponseEntity<Object> getDocument(
             @RequestParam("studentId") String studentId,
             @RequestParam("fileName") String fileName) {
         try {
-
             byte[] document = service.getDocument(studentId, fileName);
             return ResponseEntity.ok()
                     .headers(headers -> headers.add(
                             "Content-Disposition",
                             "attachment; filename=\"" + fileName + "\""))
                     .body(document);
-
         } catch (NotFoundException e) {
-
             logger.error("Document not found", e);
             return ResponseEntity.notFound().build();
-
         } catch (Exception e) {
-
             logger.error("Error getting document", e);
             return ResponseEntity.internalServerError().build();
-
         }
     }
 
+    /**
+     * Retrieves all documents for a given student ID.
+     * 
+     * @param studentId the ID of the student
+     * @return a list of documents wrapped in a ResponseEntity
+     */
     @GetMapping("all")
     public ResponseEntity<Object> getAllDocuments(@RequestParam("studentId") String studentId) {
         try {
             MongoCursor<GridFSFile> files = service.getDocuments(studentId);
-
             List<Map<String, Object>> documents = new ArrayList<>();
 
             while (files.hasNext()) {
@@ -84,14 +103,18 @@ public class DocumentController {
             return ResponseEntity.ok().body(documents);
 
         } catch (Exception e) {
-
             logger.error("Error getting all documents", e);
             return ResponseEntity.internalServerError().build();
-
         }
-
     }
 
+    /**
+     * Saves a document for a given student ID.
+     * 
+     * @param studentId the ID of the student
+     * @param file the document to be saved
+     * @return a success or error response wrapped in a ResponseEntity
+     */
     @PostMapping("")
     public ResponseEntity<Object> saveDocument(
             @RequestPart("studentId") String studentId,
@@ -102,21 +125,17 @@ public class DocumentController {
             if (!config.hasFileType(file.getContentType())) {
                 logger.error("File type not allowed: " + file.getContentType(), new InvalidParameterException());
                 return ResponseEntity.badRequest().build();
-            }            
+            }
 
             service.saveDocument(file, studentId);
             return ResponseEntity.ok().build();
 
         } catch (AlreadyBoundException e) {
-
             logger.error("Document already bound", e);
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
-
         } catch (Exception e) {
-
             logger.error("Error saving document", e);
             return ResponseEntity.internalServerError().build();
-
         }
     }
 }

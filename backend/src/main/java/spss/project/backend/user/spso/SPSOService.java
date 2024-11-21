@@ -17,11 +17,17 @@ public class SPSOService {
     private SPSORepository repo;
 
     /**
+     * Constructor for the SPSOService class. This class is a singleton, and
+     * should not be instantiated directly.
+     */
+    protected SPSOService() {}
+
+    /**
      * Saves a SPSO to the database.
      *
-     * @param email       the email of the SPSO
-     * @param firstName   the first name of the SPSO
-     * @param lastName    the last name of the SPSO
+     * @param email     the email of the SPSO
+     * @param firstName the first name of the SPSO
+     * @param lastName  the last name of the SPSO
      * @return the saved SPSO
      * @throws Exception if an error occurs while saving the SPSO
      */
@@ -37,37 +43,49 @@ public class SPSOService {
     }
 
     /**
-     * Finds a SPSO by its email.
+     * Finds a SPSO by its id.
      *
-     * @param email the email of the SPSO to find
-     * @return the SPSO with the given email, or null if no such SPSO exists
+     * @param id the id of the SPSO to find
+     * @return the SPSO with the given id, or null if no such SPSO exists
+     * @throws Exception if an error occurs while retrieving the SPSO
      */
-    public SPSO getSPSO(String email) {
-        return repo.findByEmail(email);
+    public SPSO getSPSO(String id) throws Exception {
+        return repo.findById(id).orElse(null);
     }
 
     /**
-     * Deletes a SPSO from the database by its email.
+     * Finds ID of a SPSO by its email.
      *
-     * @param email the email of the SPSO to delete
+     * @param email the email of the SPSO to find
+     * @return the SPSO email
+     * @throws Exception if an error occurs while getting the SPSO or SPSO not exists
+     */
+    public String getSPSOId(String email) throws Exception {
+        return repo.findByEmail(email).getId();
+    }
+
+    /**
+     * Deletes a SPSO from the database by its id.
+     *
+     * @param id the id of the SPSO to delete
      * @throws Exception if an error occurs while deleting the SPSO
      */
-    public void deleteSPSO(String email) throws Exception {
-        repo.deleteById(this.getSPSO(email).getId());
+    public void deleteSPSO(String id) throws Exception {
+        repo.deleteById(id);
     }
 
     /**
      * Updates a SPSO in the database.
      *
-     * @param email       the email of the SPSO to update
-     * @param firstName   the new first name of the SPSO
-     * @param lastName    the new last name of the SPSO
+     * @param id        the id of the SPSO to update
+     * @param firstName the new first name of the SPSO
+     * @param lastName  the new last name of the SPSO
      * @return the updated SPSO
      * @throws NotFoundException if the SPSO with the given email does not exist
-     * @throws Exception        if an error occurs while updating the SPSO
+     * @throws Exception         if an error occurs while updating the SPSO
      */
-    public SPSO updateSPSO(String email, String firstName, String lastName) throws NotFoundException, Exception {
-        SPSO spso = this.getSPSO(email);
+    public SPSO updateSPSO(String id, String firstName, String lastName) throws NotFoundException, Exception {
+        SPSO spso = this.getSPSO(id);
 
         if (spso == null) {
             throw new NotFoundException();

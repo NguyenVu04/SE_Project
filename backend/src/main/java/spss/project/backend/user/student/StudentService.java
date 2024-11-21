@@ -1,6 +1,6 @@
 package spss.project.backend.user.student;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
@@ -38,7 +38,7 @@ public class StudentService {
             String email,
             String firstName,
             String lastName,
-            Date dateOfBirth,
+            LocalDate dateOfBirth,
             int balance) throws Exception {
 
         Student student = new Student(email, firstName, lastName, dateOfBirth, balance);
@@ -93,8 +93,7 @@ public class StudentService {
             String id,
             String firstName,
             String lastName,
-            Date dateOfBirth,
-            int balance) throws NotFoundException, Exception {
+            LocalDate dateOfBirth) throws NotFoundException, Exception {
 
         Student student = this.getStudent(id);
         
@@ -105,7 +104,6 @@ public class StudentService {
         student.setFirstName(firstName);
         student.setLastName(lastName);
         student.setDateOfBirth(dateOfBirth);
-        student.setBalance(balance);
         return repo.save(student);
     }
 

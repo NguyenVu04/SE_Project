@@ -1,6 +1,6 @@
 package spss.project.backend.user.student;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -35,7 +35,7 @@ public class Student {
     /**
      * The date of birth of the student.
      */
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     /**
      * The balance of the student.
@@ -55,7 +55,7 @@ public class Student {
             String email,
             String firstName,
             String lastName,
-            Date dateOfBirth,
+            LocalDate dateOfBirth,
             int balance) {
         this.email = email;
         this.firstName = firstName;
@@ -123,7 +123,7 @@ public class Student {
      * 
      * @return the date of birth of the student
      */
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
@@ -132,7 +132,7 @@ public class Student {
      * 
      * @param dateOfBirth the date of birth to set
      */
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
