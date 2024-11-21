@@ -1,6 +1,7 @@
 package spss.project.backend.user.spso;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,7 @@ public class SPSOService {
     public SPSO save(
             String email,
             String firstName,
-            String lastName) throws Exception {
+            String lastName) throws DuplicateKeyException, Exception {
 
         SPSO spso = new SPSO(email,
                 firstName,

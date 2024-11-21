@@ -3,6 +3,7 @@ package spss.project.backend.user.student;
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +40,7 @@ public class StudentService {
             String firstName,
             String lastName,
             LocalDate dateOfBirth,
-            int balance) throws Exception {
+            int balance) throws DuplicateKeyException, Exception {
 
         Student student = new Student(email, firstName, lastName, dateOfBirth, balance);
         return repo.save(student);

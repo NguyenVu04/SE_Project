@@ -1,6 +1,5 @@
 package spss.project.backend.document;
 
-import java.nio.channels.AlreadyBoundException;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -130,8 +130,8 @@ public class DocumentController {
             service.saveDocument(file, studentId);
             return ResponseEntity.ok().build();
 
-        } catch (AlreadyBoundException e) {
-            logger.error("Document already bound", e);
+        } catch (DuplicateKeyException e) {
+            logger.error("Document already exists", e);
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } catch (Exception e) {
             logger.error("Error saving document", e);

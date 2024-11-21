@@ -3,6 +3,7 @@ package spss.project.backend.user.student;
 import java.time.LocalDate;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -20,6 +21,7 @@ public class Student {
     /**
      * The email of the student.
      */
+    @Indexed(name = "student_email", unique = true)
     private String email;
 
     /**

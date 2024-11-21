@@ -1,6 +1,7 @@
 package spss.project.backend.user.spso;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "SPSOs")
@@ -14,6 +15,7 @@ public class SPSO {
      */
     private String id;
 
+    @Indexed(name = "spso_email", unique = true)
     /**
      * The email address of the SPSO.
      */

@@ -1,8 +1,7 @@
 package spss.project.backend.document;
 
-import java.nio.channels.AlreadyBoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -36,7 +35,7 @@ public class DocumentService {
      * @param studentId the ID of the student to save the document for
      * @throws Exception if the document cannot be saved
      */
-    public void saveDocument(MultipartFile file, String studentId) throws AlreadyBoundException, Exception {
+    public void saveDocument(MultipartFile file, String studentId) throws DuplicateKeyException, Exception {
         String gridFsFileName = this.convertToGridFsFileName(
                 file.getOriginalFilename(),
                 studentId);
@@ -44,7 +43,7 @@ public class DocumentService {
         GridFsResource resource = operations.getResource(gridFsFileName);
 
         if (resource.exists()) {
-            throw new AlreadyBoundException();
+            throw new DuplicateKeyException(gridFsFileName);
         }
 
         operations.store(file.getInputStream(),

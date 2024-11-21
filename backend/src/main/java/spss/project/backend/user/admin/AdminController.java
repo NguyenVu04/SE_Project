@@ -6,6 +6,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import spss.project.backend.Environment;
+import spss.project.backend.user.spso.SPSOService;
 import spss.project.backend.user.student.StudentService;
 
 /**
@@ -32,8 +35,15 @@ public class AdminController {
     @Autowired
     private AdminService service;
 
+    /**
+     * A service for working with students.
+     */
     @Autowired
     private StudentService studentService;
+
+    @Autowired
+    private SPSOService spsoService;
+
 
     /**
      * A logger for logging events.
@@ -114,9 +124,46 @@ public class AdminController {
             studentService.save(email, firstName, lastName, dateOfBirth, balance);
             return ResponseEntity.ok().build();
 
+        }catch (DuplicateKeyException e) {
+
+            logger.error("Student already exists", e);
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+
         } catch (Exception e) {
 
             logger.error("Error adding student", e);
+            return ResponseEntity.internalServerError().build();
+
+        }
+    }
+
+    /**
+     * Adds a SPSO to the database.
+     * 
+     * @param body the request body containing the email, first name, and last name of the SPSO to add
+     * @return a success response if the SPSO was added successfully
+     * @throws Exception if an error occurs while adding the SPSO
+     */
+    @PostMapping("spso")
+    public ResponseEntity<Object> addSPSO(@RequestBody Map<String, Object> body) {
+
+        try {
+
+            String email = (String) body.get("email");
+            String firstName = (String) body.get("firstName");
+            String lastName = (String) body.get("lastName");
+
+            spsoService.save(email, firstName, lastName);
+            return ResponseEntity.ok().build();
+
+        } catch (DuplicateKeyException e) {
+
+            logger.error("SPSO already exists", e);
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+
+        } catch (Exception e) {
+
+            logger.error("Error adding SPSO", e);
             return ResponseEntity.internalServerError().build();
 
         }
