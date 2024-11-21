@@ -1,5 +1,6 @@
 package spss.project.backend.user.spso;
 
+import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,10 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,7 +58,6 @@ public class SPSOController {
      * 
      * @param email the email of the SPSO to find the id for
      * @return a map containing the SPSO id, or null if no such SPSO exists
-     * @throws Exception if an error occurs while retrieving the SPSO id
      */
     @GetMapping("id")
     public ResponseEntity<Object> getSPSOId(@RequestParam("email") String email) {
@@ -79,7 +81,6 @@ public class SPSOController {
      * 
      * @param id the id of the SPSO to retrieve
      * @return the SPSO with the given id, or null if no such SPSO exists
-     * @throws Exception if an error occurs while retrieving the SPSO
      */
     @GetMapping("")
     public ResponseEntity<Object> getSPSO(@RequestParam("id") String id) {
@@ -91,6 +92,14 @@ public class SPSOController {
         }
     }
 
+    /**
+     * Adds a printer to the database.
+     * 
+     * @param body the request body containing the url, model, description,
+     *             campus name, building name, room number, and active status of the
+     *             printer
+     * @return a success response if the printer was added successfully
+     */
     @PostMapping("printer")
     public ResponseEntity<Object> addPrinter(@RequestBody Map<String, Object> body) {
         try {
@@ -126,6 +135,49 @@ public class SPSOController {
         } catch (Exception e) {
 
             logger.error("Error adding printer", e);
+            return ResponseEntity.internalServerError().build();
+
+        }
+    }
+
+    /**
+     * Updates the status of a printer with the given id.
+     * 
+     * @param id     the id of the printer to update
+     * @param status the new status of the printer, either "active" or "inactive"
+     * @return a response entity indicating the outcome of the operation
+     */
+    @PatchMapping("printer")
+    public ResponseEntity<Object> setPrinterStatus(
+            @RequestParam("id") String id,
+            @RequestParam("status") String status) {
+        try {
+
+            if (status.equals("active")) {
+
+                printerService.activatePrinter(id);
+
+            } else if (status.equals("inactive")) {
+
+                printerService.deactivatePrinter(id);
+
+            } else {
+
+                logger.error("Invalid status", new InvalidParameterException());
+                return ResponseEntity.badRequest().build();
+
+            }
+
+            return ResponseEntity.ok().build();
+
+        } catch (NotFoundException e) {
+
+            logger.error("Printer not found", e);
+            return ResponseEntity.notFound().build();
+
+        } catch (Exception e) {
+
+            logger.error("Error activating printer", e);
             return ResponseEntity.internalServerError().build();
 
         }

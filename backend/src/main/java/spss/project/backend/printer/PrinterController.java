@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -60,5 +61,14 @@ public class PrinterController {
             logger.error("Error getting active printer", e);
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    /**
+     * Sends a test message to the message broker.
+     * @return a success response if the message was sent successfully
+     */
+    @PostMapping("message")
+    public ResponseEntity<Object> getMessage() {
+        return ResponseEntity.ok().build();
     }
 }

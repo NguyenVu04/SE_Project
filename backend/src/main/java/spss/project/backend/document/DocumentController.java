@@ -35,6 +35,11 @@ import spss.project.backend.configuration.system.SystemConfigService;
 @CrossOrigin("*")
 @RequestMapping("document")
 public class DocumentController {
+    /**
+     * Default constructor for DocumentController.
+     * This constructor is protected to prevent direct instantiation.
+     */
+    protected DocumentController() {}
 
     /**
      * Service class for working with documents. This service provides methods for

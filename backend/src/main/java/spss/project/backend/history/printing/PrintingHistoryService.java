@@ -41,6 +41,7 @@ public class PrintingHistoryService {
      *                       sided
      * @param timeOrdered    the time at which the printing job was requested
      * @param timePrinted    the time at which the printing job was completed
+     * @param successful     whether the printing job was successful
      * @return the saved printing history item
      * @throws Exception if an error occurs while saving the printing history
      *                   item

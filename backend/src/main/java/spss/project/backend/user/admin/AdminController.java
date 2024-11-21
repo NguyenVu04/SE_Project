@@ -61,7 +61,6 @@ public class AdminController {
      * 
      * @param email the email of the admin to retrieve
      * @return the admin with the given email, or null if no such admin exists
-     * @throws Exception if an error occurs while retrieving the admin
      */
     @GetMapping("")
     public ResponseEntity<Object> getAdmin(@RequestParam("email") String email) {
@@ -83,7 +82,6 @@ public class AdminController {
      * 
      * @param body the request body containing the email, first name, and last name of the admin to add
      * @return a success response if the admin was added successfully
-     * @throws Exception if an error occurs while adding the admin
      */
     @PostMapping("")
     public ResponseEntity<Object> addAdmin(@RequestBody Map<String, Object> body) {
@@ -108,7 +106,6 @@ public class AdminController {
      * 
      * @param body the request body containing the email, first name, last name, date of birth, and balance of the student to add
      * @return a success response if the student was added successfully
-     * @throws Exception if an error occurs while adding the student
      */
     @PostMapping("student")
     public ResponseEntity<Object> addStudent(@RequestBody Map<String, Object> body) {
@@ -146,7 +143,6 @@ public class AdminController {
      * 
      * @param body the request body containing the email, first name, and last name of the SPSO to add
      * @return a success response if the SPSO was added successfully
-     * @throws Exception if an error occurs while adding the SPSO
      */
     @PostMapping("spso")
     public ResponseEntity<Object> addSPSO(@RequestBody Map<String, Object> body) {

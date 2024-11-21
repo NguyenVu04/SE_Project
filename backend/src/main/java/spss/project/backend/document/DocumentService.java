@@ -14,6 +14,7 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.gridfs.model.GridFSFile;
 
 import spss.project.backend.Environment;
+import spss.project.backend.configuration.system.SystemConfigService;
 
 /**
  * A service for working with documents. This service provides methods for
@@ -27,6 +28,9 @@ public class DocumentService {
      */
     @Autowired
     private GridFsOperations operations;
+
+    @Autowired
+    private SystemConfigService systemConfigService;
 
     /**
      * Saves a document to the database, given a MultipartFile and a student ID.
@@ -73,6 +77,7 @@ public class DocumentService {
      * @param studentId the ID of the student
      * @param fileName  the name of the document
      * @return the document as a byte array
+     * @throws NotFoundException if the document cannot be found
      * @throws Exception if the document cannot be found
      */
     public byte[] getDocument(String studentId, String fileName) throws NotFoundException, Exception {
@@ -96,6 +101,20 @@ public class DocumentService {
      */
     public String convertToGridFsFileName(String fileName, String studentId) {
         return studentId + Environment.FILE_SEPERATOR + fileName;
+    }
+
+    /**
+     * Converts a file name and student ID into a URL that can be used to retrieve
+     * the file from the cloud storage service.
+     *
+     * @param fileName  the name of the file
+     * @param studentId the ID of the student
+     * @return a string representing a URL that can be used to retrieve the file
+     */
+    public String convertToFileUrl(String fileName, String studentId) {
+        String cloudUrl = systemConfigService.getCurrentSystemConfig().getCloudUrl();
+        
+        return cloudUrl + "?studentId=" + studentId + "&fileName=" + fileName;
     }
 
     /**

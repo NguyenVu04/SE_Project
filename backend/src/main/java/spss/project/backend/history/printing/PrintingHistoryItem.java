@@ -9,10 +9,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import spss.project.backend.document.PaperSize;
 
-@Document(collection = "PrintingHistory")
 /**
  * A class representing a printing history item.
  */
+@Document(collection = "PrintingHistory")
 public class PrintingHistoryItem {
     /**
      * The ID of the printing history item.
@@ -82,6 +82,7 @@ public class PrintingHistoryItem {
      * @param singleSided    whether the document was printed single or double sided
      * @param timeOrdered    the time at which the printing job was requested
      * @param timePrinted    the time at which the printing job was completed
+     * @param successful     whether the printing job was successful or not
      */
     public PrintingHistoryItem(
             String studentId,

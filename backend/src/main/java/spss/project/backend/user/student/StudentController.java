@@ -45,7 +45,6 @@ public class StudentController {
      * 
      * @param id the id of the student to retrieve
      * @return the student with the given id, or null if no such student exists
-     * @throws Exception if an error occurs while retrieving the student
      */
     @GetMapping("")
     public ResponseEntity<Object> getStudent(@RequestParam("id") String id) {
@@ -63,7 +62,6 @@ public class StudentController {
      * 
      * @param email the email of the student to find the id for
      * @return a map containing the student id, or null if no such student exists
-     * @throws Exception if an error occurs while retrieving the student id
      */
     @GetMapping("id")
     public ResponseEntity<Object> getStudentId(@RequestParam("email") String email) {

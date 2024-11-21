@@ -6,6 +6,7 @@ import javax.naming.NameNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,6 +14,14 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PrinterService {
+    /**
+     * Creates a new instance of the service.
+     * 
+     * This constructor is declared protected to prevent external code from
+     * creating an instance of the service. The service should be created by
+     * Spring.
+     */
+    protected PrinterService() {}
 
     /**
      * The repository used by this service to interact with the database.
@@ -24,7 +33,6 @@ public class PrinterService {
     /**
      * Saves a printer to the database.
      * 
-     * @param id           the id to assign to the printer
      * @param url          the URL of the printer
      * @param model        the model of the printer
      * @param description  a description of the printer
@@ -96,10 +104,15 @@ public class PrinterService {
      * available for printing.
      *
      * @param id the id of the printer to activate
+     * @throws NotFoundException if the printer with the given id cannot be found
      * @throws Exception if an error occurs while activating the printer
      */
-    public void activatePrinter(String id) throws Exception {
+    public void activatePrinter(String id) throws NotFoundException, Exception {
         Printer printer = this.getPrinter(id);
+        if (printer == null) {
+            throw new NotFoundException();
+        }
+
         printer.setActive(true);
         repo.save(printer);
     }
@@ -109,10 +122,15 @@ public class PrinterService {
      * unavailable for printing.
      * 
      * @param id the id of the printer to deactivate
+     * @throws NotFoundException if the printer with the given id cannot be found
      * @throws Exception if an error occurs while deactivating the printer
      */
-    public void deactivatePrinter(String id) throws Exception {
+    public void deactivatePrinter(String id) throws NotFoundException, Exception {
         Printer printer = this.getPrinter(id);
+        if (printer == null) {
+            throw new NotFoundException();
+        }
+
         printer.setActive(false);
         repo.save(printer);
     }
@@ -162,6 +180,7 @@ public class PrinterService {
     }
 
     /**
+     * Gets the repository for {@link Printer} objects.
      * @return the repository for {@link Printer} objects
      */
     public PrinterRepository getRepo() {

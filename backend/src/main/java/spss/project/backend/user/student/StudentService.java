@@ -85,7 +85,6 @@ public class StudentService {
      * @param firstName  the new first name of the student
      * @param lastName   the new last name of the student
      * @param dateOfBirth the new date of birth of the student
-     * @param balance    the new balance of the student
      * @return the updated student
      * @throws NotFoundException if the student with the given id does not exist
      * @throws Exception        if an error occurs while updating the student

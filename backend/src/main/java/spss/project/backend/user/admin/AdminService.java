@@ -10,6 +10,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdminService {
     /**
+     * Creates a new {@link AdminService}.
+     * 
+     * Note: This constructor is intentionally protected to prevent external instantiation.
+     */
+    protected AdminService() {}
+    /**
      * The repository for admins.
      */
     @Autowired
