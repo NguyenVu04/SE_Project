@@ -1,4 +1,4 @@
-package spss.project.backend.user.student;
+package spss.project.backend.order;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,22 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import spss.project.backend.Environment;
 
-/**
- * Handles all requests related to students.
- */
 @RestController
 @CrossOrigin(origins = {Environment.FRONTEND_URL})
-@RequestMapping("student")
-public class StudentController {
-
-    /**
-     * Service for handling student-related operations.
-     */
+@RequestMapping("order")
+public class OrderController {
     @Autowired
-    private StudentService studentService;
+    private OrderService orderService;
 
-    /**
-     * Logger for logging StudentController events.
-     */
-    private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
+    private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 }

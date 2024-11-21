@@ -1,6 +1,7 @@
 package spss.project.backend.history.printing;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -13,6 +14,9 @@ import spss.project.backend.document.PaperSize;
  * A class representing a printing history item.
  */
 public class PrintingHistoryItem {
+    /**
+     * The ID of the printing history item.
+     */
     @Id
     private String id;
 
@@ -154,7 +158,7 @@ public class PrintingHistoryItem {
      * @return the page numbers of the document which were printed
      */
     public List<Integer> getPageNumbers() {
-        return pageNumbers;
+        return Collections.unmodifiableList(this.pageNumbers);
     }
 
     /**
@@ -201,14 +205,5 @@ public class PrintingHistoryItem {
      */
     public boolean isSuccessful() {
         return successful;
-    }
-
-    /**
-     * Sets whether the printing job was successful or not.
-     * 
-     * @param successful true if the printing job was successful, false otherwise
-     */
-    public void setSuccessful(boolean successful) {
-        this.successful = successful;
     }
 }

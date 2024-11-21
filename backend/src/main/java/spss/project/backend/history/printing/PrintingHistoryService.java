@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import spss.project.backend.document.PaperSize;
@@ -29,13 +31,13 @@ public class PrintingHistoryService {
      * @param pageNumbers    the page numbers of the document which were printed
      * @param numberOfCopies the number of copies of the document which were
      *                       printed
-     * @param singleSided     whether the document was printed single or double
+     * @param singleSided    whether the document was printed single or double
      *                       sided
      * @param timeOrdered    the time at which the printing job was requested
      * @param timePrinted    the time at which the printing job was completed
      * @return the saved printing history item
      * @throws Exception if an error occurs while saving the printing history
-     *                    item
+     *                   item
      */
     public PrintingHistoryItem save(
             String studentId,
@@ -89,8 +91,32 @@ public class PrintingHistoryService {
      *                   history items
      */
     public List<PrintingHistoryItem> getPrintingHistory(LocalDateTime from, LocalDateTime to) throws Exception {
-        return repo.findByTimeOrderedBetween(from, to);
+        return repo.findByTimeOrderedBetween(from, to, Sort.by(Direction.DESC, "timeOrdered"));
     }
+
+    /**
+     * Finds all printing history items which were printed on the given printer
+     * between the given times.
+     *
+     * @param printerId the id of the printer on which the printing jobs were
+     *                  printed
+     * @param from      the start time of the range (inclusive)
+     * @param to        the end time of the range (inclusive)
+     * @return a list of all printing history items which were printed on the
+     *         given printer between the given times, sorted by the time at which
+     *         the printing jobs were completed in descending order
+     * @throws Exception if an error occurs while retrieving the printing
+     *                   history items
+     */
+    public List<PrintingHistoryItem> getPrinterPrintingHistory(String printerId, LocalDateTime from, LocalDateTime to)
+            throws Exception {
+        return repo.findByPrinterIdAndTimePrintedBetween(
+                printerId,
+                from,
+                to,
+                Sort.by(Direction.DESC, "timePrinted"));
+    }
+
 
     /**
      * Finds all printing history items of a student.
