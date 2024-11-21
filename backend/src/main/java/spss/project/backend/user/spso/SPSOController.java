@@ -6,27 +6,44 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import spss.project.backend.Environment;
+import spss.project.backend.printer.PrinterService;
 
 /**
  * Handles all requests related to SPSOs.
  */
 @RestController
-@CrossOrigin(origins = {Environment.FRONTEND_URL})
+@CrossOrigin(origins = { Environment.FRONTEND_URL })
 @RequestMapping("spso")
 public class SPSOController {
+    /**
+     * This constructor is protected to prevent direct instantiation.
+     */
+    protected SPSOController() {
+    }
+
     /**
      * The service for working with SPSOs.
      */
     @Autowired
     private SPSOService service;
+
+    /**
+     * The service for working with printers.
+     */
+    @Autowired
+    private PrinterService printerService;
 
     /**
      * Logger for the class.
@@ -49,7 +66,7 @@ public class SPSOController {
 
             return ResponseEntity.ok().body(response);
 
-        } catch(Exception e) {
+        } catch (Exception e) {
 
             logger.error("Error getting SPSO id", e);
             return ResponseEntity.notFound().build();
@@ -68,10 +85,49 @@ public class SPSOController {
     public ResponseEntity<Object> getSPSO(@RequestParam("id") String id) {
         try {
             return ResponseEntity.ok().body(service.getSPSO(id));
-        } catch(Exception e) {
+        } catch (Exception e) {
             logger.error("Error getting SPSO", e);
             return ResponseEntity.notFound().build();
         }
     }
-}
 
+    @PostMapping("printer")
+    public ResponseEntity<Object> addPrinter(@RequestBody Map<String, Object> body) {
+        try {
+            String url = (String) body.get("url");
+            String model = (String) body.get("model");
+            String description = (String) body.get("description");
+            String campusName = (String) body.get("campusName");
+            String buildingName = (String) body.get("buildingName");
+            String roomNumber = (String) body.get("roomNumber");
+            boolean active = (boolean) body.get("active");
+
+            printerService.save(
+                    url,
+                    model,
+                    description,
+                    campusName,
+                    buildingName,
+                    roomNumber,
+                    active);
+
+            return ResponseEntity.ok().build();
+
+        } catch (DuplicateKeyException e) {
+
+            logger.error("Printer already exists", e);
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+
+        } catch (ClassCastException e) {
+
+            logger.error("Error parsing printer data", e);
+            return ResponseEntity.badRequest().build();
+
+        } catch (Exception e) {
+
+            logger.error("Error adding printer", e);
+            return ResponseEntity.internalServerError().build();
+
+        }
+    }
+}

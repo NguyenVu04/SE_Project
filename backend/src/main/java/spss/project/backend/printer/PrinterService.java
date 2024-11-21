@@ -5,6 +5,7 @@ import java.util.List;
 import javax.naming.NameNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -37,14 +38,13 @@ public class PrinterService {
      * @throws Exception if the printer cannot be saved
      */
     public Printer save(
-            String id,
             String url,
             String model,
             String description,
             String campusName,
             String buildingName,
             String roomNumber,
-            boolean active) throws Exception {
+            boolean active) throws DuplicateKeyException, Exception {
 
         Printer printer = new Printer(url, model, description, campusName, buildingName, roomNumber, active);
         return repo.save(printer);
@@ -58,6 +58,16 @@ public class PrinterService {
      */
     public List<Printer> getPrinters() throws Exception {
         return repo.findAll();
+    }
+
+    /**
+     * Finds all active printers in the database.
+     * 
+     * @return a list of all active printers
+     * @throws Exception if an error occurs while retrieving the printers
+     */
+    public List<Printer> getActivePrinters() throws Exception {
+        return repo.findByActive(true);
     }
 
     /**

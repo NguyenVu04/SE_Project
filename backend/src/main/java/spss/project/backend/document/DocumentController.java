@@ -131,8 +131,10 @@ public class DocumentController {
             return ResponseEntity.ok().build();
 
         } catch (DuplicateKeyException e) {
+
             logger.error("Document already exists", e);
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            
         } catch (Exception e) {
             logger.error("Error saving document", e);
             return ResponseEntity.internalServerError().build();

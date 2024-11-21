@@ -129,6 +129,10 @@ public class AdminController {
             logger.error("Student already exists", e);
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
 
+        } catch (ClassCastException e) {
+
+            logger.error("Error parsing student data", e);
+            return ResponseEntity.badRequest().build();
         } catch (Exception e) {
 
             logger.error("Error adding student", e);
@@ -161,6 +165,10 @@ public class AdminController {
             logger.error("SPSO already exists", e);
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
 
+        } catch (ClassCastException e) {
+
+            logger.error("Error parsing SPSO data", e);
+            return ResponseEntity.badRequest().build();
         } catch (Exception e) {
 
             logger.error("Error adding SPSO", e);
