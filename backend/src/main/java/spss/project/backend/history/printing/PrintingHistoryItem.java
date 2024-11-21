@@ -67,11 +67,6 @@ public class PrintingHistoryItem {
     private boolean successful;
 
     /**
-     * Whether the printing job has been completed or not.
-     */
-    private boolean done;
-
-    /**
      * Creates a new printing history item.
      * 
      * @param studentId      the ID of the student who requested the printing job
@@ -93,7 +88,8 @@ public class PrintingHistoryItem {
             int numberOfCopies,
             boolean singleSided,
             LocalDateTime timeOrdered,
-            LocalDateTime timePrinted) {
+            LocalDateTime timePrinted,
+            boolean successful) {
 
         this.studentId = studentId;
         this.printerId = printerId;
@@ -104,8 +100,7 @@ public class PrintingHistoryItem {
         this.singleSided = singleSided;
         this.timeOrdered = timeOrdered;
         this.timePrinted = timePrinted;
-        this.successful = false;
-        this.done = false;
+        this.successful = successful;
     }
 
     /**
@@ -215,23 +210,5 @@ public class PrintingHistoryItem {
      */
     public void setSuccessful(boolean successful) {
         this.successful = successful;
-    }
-
-    /**
-     * Checks if the printing job is done.
-     * 
-     * @return true if the printing job is done, false otherwise
-     */
-    public boolean isDone() {
-        return done;
-    }
-
-    /**
-     * Sets the status of the printing job as done or not done.
-     * 
-     * @param done true if the printing job is done, false otherwise
-     */
-    public void setDone(boolean done) {
-        this.done = done;
     }
 }

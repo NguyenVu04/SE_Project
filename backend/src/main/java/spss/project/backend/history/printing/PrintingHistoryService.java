@@ -4,17 +4,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import spss.project.backend.document.PaperSize;
 
-@Service
 /**
  * This class provides methods for interacting with the printing history of the
  * students. The printing history is stored in a MongoDB database and can be
  * accessed using the methods of this class.
  */
+@Service
 public class PrintingHistoryService {
     @Autowired
     private PrintingHistoryRepository repo;
@@ -47,7 +46,8 @@ public class PrintingHistoryService {
             int numberOfCopies,
             boolean singleSided,
             LocalDateTime timeOrdered,
-            LocalDateTime timePrinted) throws Exception {
+            LocalDateTime timePrinted,
+            boolean successful) throws Exception {
 
         PrintingHistoryItem item = new PrintingHistoryItem(
                 studentId,
@@ -58,7 +58,8 @@ public class PrintingHistoryService {
                 numberOfCopies,
                 singleSided,
                 timeOrdered,
-                timePrinted);
+                timePrinted,
+                successful);
 
         return repo.save(item);
     }
@@ -74,29 +75,6 @@ public class PrintingHistoryService {
      */
     public PrintingHistoryItem getHistoryItem(String id) throws Exception {
         return repo.findById(id).orElse(null);
-    }
-
-    /**
-     * Updates a printing history item in the database.
-     *
-     * @param id          the id of the printing history item to update
-     * @param successful  whether the printing job was successful or not
-     * @return the updated printing history item
-     * @throws NotFoundException if the printing history item with the given id
-     *                            does not exist
-     * @throws Exception        if an error occurs while updating the printing
-     *                           history item
-     */
-    public PrintingHistoryItem updateHistoryItem(String id, boolean successful) throws NotFoundException, Exception {
-        PrintingHistoryItem item = this.getHistoryItem(id);
-
-        if (item == null) {
-            throw new NotFoundException();
-        }
-
-        item.setDone(true);
-        item.setSuccessful(successful);
-        return repo.save(item);
     }
 
     /**
