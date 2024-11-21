@@ -17,6 +17,12 @@ import spss.project.backend.document.PaperSize;
  */
 @Service
 public class PrintingHistoryService {
+    /**
+     * This constructor is intentionally empty. This class should not be
+     * instantiated as it is a service class and all its methods are static.
+     */
+    protected PrintingHistoryService() {}
+
     @Autowired
     private PrintingHistoryRepository repo;
 

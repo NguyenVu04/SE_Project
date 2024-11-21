@@ -14,6 +14,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderService {
     /**
+     * Constructs a new order service. This constructor is protected to prevent
+     * direct instantiation.
+     */
+    protected OrderService() {}
+
+    /**
      * The repository for accessing and manipulating the orders.
      * 
      * @see OrderRepository
