@@ -187,4 +187,13 @@ public class Order {
     public boolean isDone() {
         return done;
     }
+
+    /**
+     * Sets whether the order was completed successfully.
+     *
+     * @param done whether the order was completed successfully
+     */
+    public void setDone(boolean done) {
+        this.done = done;
+    }
 }

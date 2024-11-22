@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import spss.project.backend.Environment;
+import spss.project.backend.document.DocumentService;
 import spss.project.backend.document.PaperSize;
 import spss.project.backend.printer.Printer;
 import spss.project.backend.printer.PrinterService;
@@ -56,6 +57,15 @@ public class OrderController {
      */
     @Autowired
     private StudentService studentService;
+
+    /**
+     * The service used to access and manipulate documents.
+     * 
+     * This service is used to retrieve the document id of a document when an order is
+     * submitted.
+     */
+    @Autowired
+    private DocumentService documentService;
 
     /**
      * Logger for log messages.
@@ -112,7 +122,7 @@ public class OrderController {
                 return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
             }
 
-            service.save(
+            String orderId = service.save(
                     studentId,
                     printerId,
                     fileName,
@@ -121,14 +131,15 @@ public class OrderController {
                     numberOfCopies,
                     singleSided,
                     LocalDateTime.now(),
-                    false);
+                    false).getId();
 
             Printer printer = printerService.getPrinter(printerId);
             if (!printer.isActive()) {
                 throw new IllegalArgumentException();
             }
-            //TODO: uncomment when printer is ready
+            // TODO: uncomment when printer is ready
             // printer.printDocument(
+            //         orderId,
             //         documentService.convertToFileUrl(fileName, studentId),
             //         paperSize,
             //         pageNumbers,
@@ -150,7 +161,7 @@ public class OrderController {
 
             logger.error("Paper size not found", e);
             return ResponseEntity.badRequest().build();
-            
+
         } catch (Exception e) {
 
             logger.error("Error adding student orders", e);

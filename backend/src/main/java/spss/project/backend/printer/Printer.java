@@ -230,6 +230,7 @@ public class Printer {
     /**
      * Prints a document using the printer's REST API.
      *
+     * @param orderId        the ID of the order
      * @param fileUrl        the URL of the document to print
      * @param paperSize      the size of the paper to print on
      * @param pageNumbers    the page numbers of the document to print
@@ -238,6 +239,7 @@ public class Printer {
      * @throws Exception if the document cannot be printed
      */
     public void printDocument(
+            String orderId,
             String fileUrl,
             PaperSize paperSize,
             List<Integer> pageNumbers,
@@ -246,6 +248,7 @@ public class Printer {
 
         Map<String, Object> printInfo = new HashMap<>();
 
+        printInfo.put("orderId", orderId);
         printInfo.put("fileUrl", fileUrl);
         printInfo.put("paperSize", paperSize.toString());
         printInfo.put("pageNumbers", pageNumbers);

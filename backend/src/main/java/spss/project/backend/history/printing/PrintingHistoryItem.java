@@ -7,8 +7,6 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import spss.project.backend.document.PaperSize;
-
 /**
  * A class representing a printing history item.
  */
@@ -88,7 +86,7 @@ public class PrintingHistoryItem {
             String studentId,
             String printerId,
             String documentId,
-            PaperSize paperSize,
+            String paperSize,
             List<Integer> pageNumbers,
             int numberOfCopies,
             boolean singleSided,
@@ -99,7 +97,7 @@ public class PrintingHistoryItem {
         this.studentId = studentId;
         this.printerId = printerId;
         this.documentId = documentId;
-        this.paperSize = paperSize.toString();
+        this.paperSize = paperSize;
         this.pageNumbers = pageNumbers;
         this.numberOfCopies = numberOfCopies;
         this.singleSided = singleSided;

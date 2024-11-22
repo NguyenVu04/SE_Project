@@ -62,7 +62,7 @@ public class PrintingHistoryService {
                 studentId,
                 printerId,
                 documentId,
-                paperSize,
+                paperSize.toString(),
                 pageNumbers,
                 numberOfCopies,
                 singleSided,
@@ -134,7 +134,7 @@ public class PrintingHistoryService {
      *                   history items
      */
     public List<PrintingHistoryItem> getStudentPrintingHistory(String studentId) throws Exception {
-        return repo.findAllByStudentId(studentId);
+        return repo.findByStudentId(studentId, Sort.by(Direction.DESC, "timeOrdered"));
     }
 
     /**

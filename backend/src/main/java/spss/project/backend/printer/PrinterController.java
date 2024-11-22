@@ -1,22 +1,31 @@
 package spss.project.backend.printer;
 
+import java.time.LocalDateTime;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import spss.project.backend.Environment;
+import spss.project.backend.document.PaperSize;
+import spss.project.backend.history.printing.PrintingHistoryService;
+import spss.project.backend.order.Order;
+import spss.project.backend.order.OrderService;
 
 /**
  * A controller for handling printer-related requests.
  */
 @RestController
-@CrossOrigin(origins = {Environment.FRONTEND_URL})
+@CrossOrigin(origins = { Environment.FRONTEND_URL })
 @RequestMapping("/printer")
 public class PrinterController {
     /**
@@ -31,12 +40,25 @@ public class PrinterController {
     private PrinterService service;
 
     /**
+     * The service for interacting with the order database.
+     */
+    @Autowired
+    private OrderService orderService;
+
+    /**
+     * The service for interacting with the printing history database.
+     */
+    @Autowired
+    private PrintingHistoryService printingHistoryService;
+
+    /**
      * The logger for this controller.
      */
     private static final Logger logger = LoggerFactory.getLogger(PrinterController.class);
 
     /**
      * Retrieves all printers from the database.
+     * 
      * @return a list of all printers in the database
      */
     @GetMapping("all")
@@ -51,6 +73,7 @@ public class PrinterController {
 
     /**
      * Retrieves all active printers from the database.
+     * 
      * @return a list of all active printers in the database
      */
     @GetMapping("active")
@@ -64,11 +87,51 @@ public class PrinterController {
     }
 
     /**
-     * Sends a test message to the message broker.
-     * @return a success response if the message was sent successfully
+     * Handles a message from a printer about the status of a print job.
+     *
+     * @param message a map containing the order ID and a boolean indicating
+     *                whether the print job was successful
+     * @return a success response if the message was processed successfully
      */
     @PostMapping("message")
-    public ResponseEntity<Object> getMessage() {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Object> getMessage(@RequestBody Map<String, Object> message) {
+        try {
+
+            String orderId = (String) message.get("orderId");
+            boolean success = (boolean) message.get("success");
+
+            Order order = orderService.updateOrderStatus(orderId, true);
+            PaperSize paperSize = PaperSize.valueOf(order.getPaperSize());
+
+            printingHistoryService.save(
+                    order.getStudentId(),
+                    order.getPrinterId(),
+                    order.getDocumentId(),
+                    paperSize,
+                    order.getPageNumbers(),
+                    order.getNumberOfCopies(),
+                    order.isSingleSided(),
+                    order.getTimeOrdered(),
+                    LocalDateTime.now(),
+                    success);
+
+            return ResponseEntity.ok().build();
+
+        } catch (NotFoundException e) {
+
+            logger.error("Order not found", e);
+            return ResponseEntity.notFound().build();
+
+        } catch (ClassCastException e) {
+
+            logger.error("Error parsing printer message", e);
+            return ResponseEntity.badRequest().build();
+
+        } catch (Exception e) {
+
+            logger.error("Error processing printer message", e);
+            return ResponseEntity.internalServerError().build();
+
+        }
     }
 }

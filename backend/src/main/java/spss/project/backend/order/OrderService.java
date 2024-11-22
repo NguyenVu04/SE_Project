@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
@@ -89,7 +90,7 @@ public class OrderService {
      * @return the order with the given id, or null if no such order exists
      * @throws Exception if an error occurs while retrieving the order
      */
-    public Order findOrder(String orderId) throws Exception {
+    public Order getOrder(String orderId) throws Exception {
         return repo.findById(orderId).orElse(null);
     }
 
@@ -101,6 +102,27 @@ public class OrderService {
      */
     public void deleteOrder(String orderId) throws Exception {
         repo.deleteById(orderId);
+    }
+
+    /**
+     * Updates the status of an order to indicate whether or not it has been
+     * successfully printed.
+     * 
+     * @param orderId the id of the order to update
+     * @param done    whether the order has been successfully printed
+     * @return the updated order
+     * @throws NotFoundException if the order with the given id does not exist
+     * @throws Exception         if an error occurs while updating the order
+     */
+    public Order updateOrderStatus(String orderId, boolean done) throws NotFoundException, Exception {
+        Order order = this.getOrder(orderId);
+
+        if (order == null) {
+            throw new Exception("Order not found: " + orderId);
+        }
+        
+        order.setDone(done);
+        return repo.save(order);
     }
 
     /**

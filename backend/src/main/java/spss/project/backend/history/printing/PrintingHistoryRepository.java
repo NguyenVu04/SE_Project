@@ -22,7 +22,7 @@ public interface PrintingHistoryRepository extends MongoRepository<PrintingHisto
      *                  for
      * @return the printing history items of the student
      */
-    public List<PrintingHistoryItem> findAllByStudentId(String studentId);
+    public List<PrintingHistoryItem> findByStudentId(String studentId, Sort sort);
 
     /**
      * Finds all printing history items which were printed between the given
