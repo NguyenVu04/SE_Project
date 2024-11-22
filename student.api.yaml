@@ -1,0 +1,774 @@
+openapi: 3.0.3
+info:
+  title: Student Smart Printing Service
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://spss.swagger.io/api/v3
+tags:
+  - name: upload
+    description: Everything about uploading
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+  - name: printDocument
+    description: Everything about printing document
+    externalDocs:
+      description: Find out more 
+      url: http://swagger.io
+paths:
+  /upload:
+    post:
+      tags:
+        - upload
+      summary: Upload document 
+      description: Upload document 
+      operationId: updateDocument
+      requestBody:
+        description: Upload document 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/document'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/message'
+        '400':
+          description: Invalid document
+  /upload/view:
+    post:
+      tags:
+        - upload
+      summary: Post document 
+      description: Post document to DocumentView 
+      operationId: postDocument
+      requestBody:
+        description: Post document 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/document'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/message'
+        '400':
+          description: Invalid Document Message
+  /upload/documentController:
+    get:
+      tags:
+        - upload
+      summary: Get Configuration
+      description: Get Configuration from system controller
+      operationId: getSystemConfiguration
+      responses:
+        '200':
+          description: Successful operation
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/systemconfig'
+                  
+    post:
+      tags:
+        - upload
+      summary: Validate document 
+      description: validate document and configuration
+      operationId: validateDocument
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/systemconfig'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/message'
+  /upload/systemController/{fileType}:     
+    get:
+      tags:
+        - upload
+      summary: Get Configuration
+      description: Get Configuration from Database
+      operationId: selectSystemConfiguration
+      parameters:
+        - name: fileType
+          in: path
+          description: get filetype
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/systemconfig'
+  /upload/documentController/insert:
+    post:
+      tags:
+        - upload
+      summary: Insert document 
+      description: Insert document 
+      operationId: insertDocument
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/systemconfig'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/document'
+        '400':
+          description: Invalid document
+  /printDocument/student:
+    get:
+      tags:
+        - printDocument
+      summary: Get document list
+      description: Get document list
+      operationId: viewAvailableDocumentList
+      responses:
+        '200':
+          description: Document list
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/document'
+        '404':
+          description: Document not found  
+  /printDocument/student/{documentID}:
+    get:
+      tags:
+        - printDocument
+      summary: Print document
+      description: Print document from ID
+      operationId: printDocument
+      parameters:
+        - name: documentID
+          in: path
+          description: identify document
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/print'
+        '400':
+          description: Invalid document ID
+        '404':
+          description: Document not found  
+  /printDocument/student/useOptions:
+    get:
+      tags:
+        - printDocument
+      summary: Choose options
+      description: Choose options to use printer
+      operationId: useOptions
+      parameters:
+        - name: paperSize
+          in: query
+          description: size
+          required: true
+          schema:
+            type: integer
+        - name: pageNumbers
+          in: query
+          description: number of page
+          required: true
+          schema:
+            type: integer
+        - name: paperSideNumber
+          in: query
+          description: number of paper side
+          required: true
+          schema: 
+            type: integer
+        - name: copyNumber
+          in: query
+          description: number of query
+          required: true
+          schema: 
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/printer'
+        '400':
+          description: Invalid options
+        '404':
+          description: Printer not found
+  /printDocument/student/{printerID}:
+    get:
+      tags:
+        - printDocument
+      summary: Use printer
+      description: Use printer from ID
+      operationId: usePrinter
+      parameters:
+        - name: printerID
+          in: path
+          description: identify printer
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/printer'
+        '400':
+          description: Invalid ID
+  /printDocument/PrintView/Document:
+    get:
+      tags:
+        - printDocument
+      summary: Get document list
+      description: Get document list
+      operationId: getAvaibleDocumentList
+      responses:
+        '200':
+          description: Document list
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/document'
+        '404':
+          description: Document not found
+  /printDocument/PrintView/Printer:
+    get:
+      tags:
+        - printDocument
+      summary: get printer list
+      description: get printer list based on options
+      operationId: getEnabledPrinterList
+      parameters:
+        - name: paperSize
+          in: query
+          description: size
+          required: true
+          schema:
+            type: integer
+        - name: pageNumbers
+          in: query
+          description: number of page
+          required: true
+          schema:
+            type: integer
+        - name: paperSideNumber
+          in: query
+          description: number of paper side
+          required: true
+          schema: 
+            type: integer
+        - name: copyNumber
+          in: query
+          description: number of query
+          required: true
+          schema: 
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/printer'
+        '400':
+          description: Invalid options
+        '404':
+          description: Printer not found
+  /printDocument/PrintView:
+    post:
+      tags:
+        - printDocument
+      summary: create order
+      description: create order based on info and options
+      operationId: createOrder
+      parameters:
+        - name: studentID
+          in: query
+          description: ID of student
+          required: true
+          schema:
+            type: string
+        - name: documentID
+          in: query
+          description: ID of document
+          required: true
+          schema:
+            type: string
+        - name: paperSize
+          in: query
+          description: size
+          required: true
+          schema:
+            type: integer
+        - name: pageNumbers
+          in: query
+          description: number of page
+          required: true
+          schema:
+            type: integer
+        - name: paperSideNumber
+          in: query
+          description: number of paper side
+          required: true
+          schema: 
+            type: integer
+        - name: copyNumber
+          in: query
+          description: number of query
+          required: true
+          schema: 
+            type: integer
+        - name: printerID
+          in: query
+          description: ID of printer
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/printer'
+        '400':
+          description: Invalid options
+        '404':
+          description: Printer not found
+  /printDocument/DocumentController:
+    get:
+      tags:
+        - printDocument
+      summary: Get document list
+      description: Get document list
+      operationId: selectAvailableDocuments
+      responses:
+        '200':
+          description: Document list
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/document'
+        '404':
+          description: Document not found
+  /printDocument/DocumentController/{documentID}:
+    get:
+      tags:
+        - printDocument
+      summary: Get document list
+      description: Get document list
+      operationId: selectDocument
+      parameters:
+        - name: documentID
+          in: path
+          description: identify document
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Document
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/document'
+        '404':
+          description: Document not found
+  /printDocument/PrinterController/printer:
+    get:
+      tags:
+        - printDocument
+      summary: get printer list
+      description: get printer list based on options
+      operationId: selectEnabledPrinters
+      parameters:
+        - name: paperSize
+          in: query
+          description: size
+          required: true
+          schema:
+            type: integer
+        - name: pageNumbers
+          in: query
+          description: number of page
+          required: true
+          schema:
+            type: integer
+        - name: paperSideNumber
+          in: query
+          description: number of paper side
+          required: true
+          schema: 
+            type: integer
+        - name: copyNumber
+          in: query
+          description: number of query
+          required: true
+          schema: 
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/printer'
+        '400':
+          description: Invalid options
+        '404':
+          description: Printer not found
+  /printDocument/PrinterController/print:
+    get:
+      tags:
+        - printDocument
+      summary: print document
+      description: print document based on info
+      operationId: print
+      parameters:
+        - name: documentID
+          in: query
+          description: identify document
+          required: true
+          schema:
+            type: string
+        - name: paperSize
+          in: query
+          description: size
+          required: true
+          schema:
+            type: integer
+        - name: pageNumbers
+          in: query
+          description: number of page
+          required: true
+          schema:
+            type: integer
+        - name: paperSideNumber
+          in: query
+          description: number of paper side
+          required: true
+          schema: 
+            type: integer
+        - name: copyNumber
+          in: query
+          description: number of query
+          required: true
+          schema: 
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/printer'
+        '400':
+          description: Invalid options
+        '404':
+          description: Printer not found
+  /printDocument/PrinterController/print/{documentID}:
+    get:
+      tags:
+        - printDocument
+      summary: Get document
+      description: Get document based on ID
+      operationId: getDocument
+      parameters:
+        - name: documentID
+          in: path
+          description: identify document
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Document
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/document'
+        '404':
+          description: Document not found
+  /printDocument/OrderController/{studentID}:
+    get:
+      tags:
+        - printDocument
+      summary: Get Balance of Student
+      description: Get Balance of Student
+      operationId: selectBalanceOfStudent
+      parameters:
+        - name: studentID
+          in: path
+          description: identify document
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Balance of Student
+          content:
+              application/json:
+                schema:
+                  type: integer
+        '404':
+          description: Student not found
+  /printDocument/OrderController/{balance}:
+    post:
+      tags:
+        - printDocument
+      summary: check balance
+      description: check balance 
+      operationId: checkBalance
+      parameters:
+        - name: balance
+          in: path
+          description: check balance
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Balance of Student
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/message'
+  /printDocument/OrderController:
+    put:
+      tags:
+        - printDocument
+      summary: update printing history
+      description: update printing history
+      operationId: updatePrintingHistory
+      parameters:
+        - name: studentID
+          in: query
+          description: identify student
+          required: true
+          schema:
+            type: string
+        - name: documentID
+          in: query
+          description: identify document
+          required: true
+          schema:
+            type: string
+        - name: paperSize
+          in: query
+          description: size
+          required: true
+          schema:
+            type: integer
+        - name: pageNumbers
+          in: query
+          description: number of page
+          required: true
+          schema:
+            type: integer
+        - name: paperSideNumber
+          in: query
+          description: number of paper side
+          required: true
+          schema: 
+            type: integer
+        - name: copyNumber
+          in: query
+          description: number of query
+          required: true
+          schema: 
+            type: integer
+        - name: printerID
+          in: query
+          description: identify printer
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/history'
+        '400':
+          description: Invalid 
+        '404':
+          description: not found
+  /printDocument/OrderController/{newBalance}:
+    put:
+      tags:
+        - printDocument
+      summary: update balance
+      description: update balance
+      operationId: updateBalance
+      parameters:
+        - name: studentID
+          in: query
+          description: identify student
+          required: true
+          schema:
+            type: string
+        - name: newBalance
+          in: path
+          description: new balance
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/student'
+        '400':
+          description: Invalid 
+        '404':
+          description: Student not found
+components:
+  schemas:
+    student:
+      type: object
+      properties:
+        ID:
+          type: string
+        Password:
+          type: string
+        Email:
+          type: string
+        FirstName:
+          type: string
+        LastName:
+          type: string
+        DateOfBirth:
+          type: string
+        Balance:
+          type: integer
+    document:
+      type: object
+      properties:
+        URL:
+          type: string
+        FileName:
+          type: string
+        FileType:
+          type: string
+        UploadDate:
+          type: string
+    systemconfig:
+      type: object
+      properties:
+        DefaultPageNumber:
+          type: integer
+        PaperSuplyDate:
+          type: string
+        FileTypes:
+          type: array
+          items:
+            type: string
+        Active: 
+          type: boolean
+    message:
+      type: object
+      properties:
+        isValue:
+          type: boolean
+        message:
+          type: string
+    print:
+      type: object
+      properties:
+        StartTime:
+          type: string
+        EndTime:
+          type: string
+        PageSize:
+          type: string
+        PageNumber: 
+          type: integer
+        Ok:
+          type: boolean
+    printer:
+      type: object
+      properties:
+        ID:
+          type: string
+        BrandName:
+          type: string
+        Model: 
+          type: string
+        Description:
+          type: string
+        CampusName: 
+          type: string
+        BuildingName:
+          type: string
+        RoomNumber:
+          type: integer
+        Status:
+          type: string
+    history:
+      type: object
+      properties:
+        studentID:
+          type: string
+        documentID:
+          type: string
+        paperSize:
+          type: integer
+        pageNumbers:
+          type: integer
+        paperSideNumber:
+          type: integer
+        copyNumber:
+          type: integer
+        printerID:
+          type: integer
