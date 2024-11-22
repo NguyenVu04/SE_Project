@@ -50,11 +50,11 @@ public class Student {
     /**
      * Constructs a new Student object with the given parameters.
      *
-     * @param email      the email of the student
-     * @param firstName  the first name of the student
-     * @param lastName   the last name of the student
-     * @param dateOfBirth the date of birth of the student
-     * @param balance    the balance of the student
+     * @param _email      the email of the student
+     * @param _firstName  the first name of the student
+     * @param _lastName   the last name of the student
+     * @param _dateOfBirth the date of birth of the student
+     * @param _balance    the balance of the student
      */
     public Student(
             String _email,

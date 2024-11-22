@@ -67,15 +67,15 @@ public class Order {
     /**
      * Creates a new order.
      *
-     * @param studentId      the ID of the student who submitted the order
-     * @param printerId      the ID of the printer on which the document was printed
-     * @param documentId     the ID of the document which was printed
-     * @param paperSize      the size of the paper which the document was printed on
-     * @param pageNumbers    the page numbers of the document which were printed
-     * @param numberOfCopies the number of copies of the document which were printed
-     * @param singleSided    whether the document was printed single or double sided
-     * @param timeOrdered    the time at which the order was submitted
-     * @param done           whether the order was completed successfully
+     * @param _studentId      the ID of the student who submitted the order
+     * @param _printerId      the ID of the printer on which the document was printed
+     * @param _documentId     the ID of the document which was printed
+     * @param _paperSize      the size of the paper which the document was printed on
+     * @param _pageNumbers    the page numbers of the document which were printed
+     * @param _numberOfCopies the number of copies of the document which were printed
+     * @param _singleSided    whether the document was printed single or double sided
+     * @param _timeOrdered    the time at which the order was submitted
+     * @param _done           whether the order was completed successfully
      */
     public Order(
             String _studentId,

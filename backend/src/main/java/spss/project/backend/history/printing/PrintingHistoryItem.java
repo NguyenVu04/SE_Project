@@ -70,16 +70,16 @@ public class PrintingHistoryItem {
     /**
      * Creates a new printing history item.
      * 
-     * @param studentId      the ID of the student who requested the printing job
-     * @param printerId      the ID of the printer which the document was printed on
-     * @param documentId     the ID of the document which was printed
-     * @param paperSize      the size of the paper which the document was printed on
-     * @param pageNumbers    the page numbers of the document which were printed
-     * @param numberOfCopies the number of copies of the document which were printed
-     * @param singleSided    whether the document was printed single or double sided
-     * @param timeOrdered    the time at which the printing job was requested
-     * @param timePrinted    the time at which the printing job was completed
-     * @param successful     whether the printing job was successful or not
+     * @param _studentId      the ID of the student who requested the printing job
+     * @param _printerId      the ID of the printer which the document was printed on
+     * @param _documentId     the ID of the document which was printed
+     * @param _paperSize      the size of the paper which the document was printed on
+     * @param _pageNumbers    the page numbers of the document which were printed
+     * @param _numberOfCopies the number of copies of the document which were printed
+     * @param _singleSided    whether the document was printed single or double sided
+     * @param _timeOrdered    the time at which the printing job was requested
+     * @param _timePrinted    the time at which the printing job was completed
+     * @param _successful     whether the printing job was successful or not
      */
     public PrintingHistoryItem(
             String _studentId,

@@ -20,6 +20,14 @@ public class SPSSMongoConfig extends AbstractMongoClientConfiguration {
      */
     protected SPSSMongoConfig() {}
 
+    /**
+     * This is a bean that creates a ValidatingMongoEventListener that will be used by Spring Data MongoDB to validate all
+     * objects before they are persisted to the database. The validator is a LocalValidatorFactoryBean that is created by
+     * Spring.
+     * 
+     * @param validator the LocalValidatorFactoryBean to use
+     * @return a new ValidatingMongoEventListener
+     */
     @Bean
     public ValidatingMongoEventListener validatingMongoEventListener(final LocalValidatorFactoryBean validator) {
         return new ValidatingMongoEventListener(validator);

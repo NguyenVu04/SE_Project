@@ -48,10 +48,10 @@ public class SystemConfig {
      * Creates a new configuration with the given paper supply date and the
      * given user who created the configuration.
      * 
-     * @param paperSupplyDay the paper supply date
-     * @param createdBy       the user who created the configuration
-     * @param cloudUrl       the URL to the cloud service that store files
-     * @param fileTypes      the list of allowed file types
+     * @param _paperSupplyDay the paper supply date
+     * @param _createdBy       the user who created the configuration
+     * @param _cloudUrl       the URL to the cloud service that store files
+     * @param _fileTypes      the list of allowed file types
      * @throws InvalidParameterException if the paper supply date is outside the
      *                                   range of 1 to 28
      * @throws Exception if the paper supply date is outside the range of 1

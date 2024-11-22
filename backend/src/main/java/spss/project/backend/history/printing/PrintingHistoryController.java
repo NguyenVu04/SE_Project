@@ -49,8 +49,6 @@ public class PrintingHistoryController {
      * @return a list of all printing history items which were printed on the
      *         given printer between the given times, sorted by the time at which
      *         the printing jobs were completed in descending order
-     * @throws Exception if an error occurs while retrieving the printing
-     *                   history items
      */
     @GetMapping("/printer")
     public ResponseEntity<Object> getPrinterPrintingHistory(

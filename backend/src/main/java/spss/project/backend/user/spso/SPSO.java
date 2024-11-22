@@ -35,9 +35,9 @@ public class SPSO {
      * Constructs a new SPSO based on the given email address, first name and
      * last name.
      *
-     * @param email     the email address of the SPSO
-     * @param firstName the first name of the SPSO
-     * @param lastName  the last name of the SPSO
+     * @param _email     the email address of the SPSO
+     * @param _firstName the first name of the SPSO
+     * @param _lastName  the last name of the SPSO
      */
     public SPSO(
             String _email,

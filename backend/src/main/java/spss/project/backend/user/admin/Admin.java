@@ -25,9 +25,9 @@ public class Admin {
     /**
      * Creates a new admin.
      *
-     * @param email    the email address of the admin
-     * @param firstName the first name of the admin
-     * @param lastName  the last name of the admin
+     * @param _email    the email address of the admin
+     * @param _firstName the first name of the admin
+     * @param _lastName  the last name of the admin
      */
     public Admin(
             String _email,

@@ -23,6 +23,11 @@ import spss.project.backend.configuration.system.SystemConfigService;
 @Service
 public class DocumentService {
     /**
+     * This is the constructor of the DocumentService class. It is protected to
+     * prevent instantiation from outside the package.
+     */
+    protected DocumentService() {}
+    /**
      * An instance of GridFsOperations, which provides methods for saving and
      * retrieving documents from the database.
      */

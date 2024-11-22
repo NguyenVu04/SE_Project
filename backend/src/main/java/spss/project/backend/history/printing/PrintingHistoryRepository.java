@@ -19,7 +19,7 @@ public interface PrintingHistoryRepository extends MongoRepository<PrintingHisto
      * student.
      *
      * @param studentId the id of the student to find the printing history items
-     *                  for
+     * @param sort the sort order of the printing history items
      * @return the printing history items of the student
      */
     public List<PrintingHistoryItem> findByStudentId(String studentId, Sort sort);

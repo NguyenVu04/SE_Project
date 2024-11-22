@@ -64,15 +64,15 @@ public class Printer {
     /**
      * Constructs a new Printer object.
      * 
-     * @param url          the URL of the printer
-     * @param model        the model of the printer
-     * @param description  a description of the printer
-     * @param campusName   the name of the campus where the printer is
+     * @param _url          the URL of the printer
+     * @param _model        the model of the printer
+     * @param _description  a description of the printer
+     * @param _campusName   the name of the campus where the printer is
      *                     located
-     * @param buildingName the name of the building where the printer is
+     * @param _buildingName the name of the building where the printer is
      *                     located
-     * @param roomNumber   the room number where the printer is located
-     * @param active       whether the printer is active or not
+     * @param _roomNumber   the room number where the printer is located
+     * @param _active       whether the printer is active or not
      */
     public Printer(
             String _url,
