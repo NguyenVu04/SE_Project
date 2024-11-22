@@ -9,6 +9,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import jakarta.validation.ConstraintViolationException;
+
 /**
  * This class provides methods for working with the orders in the system
  */
@@ -55,7 +57,7 @@ public class OrderService {
             int numberOfCopies,
             boolean singleSided,
             LocalDateTime timeOrdered,
-            boolean done) throws Exception {
+            boolean done) throws ConstraintViolationException, Exception {
 
         return repo.save(new Order(
                 studentId,

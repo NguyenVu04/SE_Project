@@ -1,11 +1,12 @@
 package spss.project.backend.order;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
+
+import spss.project.backend.document.PaperSize;
 
 /**
  * A class representing an order from a student to print a document.
@@ -15,53 +16,53 @@ public class Order {
     /**
      * The ID of the order.
      */
-    @Id
-    private String id;
+    @MongoId
+    private String _id;
 
     /**
      * The ID of the student who submitted the order.
      */
-    private String studentId;
+    private String _studentId;
 
     /**
      * The ID of the printer on which the document was printed.
      */
-    private String printerId;
+    private String _printerId;
 
     /**
      * The ID of the document which was printed.
      */
-    private String documentId;
+    private String _documentId;
 
     /**
      * The size of the paper which the document was printed on.
      */
-    private String paperSize;
+    private String _paperSize;
 
     /**
      * The page numbers of the document which were printed.
      */
-    private List<Integer> pageNumbers;
+    private List<Integer> _pageNumbers;
 
     /**
      * The number of copies of the document which were printed.
      */
-    private int numberOfCopies;
+    private int _numberOfCopies;
 
     /**
      * Whether the document was printed single or double sided.
      */
-    private boolean singleSided;
+    private boolean _singleSided;
 
     /**
      * The time at which the order was submitted.
      */
-    private LocalDateTime timeOrdered;
+    private LocalDateTime _timeOrdered;
 
     /**
      * Whether the order was completed successfully.
      */
-    private boolean done;
+    private boolean _done;
 
     /**
      * Creates a new order.
@@ -72,30 +73,30 @@ public class Order {
      * @param paperSize      the size of the paper which the document was printed on
      * @param pageNumbers    the page numbers of the document which were printed
      * @param numberOfCopies the number of copies of the document which were printed
-     * @param singleSided     whether the document was printed single or double sided
+     * @param singleSided    whether the document was printed single or double sided
      * @param timeOrdered    the time at which the order was submitted
      * @param done           whether the order was completed successfully
      */
     public Order(
-            String studentId,
-            String printerId,
-            String documentId,
-            String paperSize,
-            List<Integer> pageNumbers,
-            int numberOfCopies,
-            boolean singleSided,
-            LocalDateTime timeOrdered,
-            boolean done) {
+            String _studentId,
+            String _printerId,
+            String _documentId,
+            String _paperSize,
+            List<Integer> _pageNumbers,
+            int _numberOfCopies,
+            boolean _singleSided,
+            LocalDateTime _timeOrdered,
+            boolean _done) {
 
-        this.studentId = studentId;
-        this.printerId = printerId;
-        this.documentId = documentId;
-        this.paperSize = paperSize;
-        this.pageNumbers = pageNumbers;
-        this.numberOfCopies = numberOfCopies;
-        this.singleSided = singleSided;
-        this.timeOrdered = timeOrdered;
-        this.done = done;
+        this._studentId = _studentId;
+        this._printerId = _printerId;
+        this._documentId = _documentId;
+        this._paperSize = _paperSize;
+        this._pageNumbers = _pageNumbers;
+        this._numberOfCopies = _numberOfCopies;
+        this._singleSided = _singleSided;
+        this._timeOrdered = _timeOrdered;
+        this._done = _done;
     }
 
     /**
@@ -104,7 +105,7 @@ public class Order {
      * @return the ID of the order
      */
     public String getId() {
-        return id;
+        return _id;
     }
 
     /**
@@ -113,7 +114,7 @@ public class Order {
      * @return the ID of the student who submitted the order
      */
     public String getStudentId() {
-        return studentId;
+        return _studentId;
     }
 
     /**
@@ -122,7 +123,7 @@ public class Order {
      * @return the ID of the printer on which the document was printed
      */
     public String getPrinterId() {
-        return printerId;
+        return _printerId;
     }
 
     /**
@@ -131,7 +132,7 @@ public class Order {
      * @return the ID of the document which was printed
      */
     public String getDocumentId() {
-        return documentId;
+        return _documentId;
     }
 
     /**
@@ -140,7 +141,7 @@ public class Order {
      * @return the size of the paper which the document was printed on
      */
     public String getPaperSize() {
-        return paperSize;
+        return _paperSize;
     }
 
     /**
@@ -149,7 +150,7 @@ public class Order {
      * @return the page numbers of the document which were printed
      */
     public List<Integer> getPageNumbers() {
-        return Collections.unmodifiableList(this.pageNumbers);
+        return List.copyOf(this._pageNumbers);
     }
 
     /**
@@ -158,7 +159,7 @@ public class Order {
      * @return the number of copies of the document which were printed
      */
     public int getNumberOfCopies() {
-        return numberOfCopies;
+        return _numberOfCopies;
     }
 
     /**
@@ -167,7 +168,7 @@ public class Order {
      * @return whether the document was printed single or double sided
      */
     public boolean isSingleSided() {
-        return singleSided;
+        return _singleSided;
     }
 
     /**
@@ -176,7 +177,7 @@ public class Order {
      * @return the time at which the order was submitted
      */
     public LocalDateTime getTimeOrdered() {
-        return timeOrdered;
+        return _timeOrdered;
     }
 
     /**
@@ -185,7 +186,7 @@ public class Order {
      * @return whether the order was completed successfully
      */
     public boolean isDone() {
-        return done;
+        return _done;
     }
 
     /**
@@ -194,6 +195,20 @@ public class Order {
      * @param done whether the order was completed successfully
      */
     public void setDone(boolean done) {
-        this.done = done;
+        this._done = done;
+    }
+
+    /**
+     * Calculates the cost of the order, based on the number of pages printed
+     * and the cost of the paper used.
+     *
+     * @return the cost of the order
+     * @throws EnumConstantNotPresentException if the paper size is not a valid
+     *                                         enum constant
+     */
+    public double getCost() throws EnumConstantNotPresentException {
+        return this._pageNumbers.size() *
+                this._numberOfCopies *
+                PaperSize.valueOf(this._paperSize).getValue();
     }
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.ConstraintViolationException;
 import spss.project.backend.Environment;
 import spss.project.backend.document.DocumentService;
 import spss.project.backend.document.PaperSize;
@@ -61,7 +62,8 @@ public class OrderController {
     /**
      * The service used to access and manipulate documents.
      * 
-     * This service is used to retrieve the document id of a document when an order is
+     * This service is used to retrieve the document id of a document when an order
+     * is
      * submitted.
      */
     @Autowired
@@ -115,14 +117,7 @@ public class OrderController {
             boolean singleSided = (boolean) body.get("singleSided");
             int numberOfCopies = (int) body.get("numberOfCopies");
 
-            Student student = studentService.getStudent(studentId);
-            double orderCost = paperSize.getValue() * numberOfCopies * pageNumbers.size();
-
-            if (student.getBalance() < orderCost) {
-                return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
-            }
-
-            String orderId = service.save(
+            Order order = service.save(
                     studentId,
                     printerId,
                     fileName,
@@ -131,7 +126,9 @@ public class OrderController {
                     numberOfCopies,
                     singleSided,
                     LocalDateTime.now(),
-                    false).getId();
+                    false);
+
+            studentService.addBalance(studentId, -order.getCost());
 
             Printer printer = printerService.getPrinter(printerId);
             if (!printer.isActive()) {
@@ -139,14 +136,19 @@ public class OrderController {
             }
             // TODO: uncomment when printer is ready
             // printer.printDocument(
-            //         orderId,
-            //         documentService.convertToFileUrl(fileName, studentId),
-            //         paperSize,
-            //         pageNumbers,
-            //         singleSided,
-            //         numberOfCopies);
+            // orderId,
+            // documentService.convertToFileUrl(fileName, studentId),
+            // paperSize,
+            // pageNumbers,
+            // singleSided,
+            // numberOfCopies);
 
             return ResponseEntity.ok().build();
+        } catch (ConstraintViolationException e) {
+
+            logger.error("Student balance not enough", e);
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
+
         } catch (NullPointerException e) {
 
             logger.error("Resource not found", e);

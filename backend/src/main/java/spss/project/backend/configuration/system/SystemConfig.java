@@ -6,8 +6,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 /**
  * This class represents a configuration for the system. The configuration is
@@ -17,32 +17,32 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Document(collection = "SystemConfig")
 public class SystemConfig {
-    @Id
-    private String id;
+    @MongoId
+    private String _id;
     /**
      * The default paper supply date. This is the date that the system will use
      * to determine the date to print the paper supply reminder.
      */
-    private int paperSupplyDay;
+    private int _paperSupplyDay;
     /**
      * A list of file types that are allowed to be uploaded to the system. This
      * list is used to validate the file type of documents that are uploaded.
      */
-    private List<String> fileTypes;
+    private List<String> _fileTypes;
     /**
      * The date that the configuration was created. This is the date that the
      * configuration was added to the database.
      */
-    private Date createdAt;
+    private Date _createdAt;
     /**
      * The user who created the configuration. This is the user who added the
      * configuration to the database.
      */
-    private String createdBy;
+    private String _createdBy;
     /**
      * The URL to the cloud service that store files.
      */
-    private String cloudUrl;
+    private String _cloudUrl;
 
     /**
      * Creates a new configuration with the given paper supply date and the
@@ -57,16 +57,20 @@ public class SystemConfig {
      * @throws Exception if the paper supply date is outside the range of 1
      *                   to 28
      */
-    public SystemConfig(int paperSupplyDay, String createdBy, String cloudUrl, List<String> fileTypes) throws InvalidParameterException, Exception {
-        if (paperSupplyDay < 1 || paperSupplyDay > 28) {
+    public SystemConfig(
+        int _paperSupplyDay, 
+        String _createdBy, 
+        String _cloudUrl, 
+        List<String> _fileTypes) throws InvalidParameterException, Exception {
+        if (_paperSupplyDay < 1 || _paperSupplyDay > 28) {
             throw new InvalidParameterException("Paper supply day must be between 1 and 28.");
         }
 
-        this.paperSupplyDay = paperSupplyDay;
-        this.fileTypes = fileTypes;
-        this.createdAt = new Date();
-        this.createdBy = createdBy;
-        this.cloudUrl = cloudUrl;
+        this._paperSupplyDay = _paperSupplyDay;
+        this._fileTypes = _fileTypes;
+        this._createdAt = new Date();
+        this._createdBy = _createdBy;
+        this._cloudUrl = _cloudUrl;
     }
 
     /**
@@ -75,7 +79,7 @@ public class SystemConfig {
      * @return the id of the configuration
      */
     public String getId() {
-        return id;
+        return _id;
     }
 
     /**
@@ -84,7 +88,7 @@ public class SystemConfig {
      * @return the paper supply date of the configuration
      */
     public int getPaperSupplyDate() {
-        return paperSupplyDay;
+        return _paperSupplyDay;
     }
 
     /**
@@ -99,7 +103,7 @@ public class SystemConfig {
             throw new Exception("Paper supply date must be between 0 and 28.");
         }
 
-        this.paperSupplyDay = paperSupplyDate;
+        this._paperSupplyDay = paperSupplyDate;
     }
 
     /**
@@ -108,11 +112,11 @@ public class SystemConfig {
      * @param fileType the file type to add
      */
     public void addFileType(String fileType) {
-        if (this.fileTypes.contains(fileType)) {
+        if (this._fileTypes.contains(fileType)) {
             return;
         }
 
-        this.fileTypes.add(fileType);
+        this._fileTypes.add(fileType);
     }
 
     /**
@@ -123,7 +127,7 @@ public class SystemConfig {
      *         otherwise
      */
     public boolean hasFileType(String fileType) {
-        return this.fileTypes.contains(fileType);
+        return this._fileTypes.contains(fileType);
     }
 
     /**
@@ -133,7 +137,7 @@ public class SystemConfig {
      * @return true if the file type was removed, false otherwise
      */
     public boolean removeFileType(String fileType) {
-        return this.fileTypes.remove(fileType);
+        return this._fileTypes.remove(fileType);
     }
 
     /**
@@ -142,7 +146,7 @@ public class SystemConfig {
      * @return the list of allowed file types
      */
     public List<String> getFileTypes() {
-        return Collections.unmodifiableList(this.fileTypes);
+        return Collections.unmodifiableList(this._fileTypes);
     }
 
     /**
@@ -151,7 +155,7 @@ public class SystemConfig {
      * @param fileTypes the list of allowed file types
      */
     public void setFileTypes(List<String> fileTypes) {
-        this.fileTypes = new ArrayList<>(fileTypes);
+        this._fileTypes = new ArrayList<>(fileTypes);
     }
 
     /**
@@ -160,7 +164,7 @@ public class SystemConfig {
      * @return the user who created the configuration
      */
     public String getCreatedBy() {
-        return createdBy;
+        return _createdBy;
     }
 
     /**
@@ -169,7 +173,7 @@ public class SystemConfig {
      * @return the date that the configuration was created
      */
     public Date getCreatedAt() {
-        return createdAt;
+        return _createdAt;
     }
 
     /**
@@ -178,7 +182,7 @@ public class SystemConfig {
      * @return the URL of the cloud storage service
      */
     public String getCloudUrl() {
-        return cloudUrl;
+        return _cloudUrl;
     }
 
     /**
@@ -187,6 +191,6 @@ public class SystemConfig {
      * @param cloudUrl the URL to set for the cloud storage service
      */
     public void setCloudUrl(String cloudUrl) {
-        this.cloudUrl = cloudUrl;
+        this._cloudUrl = cloudUrl;
     }
 }

@@ -20,6 +20,7 @@ import spss.project.backend.document.PaperSize;
 import spss.project.backend.history.printing.PrintingHistoryService;
 import spss.project.backend.order.Order;
 import spss.project.backend.order.OrderService;
+import spss.project.backend.user.student.StudentService;
 
 /**
  * A controller for handling printer-related requests.
@@ -44,6 +45,15 @@ public class PrinterController {
      */
     @Autowired
     private OrderService orderService;
+
+    /**
+     * The service for interacting with the student database.
+     * 
+     * This service is used to validate that the student making the request exists
+     * and has enough balance to print the requested documents.
+     */
+    @Autowired
+    private StudentService studentService;
 
     /**
      * The service for interacting with the printing history database.
@@ -98,7 +108,7 @@ public class PrinterController {
         try {
 
             String orderId = (String) message.get("orderId");
-            boolean success = (boolean) message.get("success");
+            boolean successful = (boolean) message.get("successful");
 
             Order order = orderService.updateOrderStatus(orderId, true);
             PaperSize paperSize = PaperSize.valueOf(order.getPaperSize());
@@ -113,7 +123,11 @@ public class PrinterController {
                     order.isSingleSided(),
                     order.getTimeOrdered(),
                     LocalDateTime.now(),
-                    success);
+                    successful);
+
+            if (!successful) {
+                studentService.addBalance(orderId, order.getCost());
+            }
 
             return ResponseEntity.ok().build();
 
@@ -122,7 +136,7 @@ public class PrinterController {
             logger.error("Order not found", e);
             return ResponseEntity.notFound().build();
 
-        } catch (ClassCastException e) {
+        } catch (ClassCastException | NullPointerException e) {
 
             logger.error("Error parsing printer message", e);
             return ResponseEntity.badRequest().build();

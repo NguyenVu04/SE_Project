@@ -1,35 +1,35 @@
 package spss.project.backend.user.spso;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 /**
  * Represents a Smart Printing Service Officer (SPSO).
  */
 @Document(collection = "SPSOs")
 public class SPSO {
-    @Id
     /**
      * The unique identifier for the SPSO.
      */
-    private String id;
+    @MongoId
+    private String _id;
 
     @Indexed(name = "spso_email", unique = true)
     /**
      * The email address of the SPSO.
      */
-    private String email;
+    private String _email;
 
     /**
      * The first name of the SPSO.
      */
-    private String firstName;
+    private String _firstName;
 
     /**
      * The last name of the SPSO.
      */
-    private String lastName;
+    private String _lastName;
 
     /**
      * Constructs a new SPSO based on the given email address, first name and
@@ -40,12 +40,12 @@ public class SPSO {
      * @param lastName  the last name of the SPSO
      */
     public SPSO(
-            String email,
-            String firstName,
-            String lastName) {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
+            String _email,
+            String _firstName,
+            String _lastName) {
+        this._email = _email;
+        this._firstName = _firstName;
+        this._lastName = _lastName;
     }
 
     /**
@@ -54,7 +54,7 @@ public class SPSO {
      * @return the unique identifier for the SPSO
      */
     public String getId() {
-        return id;
+        return _id;
     }
 
     /**
@@ -63,7 +63,7 @@ public class SPSO {
      * @return the email address of the SPSO
      */
     public String getEmail() {
-        return email;
+        return _email;
     }
 
     /**
@@ -72,7 +72,7 @@ public class SPSO {
      * @return the first name of the SPSO
      */
     public String getFirstName() {
-        return firstName;
+        return _firstName;
     }
 
     /**
@@ -81,7 +81,7 @@ public class SPSO {
      * @param firstName the new first name of the SPSO
      */
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this._firstName = firstName;
     }
 
     /**
@@ -90,7 +90,7 @@ public class SPSO {
      * @return the last name of the SPSO
      */
     public String getLastName() {
-        return lastName;
+        return _lastName;
     }
 
     /**
@@ -99,6 +99,6 @@ public class SPSO {
      * @param lastName the new last name of the SPSO
      */
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this._lastName = lastName;
     }
 }

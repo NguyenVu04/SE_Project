@@ -1,11 +1,10 @@
 package spss.project.backend.history.printing;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 /**
  * A class representing a printing history item.
@@ -15,58 +14,58 @@ public class PrintingHistoryItem {
     /**
      * The ID of the printing history item.
      */
-    @Id
-    private String id;
+    @MongoId
+    private String _id;
 
     /**
      * The ID of the student who requested the printing job.
      */
-    private String studentId;
+    private String _studentId;
 
     /**
      * The ID of the printer which the document was printed on.
      */
-    private String printerId;
+    private String _printerId;
 
     /**
      * The ID of the document which was printed.
      */
-    private String documentId;
+    private String _documentId;
 
     /**
      * The size of the paper which the document was printed on.
      */
-    private String paperSize;
+    private String _paperSize;
 
     /**
      * The page numbers of the document which were printed.
      */
-    private List<Integer> pageNumbers;
+    private List<Integer> _pageNumbers;
 
     /**
      * The number of copies of the document which were printed.
      */
-    private int numberOfCopies;
+    private int _numberOfCopies;
 
     /**
      * Whether the document was printed single or double sided.
      */
-    private boolean singleSided;
+    private boolean _singleSided;
 
     /**
      * The time at which the printing job was requested.
      */
-    private LocalDateTime timeOrdered;
+    private LocalDateTime _timeOrdered;
 
     /**
      * The time at which the printing job was completed.
      */
-    private LocalDateTime timePrinted;
+    private LocalDateTime _timePrinted;
 
     /**
      * Whether the printing job was successful or not.
      */
-    private boolean successful;
+    private boolean _successful;
 
     /**
      * Creates a new printing history item.
@@ -83,27 +82,27 @@ public class PrintingHistoryItem {
      * @param successful     whether the printing job was successful or not
      */
     public PrintingHistoryItem(
-            String studentId,
-            String printerId,
-            String documentId,
-            String paperSize,
-            List<Integer> pageNumbers,
-            int numberOfCopies,
-            boolean singleSided,
-            LocalDateTime timeOrdered,
-            LocalDateTime timePrinted,
-            boolean successful) {
+            String _studentId,
+            String _printerId,
+            String _documentId,
+            String _paperSize,
+            List<Integer> _pageNumbers,
+            int _numberOfCopies,
+            boolean _singleSided,
+            LocalDateTime _timeOrdered,
+            LocalDateTime _timePrinted,
+            boolean _successful) {
 
-        this.studentId = studentId;
-        this.printerId = printerId;
-        this.documentId = documentId;
-        this.paperSize = paperSize;
-        this.pageNumbers = pageNumbers;
-        this.numberOfCopies = numberOfCopies;
-        this.singleSided = singleSided;
-        this.timeOrdered = timeOrdered;
-        this.timePrinted = timePrinted;
-        this.successful = successful;
+        this._studentId = _studentId;
+        this._printerId = _printerId;
+        this._documentId = _documentId;
+        this._paperSize = _paperSize;
+        this._pageNumbers = _pageNumbers;
+        this._numberOfCopies = _numberOfCopies;
+        this._singleSided = _singleSided;
+        this._timeOrdered = _timeOrdered;
+        this._timePrinted = _timePrinted;
+        this._successful = _successful;
     }
 
     /**
@@ -112,7 +111,7 @@ public class PrintingHistoryItem {
      * @return the ID of the printing history item
      */
     public String getId() {
-        return id;
+        return _id;
     }
 
     /**
@@ -121,7 +120,7 @@ public class PrintingHistoryItem {
      * @return the ID of the student who requested the printing job
      */
     public String getStudentId() {
-        return studentId;
+        return _studentId;
     }
 
     /**
@@ -130,7 +129,7 @@ public class PrintingHistoryItem {
      * @return the ID of the printer which the document was printed on
      */
     public String getPrinterId() {
-        return printerId;
+        return _printerId;
     }
 
     /**
@@ -139,7 +138,7 @@ public class PrintingHistoryItem {
      * @return the ID of the document which was printed
      */
     public String getDocumentId() {
-        return documentId;
+        return _documentId;
     }
 
     /**
@@ -148,7 +147,7 @@ public class PrintingHistoryItem {
      * @return the size of the paper which the document was printed on
      */
     public String getPaperSize() {
-        return paperSize;
+        return _paperSize;
     }
 
     /**
@@ -157,7 +156,7 @@ public class PrintingHistoryItem {
      * @return the page numbers of the document which were printed
      */
     public List<Integer> getPageNumbers() {
-        return Collections.unmodifiableList(this.pageNumbers);
+        return List.copyOf(this._pageNumbers);
     }
 
     /**
@@ -166,7 +165,7 @@ public class PrintingHistoryItem {
      * @return the number of copies of the document which were printed
      */
     public int getNumberOfCopies() {
-        return numberOfCopies;
+        return _numberOfCopies;
     }
 
     /**
@@ -175,7 +174,7 @@ public class PrintingHistoryItem {
      * @return the time at which the printing job was requested
      */
     public LocalDateTime getTimeOrdered() {
-        return timeOrdered;
+        return _timeOrdered;
     }
 
     /**
@@ -184,7 +183,7 @@ public class PrintingHistoryItem {
      * @return the time at which the printing job was completed
      */
     public LocalDateTime getTimePrinted() {
-        return timePrinted;
+        return _timePrinted;
     }
 
     /**
@@ -194,7 +193,7 @@ public class PrintingHistoryItem {
      *         sided
      */
     public boolean isSingleSided() {
-        return singleSided;
+        return _singleSided;
     }
 
     /**
@@ -203,6 +202,6 @@ public class PrintingHistoryItem {
      * @return true if the printing job was successful, false if it was not
      */
     public boolean isSuccessful() {
-        return successful;
+        return _successful;
     }
 }

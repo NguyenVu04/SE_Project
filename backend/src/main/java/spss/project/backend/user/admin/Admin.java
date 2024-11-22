@@ -1,7 +1,7 @@
 package spss.project.backend.user.admin;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 /**
  * A class representing an admin user in the system.
@@ -11,16 +11,16 @@ public class Admin {
     /**
      * The unique identifier of the admin, which is their email address.
      */
-    @Id
-    private String email;
+    @MongoId
+    private String _email;
     /**
      * The first name of the admin.
      */
-    private String firstName;
+    private String _firstName;
     /**
      * The last name of the admin.
      */
-    private String lastName;
+    private String _lastName;
 
     /**
      * Creates a new admin.
@@ -30,13 +30,13 @@ public class Admin {
      * @param lastName  the last name of the admin
      */
     public Admin(
-            String email,
-            String firstName,
-            String lastName) {
+            String _email,
+            String _firstName,
+            String _lastName) {
 
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this._email = _email;
+        this._firstName = _firstName;
+        this._lastName = _lastName;
     }
 
     /**
@@ -45,7 +45,7 @@ public class Admin {
      * @return the email address of the admin
      */
     public String getEmail() {
-        return email;
+        return _email;
     }
 
     /**
@@ -54,7 +54,7 @@ public class Admin {
      * @return the first name of the admin
      */
     public String getFirstName() {
-        return firstName;
+        return _firstName;
     }
 
     /**
@@ -63,7 +63,7 @@ public class Admin {
      * @param firstName the new first name of the admin
      */
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this._firstName = firstName;
     }
 
     /**
@@ -72,7 +72,7 @@ public class Admin {
      * @return the last name of the admin
      */
     public String getLastName() {
-        return lastName;
+        return _lastName;
     }
 
     /**
@@ -81,6 +81,6 @@ public class Admin {
      * @param lastName the new last name of the admin
      */
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this._lastName = lastName;
     }
 }

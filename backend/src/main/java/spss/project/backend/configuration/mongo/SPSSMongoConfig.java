@@ -5,18 +5,25 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
+import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+
 /**
- * This class is a configuration for the MongoDB database. It is responsible for
- * setting up the database name and the converter for the GridFS template.
+ * This class is a configuration for MongoDB. It sets up the MongoDB client and
+ * database used by the application.
  */
 @Configuration
 public class SPSSMongoConfig extends AbstractMongoClientConfiguration {
     /**
-     * A protected constructor to prevent instantiation of this class. This class
-     * is a configuration class, and it is not intended to be instantiated.
+     * Protected constructor to prevent direct instantiation.
      */
     protected SPSSMongoConfig() {}
+
+    @Bean
+    public ValidatingMongoEventListener validatingMongoEventListener(final LocalValidatorFactoryBean validator) {
+        return new ValidatingMongoEventListener(validator);
+    }
 
     /**
      * This is a bean that creates a GridFsTemplate for the application. It takes

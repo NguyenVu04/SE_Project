@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClient;
@@ -22,44 +22,44 @@ public class Printer {
     /**
      * The id of the printer, used to identify the printer in the database.
      */
-    @Id
-    private String id;
+    @MongoId
+    private String _id;
 
     /**
      * The URL of the printer's REST API.
      */
     @Indexed(name = "printer_url", unique = true)
-    private String url;
+    private String _url;
 
     /**
      * The model of the printer.
      */
-    private String model;
+    private String _model;
 
     /**
      * A description of the printer.
      */
-    private String description;
+    private String _description;
 
     /**
      * The name of the campus where the printer is located.
      */
-    private String campusName;
+    private String _campusName;
 
     /**
      * The name of the building where the printer is located.
      */
-    private String buildingName;
+    private String _buildingName;
 
     /**
      * The room number where the printer is located.
      */
-    private String roomNumber;
+    private String _roomNumber;
 
     /**
      * Whether the printer is active or not.
      */
-    private boolean active;
+    private boolean _active;
 
     /**
      * Constructs a new Printer object.
@@ -75,21 +75,21 @@ public class Printer {
      * @param active       whether the printer is active or not
      */
     public Printer(
-            String url,
-            String model,
-            String description,
-            String campusName,
-            String buildingName,
-            String roomNumber,
-            boolean active) {
+            String _url,
+            String _model,
+            String _description,
+            String _campusName,
+            String _buildingName,
+            String _roomNumber,
+            boolean _active) {
 
-        this.url = url;
-        this.model = model;
-        this.description = description;
-        this.campusName = campusName;
-        this.buildingName = buildingName;
-        this.roomNumber = roomNumber;
-        this.active = active;
+        this._url = _url;
+        this._model = _model;
+        this._description = _description;
+        this._campusName = _campusName;
+        this._buildingName = _buildingName;
+        this._roomNumber = _roomNumber;
+        this._active = _active;
     }
 
     /**
@@ -98,7 +98,7 @@ public class Printer {
      * @return the id of the printer
      */
     public String getId() {
-        return id;
+        return _id;
     }
 
     /**
@@ -107,7 +107,7 @@ public class Printer {
      * @return the URL of the printer
      */
     public String getUrl() {
-        return url;
+        return _url;
     }
 
     /**
@@ -116,7 +116,7 @@ public class Printer {
      * @param url the URL to set
      */
     public void setUrl(String url) {
-        this.url = url;
+        this._url = url;
     }
 
     /**
@@ -125,7 +125,7 @@ public class Printer {
      * @return the model of the printer
      */
     public String getModel() {
-        return model;
+        return _model;
     }
 
     /**
@@ -134,7 +134,7 @@ public class Printer {
      * @param model the model to set
      */
     public void setModel(String model) {
-        this.model = model;
+        this._model = model;
     }
 
     /**
@@ -143,7 +143,7 @@ public class Printer {
      * @return the description of the printer
      */
     public String getDescription() {
-        return description;
+        return _description;
     }
 
     /**
@@ -152,7 +152,7 @@ public class Printer {
      * @param description the new description
      */
     public void setDescription(String description) {
-        this.description = description;
+        this._description = description;
     }
 
     /**
@@ -161,7 +161,7 @@ public class Printer {
      * @return the name of the campus
      */
     public String getCampusName() {
-        return campusName;
+        return _campusName;
     }
 
     /**
@@ -170,7 +170,7 @@ public class Printer {
      * @param campusName the name of the campus
      */
     public void setCampusName(String campusName) {
-        this.campusName = campusName;
+        this._campusName = campusName;
     }
 
     /**
@@ -179,7 +179,7 @@ public class Printer {
      * @return the name of the building
      */
     public String getBuildingName() {
-        return buildingName;
+        return _buildingName;
     }
 
     /**
@@ -188,7 +188,7 @@ public class Printer {
      * @param buildingName the name of the building
      */
     public void setBuildingName(String buildingName) {
-        this.buildingName = buildingName;
+        this._buildingName = buildingName;
     }
 
     /**
@@ -197,7 +197,7 @@ public class Printer {
      * @return the room number
      */
     public String getRoomNumber() {
-        return roomNumber;
+        return _roomNumber;
     }
 
     /**
@@ -206,7 +206,7 @@ public class Printer {
      * @param roomNumber the room number to set
      */
     public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
+        this._roomNumber = roomNumber;
     }
 
     /**
@@ -215,7 +215,7 @@ public class Printer {
      * @return true if the printer is active, false otherwise
      */
     public boolean isActive() {
-        return active;
+        return _active;
     }
 
     /**
@@ -224,7 +224,7 @@ public class Printer {
      * @param active the new active status
      */
     public void setActive(boolean active) {
-        this.active = active;
+        this._active = active;
     }
 
     /**
@@ -256,7 +256,7 @@ public class Printer {
         printInfo.put("numberOfCopies", numberOfCopies);
 
         RestClient client = RestClient.builder()
-                .baseUrl(this.url)
+                .baseUrl(this._url)
                 .build();
 
         ResponseEntity<Void> response = client.post()

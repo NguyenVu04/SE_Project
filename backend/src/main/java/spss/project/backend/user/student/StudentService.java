@@ -41,7 +41,7 @@ public class StudentService {
             String lastName,
             LocalDate dateOfBirth,
             int balance) throws DuplicateKeyException, Exception {
-
+        
         Student student = new Student(email, firstName, lastName, dateOfBirth, balance);
         return repo.save(student);
     }
@@ -115,7 +115,7 @@ public class StudentService {
      * @throws NotFoundException if the student with the given id does not exist
      * @throws Exception        if an error occurs while updating the student
      */
-    public void addBalance(String id, int amount) throws NotFoundException, Exception {
+    public void addBalance(String id, double amount) throws NotFoundException, Exception {
         Student student = this.getStudent(id);
 
         if (student == null) {
