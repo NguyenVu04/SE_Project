@@ -28,7 +28,6 @@ public class SystemConfigService {
      *
      * @param paperSupplyDay the paper supply day
      * @param createdBy      the user who created the configuration
-     * @param cloudUrl       the URL of the cloud storage
      * @param fileTypes      the list of allowed file types
      * @return the saved SystemConfig object
      * @throws InvalidParameterException if paperSupplyDay is not between 1 and 28
@@ -37,7 +36,6 @@ public class SystemConfigService {
     public SystemConfig saveCurrentSystemConfig(
             int paperSupplyDay,
             String createdBy,
-            String cloudUrl, 
             List<String> fileTypes) throws InvalidParameterException, Exception {
 
         return repo.save(

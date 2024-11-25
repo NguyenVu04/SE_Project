@@ -71,7 +71,6 @@ class BackendApplicationTests {
 		systemConfigService.saveCurrentSystemConfig(
 				7,
 				"admin",
-				"https://cloud.example.com",
 				Arrays.asList("application/pdf"));
 
 		printerService.save(

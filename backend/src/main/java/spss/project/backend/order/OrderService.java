@@ -136,7 +136,7 @@ public class OrderService {
         Order order = this.getOrder(orderId);
 
         if (order == null) {
-            throw new Exception("Order not found: " + orderId);
+            throw new NotFoundException();
         }
         
         order.setDone(done);

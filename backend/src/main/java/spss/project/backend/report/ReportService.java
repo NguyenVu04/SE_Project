@@ -3,7 +3,9 @@ package spss.project.backend.report;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -16,8 +18,13 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
+
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.gridfs.model.GridFSFile;
 
 import spss.project.backend.configuration.system.SystemConfig;
 import spss.project.backend.configuration.system.SystemConfigService;
@@ -85,7 +92,6 @@ public class ReportService {
         
         for (int i = 0; i < 11; i++) {
             printingHeader.getCell(i).setCellStyle(headerStyle);
-            printingSheet.autoSizeColumn(i);
         }
 
         for (int i = 0; i < history.size(); i++) {
@@ -105,8 +111,11 @@ public class ReportService {
 
             for (int j = 0; j < 11; j++) {
                 row.getCell(j).setCellStyle(bodyStyle);
-                printingSheet.autoSizeColumn(j);
             }
+        }
+
+        for (int i = 0; i < 11; i++) {
+            printingSheet.autoSizeColumn(i);
         }
 
         Row configHeader = configSheet.createRow(0);
@@ -119,23 +128,26 @@ public class ReportService {
         
         for (int i = 0; i < 5; i++) {
             configHeader.getCell(i).setCellStyle(headerStyle);
-            configSheet.autoSizeColumn(i);
         }
 
         for (int i = 0; i < configs.size(); i++) {
             Row row = configSheet.createRow(i + 1);
             
             row.createCell(0).setCellValue(configs.get(i).getId());
-            row.createCell(1).setCellValue(configs.get(i).getCreatedAt());
+            row.createCell(1).setCellValue(configs.get(i).getCreatedAt().toString());
             row.createCell(2).setCellValue(configs.get(i).getCreatedBy());
             row.createCell(3).setCellValue(configs.get(i).getPaperSupplyDate());
             row.createCell(4).setCellValue(configs.get(i).getFileTypes().toString());
 
             for (int j = 0; j < 5; j++) {
                 row.getCell(j).setCellStyle(bodyStyle);
-                configSheet.autoSizeColumn(j);
             }
         }
+
+        for (int i = 0; i < 5; i++) {
+            configSheet.autoSizeColumn(i);
+        }
+
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         wb.write(bos);
         byte[] buffer = bos.toByteArray();
@@ -154,4 +166,21 @@ public class ReportService {
                 .readAllBytes();
     }
 
+    public List<Map<String, Object>> getAllReports() throws Exception {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("filename").regex("^report_.*\\.xlsx$"));
+        MongoCursor<GridFSFile> files = operations.find(query).iterator();
+        List<Map<String, Object>> reports = new ArrayList<>();
+
+        while (files.hasNext()) {
+            GridFSFile file = files.next();
+            Map<String, Object> report = Map.of(
+                    "fileName", file.getFilename(),
+                    "fileSize", file.getLength(),
+                    "uploadDate", file.getUploadDate());
+            reports.add(report);
+        }
+
+        return reports;
+    }
 }

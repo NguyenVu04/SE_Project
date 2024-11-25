@@ -1,9 +1,9 @@
 package spss.project.backend.configuration.system;
 
 import java.security.InvalidParameterException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -33,7 +33,7 @@ public class SystemConfig {
      * The date that the configuration was created. This is the date that the
      * configuration was added to the database.
      */
-    private Date createdAt;
+    private LocalDateTime createdAt;
     /**
      * The user who created the configuration. This is the user who added the
      * configuration to the database.
@@ -62,7 +62,7 @@ public class SystemConfig {
 
         this.paperSupplyDay = paperSupplyDay;
         this.fileTypes = fileTypes;
-        this.createdAt = new Date();
+        this.createdAt = LocalDateTime.now();
         this.createdBy = createdBy;
     }
 
@@ -165,7 +165,7 @@ public class SystemConfig {
      * 
      * @return the date that the configuration was created
      */
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 }

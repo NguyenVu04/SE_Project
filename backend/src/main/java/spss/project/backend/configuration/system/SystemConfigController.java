@@ -82,11 +82,9 @@ public class SystemConfigController {
             String createdBy = (String) body.get("createdBy");
             @SuppressWarnings("unchecked")
             List<String> fileTypes = (ArrayList<String>) body.get("fileTypes");
-            String cloudUrl = (String) body.get("cloudUrl");
 
             service.saveCurrentSystemConfig(paperSupplyDay,
                     createdBy,
-                    cloudUrl,
                     fileTypes);
 
             return ResponseEntity.ok()
