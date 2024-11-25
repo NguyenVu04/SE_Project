@@ -10,6 +10,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,7 +44,6 @@ public class AdminController {
 
     @Autowired
     private SPSOService spsoService;
-
 
     /**
      * A logger for logging events.
@@ -80,7 +80,8 @@ public class AdminController {
     /**
      * Adds an admin to the database.
      * 
-     * @param body the request body containing the email, first name, and last name of the admin to add
+     * @param body the request body containing the email, first name, and last name
+     *             of the admin to add
      * @return a success response if the admin was added successfully
      */
     @PostMapping("")
@@ -104,7 +105,8 @@ public class AdminController {
     /**
      * Adds a student to the database.
      * 
-     * @param body the request body containing the email, first name, last name, date of birth, and balance of the student to add
+     * @param body the request body containing the email, first name, last name,
+     *             date of birth, and balance of the student to add
      * @return a success response if the student was added successfully
      */
     @PostMapping("student")
@@ -121,7 +123,7 @@ public class AdminController {
             studentService.save(email, firstName, lastName, dateOfBirth, balance);
             return ResponseEntity.ok().build();
 
-        }catch (DuplicateKeyException e) {
+        } catch (DuplicateKeyException e) {
 
             logger.error("Student already exists", e);
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -139,9 +141,28 @@ public class AdminController {
     }
 
     /**
+     * Deletes a student from the database by its id.
+     * 
+     * @param id the id of the student to delete
+     * @return a success response if the student was deleted successfully
+     */
+    @DeleteMapping("student")
+    public ResponseEntity<Object> deleteStudent(@RequestParam("id") String id) {
+
+        try {
+            studentService.deleteStudent(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            logger.error("Error deleting student", e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    /**
      * Adds a SPSO to the database.
      * 
-     * @param body the request body containing the email, first name, and last name of the SPSO to add
+     * @param body the request body containing the email, first name, and last name
+     *             of the SPSO to add
      * @return a success response if the SPSO was added successfully
      */
     @PostMapping("spso")
@@ -170,6 +191,23 @@ public class AdminController {
             logger.error("Error adding SPSO", e);
             return ResponseEntity.internalServerError().build();
 
+        }
+    }
+
+    /**
+     * Deletes a SPSO from the database by its id.
+     * 
+     * @param id the id of the SPSO to delete
+     * @return a success response if the SPSO was deleted successfully
+     */
+    @DeleteMapping("spso")
+    public ResponseEntity<Object> deleteSPSO(@RequestParam("id") String id) {
+        try {
+            spsoService.deleteSPSO(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            logger.error("Error deleting SPSO", e);
+            return ResponseEntity.internalServerError().build();
         }
     }
 }
