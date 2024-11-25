@@ -20,4 +20,9 @@ public class Environment {
      * GridFS file name.
      */
     public static final String FILE_SEPERATOR = "/";
+
+    /**
+     * The URL of the Cloud Server.
+     */
+    public static final String CLOUD_URL = "http://127.0.0.1:8080";
 }

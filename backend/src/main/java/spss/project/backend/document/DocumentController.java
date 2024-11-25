@@ -67,13 +67,13 @@ public class DocumentController {
     @GetMapping("")
     public ResponseEntity<Object> getDocument(
             @RequestParam("studentId") String studentId,
-            @RequestParam("fileName") String fileName) {
+            @RequestParam("filename") String filename) {
         try {
-            byte[] document = service.getDocument(studentId, fileName);
+            byte[] document = service.getDocument(studentId, filename);
             return ResponseEntity.ok()
                     .headers(headers -> headers.add(
                             "Content-Disposition",
-                            "attachment; filename=\"" + fileName + "\""))
+                            "attachment; filename=\"" + filename + "\""))
                     .body(document);
         } catch (NotFoundException e) {
             logger.error("Document not found", e);

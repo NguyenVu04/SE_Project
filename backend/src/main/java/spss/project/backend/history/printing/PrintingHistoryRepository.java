@@ -35,7 +35,7 @@ public interface PrintingHistoryRepository extends MongoRepository<PrintingHisto
      *         given times, sorted by the time at which the printing jobs were
      *         completed in ascending order
      */
-    public List<PrintingHistoryItem> findByTimeOrderedBetween(LocalDateTime from, LocalDateTime to, Sort sort);
+    public List<PrintingHistoryItem> findByTimePrintedBetween(LocalDateTime from, LocalDateTime to, Sort sort);
 
     /**
      * Finds all printing history items which were printed on the given printer

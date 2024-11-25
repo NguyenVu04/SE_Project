@@ -19,6 +19,14 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 public class SystemConfig {
     @MongoId
     private String id;
+
+    /**
+     * The default number of pages that will be printed if no number of pages
+     * is specified. This is used to validate the number of pages that are
+     * specified in a printing job.
+     */
+    private int defaultNumberOfPages;
+
     /**
      * The default paper supply date. This is the date that the system will use
      * to determine the date to print the paper supply reminder.
@@ -44,6 +52,7 @@ public class SystemConfig {
      * Creates a new configuration with the given paper supply date and the
      * given user who created the configuration.
      * 
+     * @param defaultNumberOfPages the default number of pages
      * @param paperSupplyDay the paper supply date
      * @param createdBy       the user who created the configuration
      * @param fileTypes      the list of allowed file types
@@ -53,13 +62,14 @@ public class SystemConfig {
      *                   to 28
      */
     public SystemConfig(
+        int defaultNumberOfPages,
         int paperSupplyDay, 
         String createdBy, 
         List<String> fileTypes) throws InvalidParameterException, Exception {
         if (paperSupplyDay < 1 || paperSupplyDay > 28) {
             throw new InvalidParameterException("Paper supply day must be between 1 and 28.");
         }
-
+        this.defaultNumberOfPages = defaultNumberOfPages;
         this.paperSupplyDay = paperSupplyDay;
         this.fileTypes = fileTypes;
         this.createdAt = LocalDateTime.now();
@@ -76,11 +86,29 @@ public class SystemConfig {
     }
 
     /**
+     * Gets the default number of pages of the configuration.
+     * 
+     * @return the default number of pages of the configuration
+     */
+    public int getDefaultNumberOfPages() {
+        return defaultNumberOfPages;
+    }
+
+    /**
+     * Sets the default number of pages of the configuration.
+     * 
+     * @param defaultNumberOfPages the new default number of pages
+     */
+    public void setDefaultNumberOfPages(int defaultNumberOfPages) {
+        this.defaultNumberOfPages = defaultNumberOfPages;
+    }
+
+    /**
      * Gets the paper supply date of the configuration.
      * 
      * @return the paper supply date of the configuration
      */
-    public int getPaperSupplyDate() {
+    public int getPaperSupplyDay() {
         return paperSupplyDay;
     }
 
@@ -91,12 +119,12 @@ public class SystemConfig {
      * @throws Exception if the paper supply date is outside the range of 1
      *                   to 28
      */
-    public void setPaperSupplyDate(int paperSupplyDate) throws Exception {
-        if (paperSupplyDate < 0 || paperSupplyDate > 28) {
+    public void setPaperSupplyDay(int paperSupplyDay) throws Exception {
+        if (paperSupplyDay < 0 || paperSupplyDay > 28) {
             throw new Exception("Paper supply date must be between 0 and 28.");
         }
 
-        this.paperSupplyDay = paperSupplyDate;
+        this.paperSupplyDay = paperSupplyDay;
     }
 
     /**

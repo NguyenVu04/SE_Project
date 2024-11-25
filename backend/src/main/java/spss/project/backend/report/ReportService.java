@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.gridfs.model.GridFSFile;
 
+import spss.project.backend.Environment;
 import spss.project.backend.configuration.system.SystemConfig;
 import spss.project.backend.configuration.system.SystemConfigService;
 import spss.project.backend.history.printing.PrintingHistoryItem;
@@ -87,10 +88,11 @@ public class ReportService {
         printingHeader.createCell(6).setCellValue("Number of Copies");
         printingHeader.createCell(7).setCellValue("Single Sided");
         printingHeader.createCell(8).setCellValue("Time Ordered");
-        printingHeader.createCell(9).setCellValue("Time Printed");
-        printingHeader.createCell(10).setCellValue("Successful");
+        printingHeader.createCell(9).setCellValue("Time Received");
+        printingHeader.createCell(10).setCellValue("Time Printed");
+        printingHeader.createCell(11).setCellValue("Successful");
         
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 12; i++) {
             printingHeader.getCell(i).setCellStyle(headerStyle);
         }
 
@@ -106,15 +108,16 @@ public class ReportService {
             row.createCell(6).setCellValue(history.get(i).getNumberOfCopies());
             row.createCell(7).setCellValue(history.get(i).isSingleSided());
             row.createCell(8).setCellValue(history.get(i).getTimeOrdered().toString());
-            row.createCell(9).setCellValue(history.get(i).getTimePrinted().toString());
-            row.createCell(10).setCellValue(history.get(i).isSuccessful());
+            row.createCell(9).setCellValue(history.get(i).getTimeReceived().toString());
+            row.createCell(10).setCellValue(history.get(i).getTimePrinted().toString());
+            row.createCell(11).setCellValue(history.get(i).isSuccessful());
 
-            for (int j = 0; j < 11; j++) {
+            for (int j = 0; j < 12; j++) {
                 row.getCell(j).setCellStyle(bodyStyle);
             }
         }
 
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 12; i++) {
             printingSheet.autoSizeColumn(i);
         }
 
@@ -124,9 +127,10 @@ public class ReportService {
         configHeader.createCell(1).setCellValue("Created At");
         configHeader.createCell(2).setCellValue("Created By");
         configHeader.createCell(3).setCellValue("Paper Supply Date");
-        configHeader.createCell(4).setCellValue("File Types");
+        configHeader.createCell(4).setCellValue("Default Number of Pages");
+        configHeader.createCell(5).setCellValue("File Types");
         
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             configHeader.getCell(i).setCellStyle(headerStyle);
         }
 
@@ -136,15 +140,16 @@ public class ReportService {
             row.createCell(0).setCellValue(configs.get(i).getId());
             row.createCell(1).setCellValue(configs.get(i).getCreatedAt().toString());
             row.createCell(2).setCellValue(configs.get(i).getCreatedBy());
-            row.createCell(3).setCellValue(configs.get(i).getPaperSupplyDate());
-            row.createCell(4).setCellValue(configs.get(i).getFileTypes().toString());
+            row.createCell(3).setCellValue(configs.get(i).getPaperSupplyDay());
+            row.createCell(4).setCellValue(configs.get(i).getDefaultNumberOfPages());
+            row.createCell(5).setCellValue(configs.get(i).getFileTypes().toString());
 
-            for (int j = 0; j < 5; j++) {
+            for (int j = 0; j < 6; j++) {
                 row.getCell(j).setCellStyle(bodyStyle);
             }
         }
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             configSheet.autoSizeColumn(i);
         }
 
@@ -176,6 +181,7 @@ public class ReportService {
             GridFSFile file = files.next();
             Map<String, Object> report = Map.of(
                     "fileName", file.getFilename(),
+                    "url", Environment.CLOUD_URL + "/report?filename=" + file.getFilename(),
                     "fileSize", file.getLength(),
                     "uploadDate", file.getUploadDate());
             reports.add(report);

@@ -15,10 +15,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class SystemConfigService {
     /**
-     * Constructor for the SystemConfigService class. This is a protected constructor
+     * Constructor for the SystemConfigService class. This is a protected
+     * constructor
      * because this class should not be instantiated directly.
      */
-    protected SystemConfigService() {}
+    protected SystemConfigService() {
+    }
 
     @Autowired
     private SystemConfigRepository repo;
@@ -31,15 +33,18 @@ public class SystemConfigService {
      * @param fileTypes      the list of allowed file types
      * @return the saved SystemConfig object
      * @throws InvalidParameterException if paperSupplyDay is not between 1 and 28
-     * @throws Exception                if an error occurs while saving the configuration
+     * @throws Exception                 if an error occurs while saving the
+     *                                   configuration
      */
     public SystemConfig saveCurrentSystemConfig(
+            int defaultNumberOfPages,
             int paperSupplyDay,
             String createdBy,
             List<String> fileTypes) throws InvalidParameterException, Exception {
 
         return repo.save(
                 new SystemConfig(
+                        defaultNumberOfPages,
                         paperSupplyDay,
                         createdBy,
                         fileTypes));

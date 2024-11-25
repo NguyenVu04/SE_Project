@@ -34,7 +34,8 @@ public class SystemConfigController {
      * The default constructor for the SystemConfigController.
      * This constructor is protected to prevent external instantiation.
      */
-    protected SystemConfigController() {}
+    protected SystemConfigController() {
+    }
 
     /**
      * Returns the current system configuration.
@@ -72,18 +73,22 @@ public class SystemConfigController {
 
     /**
      * Saves the current system configuration.
+     * 
      * @param body the request body containing the new system configuration
      * @return a success response if the configuration was saved successfully
      */
     @PostMapping("")
     public ResponseEntity<Object> saveCurrentConfig(@RequestBody Map<String, Object> body) {
         try {
+            int defaultNumberOfPages = (int) body.get("defaultNumberOfPages");
             int paperSupplyDay = (int) body.get("paperSupplyDay");
             String createdBy = (String) body.get("createdBy");
             @SuppressWarnings("unchecked")
             List<String> fileTypes = (ArrayList<String>) body.get("fileTypes");
 
-            service.saveCurrentSystemConfig(paperSupplyDay,
+            service.saveCurrentSystemConfig(
+                    defaultNumberOfPages,
+                    paperSupplyDay,
                     createdBy,
                     fileTypes);
 
@@ -99,8 +104,8 @@ public class SystemConfigController {
 
             logger.error("Error saving current config", e);
             return ResponseEntity.internalServerError()
-                .build();
-                
+                    .build();
+
         }
     }
 }

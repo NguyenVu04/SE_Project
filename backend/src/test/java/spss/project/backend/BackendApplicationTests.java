@@ -69,6 +69,7 @@ class BackendApplicationTests {
 				"User");
 
 		systemConfigService.saveCurrentSystemConfig(
+				10,
 				7,
 				"admin",
 				Arrays.asList("application/pdf"));

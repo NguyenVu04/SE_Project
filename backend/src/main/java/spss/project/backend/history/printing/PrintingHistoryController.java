@@ -1,6 +1,7 @@
 package spss.project.backend.history.printing;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,8 @@ public class PrintingHistoryController {
     /**
      * The default constructor.
      */
-    protected PrintingHistoryController() {}
+    protected PrintingHistoryController() {
+    }
 
     /**
      * The service used to access the printing history items in the database.
@@ -94,6 +96,41 @@ public class PrintingHistoryController {
         try {
             return ResponseEntity.ok()
                     .body(service.getStudentPrintingHistory(studentId));
+        } catch (Exception e) {
+
+            logger.error("Error getting printing history", e);
+            return ResponseEntity.internalServerError().build();
+
+        }
+    }
+
+    /**
+     * Retrieves the printing history for all students within a specified time
+     * range.
+     *
+     * @param from the start time of the range (inclusive) in string format
+     * @param to   the end time of the range (inclusive) in string format
+     * @return a ResponseEntity containing a list of all printing history items
+     *         within the specified time range, or an error response if an
+     *         exception occurs
+     */
+    @GetMapping("all")
+    public ResponseEntity<Object> getAllPrintingHistory(
+            @RequestParam("from") String from,
+            @RequestParam("to") String to) {
+        try {
+
+            LocalDateTime fromTime = LocalDateTime.parse(from);
+            LocalDateTime toTime = LocalDateTime.parse(to);
+
+            return ResponseEntity.ok()
+                    .body(service.getPrintingHistory(fromTime, toTime));
+
+        } catch (DateTimeParseException e) {
+
+            logger.error("Error parsing date", e);
+            return ResponseEntity.badRequest().build();
+
         } catch (Exception e) {
 
             logger.error("Error getting printing history", e);

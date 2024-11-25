@@ -55,6 +55,7 @@ public class PrintingHistoryService {
             int numberOfCopies,
             boolean singleSided,
             LocalDateTime timeOrdered,
+            LocalDateTime timeReceived,
             LocalDateTime timePrinted,
             boolean successful) throws Exception {
 
@@ -67,6 +68,7 @@ public class PrintingHistoryService {
                 numberOfCopies,
                 singleSided,
                 timeOrdered,
+                timeReceived,
                 timePrinted,
                 successful);
 
@@ -98,7 +100,7 @@ public class PrintingHistoryService {
      *                   history items
      */
     public List<PrintingHistoryItem> getPrintingHistory(LocalDateTime from, LocalDateTime to) throws Exception {
-        return repo.findByTimeOrderedBetween(from, to, Sort.by(Direction.DESC, "timeOrdered"));
+        return repo.findByTimePrintedBetween(from, to, Sort.by(Direction.DESC, "timePrinted"));
     }
 
     /**

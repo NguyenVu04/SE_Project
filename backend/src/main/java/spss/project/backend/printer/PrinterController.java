@@ -110,6 +110,8 @@ public class PrinterController {
 
             String orderId = (String) message.get("orderId");
             boolean successful = (boolean) message.get("successful");
+            LocalDateTime timeReceived = LocalDateTime.parse((String) message.get("timeReceived"));
+            LocalDateTime timePrinted = LocalDateTime.parse((String) message.get("timePrinted"));
 
             Order order = orderService.updateOrderStatus(orderId, true);
             PaperSize paperSize = PaperSize.valueOf(order.getPaperSize());
@@ -123,7 +125,8 @@ public class PrinterController {
                     order.getNumberOfCopies(),
                     order.isSingleSided(),
                     order.getTimeOrdered(),
-                    LocalDateTime.now(),
+                    timeReceived,
+                    timePrinted,
                     successful);
 
             if (!successful) {

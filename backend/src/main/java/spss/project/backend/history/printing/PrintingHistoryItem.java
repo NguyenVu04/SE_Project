@@ -58,6 +58,11 @@ public class PrintingHistoryItem {
     private LocalDateTime timeOrdered;
 
     /**
+     * The time at which the printing job was received by the printer.
+     */
+    private LocalDateTime timeReceived;
+
+    /**
      * The time at which the printing job was completed.
      */
     private LocalDateTime timePrinted;
@@ -78,6 +83,7 @@ public class PrintingHistoryItem {
      * @param numberOfCopies the number of copies of the document which were printed
      * @param singleSided    whether the document was printed single or double sided
      * @param timeOrdered    the time at which the printing job was requested
+     * @param timeReceived   the time at which the printing job was received by the printer
      * @param timePrinted    the time at which the printing job was completed
      * @param successful     whether the printing job was successful or not
      */
@@ -90,6 +96,7 @@ public class PrintingHistoryItem {
             int numberOfCopies,
             boolean singleSided,
             LocalDateTime timeOrdered,
+            LocalDateTime timeReceived,
             LocalDateTime timePrinted,
             boolean successful) {
 
@@ -101,6 +108,7 @@ public class PrintingHistoryItem {
         this.numberOfCopies = numberOfCopies;
         this.singleSided = singleSided;
         this.timeOrdered = timeOrdered;
+        this.timeReceived = timeReceived;
         this.timePrinted = timePrinted;
         this.successful = successful;
     }
@@ -175,6 +183,15 @@ public class PrintingHistoryItem {
      */
     public LocalDateTime getTimeOrdered() {
         return timeOrdered;
+    }
+
+    /**
+     * Gets the time at which the printing job was received by the printer.
+     * 
+     * @return the time at which the printing job was received by the printer
+     */
+    public LocalDateTime getTimeReceived() {
+        return timeReceived;
     }
 
     /**

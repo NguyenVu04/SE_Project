@@ -26,7 +26,7 @@ public class ReportController {
     private static final Logger logger = LoggerFactory.getLogger(ReportController.class);
 
     @GetMapping("")
-    public ResponseEntity<Object> getReport(@RequestParam("name") String reportName) {
+    public ResponseEntity<Object> getReport(@RequestParam("filename") String reportName) {
         try {
             return ResponseEntity.ok()
                     .headers(header -> {
