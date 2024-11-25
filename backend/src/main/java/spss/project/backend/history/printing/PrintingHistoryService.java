@@ -40,6 +40,7 @@ public class PrintingHistoryService {
      * @param singleSided    whether the document was printed single or double
      *                       sided
      * @param timeOrdered    the time at which the printing job was requested
+     * @param timeReceived   the time at which the printing job was received
      * @param timePrinted    the time at which the printing job was completed
      * @param successful     whether the printing job was successful
      * @return the saved printing history item

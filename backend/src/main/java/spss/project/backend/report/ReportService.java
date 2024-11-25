@@ -32,8 +32,40 @@ import spss.project.backend.configuration.system.SystemConfigService;
 import spss.project.backend.history.printing.PrintingHistoryItem;
 import spss.project.backend.history.printing.PrintingHistoryService;
 
+/**
+ * This class provides methods for creating and retrieving reports. Reports are
+ * stored in GridFS using the GridFSOperations class. The reports are created
+ * using the XSSFWorkbook class.
+ * <p>
+ * The createReport method takes two parameters, from and to, which are used to
+ * specify the period of time for which the report should be generated. The
+ * method first retrieves all printing history items and system configurations
+ * for the given period of time. It then creates a new XSSFWorkbook and creates
+ * two sheets, one for the printing history and one for the system
+ * configurations. The printing history sheet has columns for the printing
+ * history item's ID, student ID, printer ID, document ID, paper size, number
+ * of pages, number of copies, single sided, time ordered, time received, time
+ * printed, and successful. The system configurations sheet has columns for the
+ * configuration's ID, created at, created by, paper supply date, default
+ * number of pages, and file types. The method then writes the workbook to a
+ * ByteArrayOutputStream and stores the resulting byte array in GridFS.
+ * <p>
+ * The getReport method takes a report name as a parameter and returns the
+ * corresponding report. The method retrieves the report from GridFS and
+ * returns it as a byte array.
+ * <p>
+ * The getAllReports method returns a list of all reports in GridFS. The
+ * method queries GridFS for all files with a filename that starts with
+ * "report_" and ends with ".xlsx". The method then creates a list of maps
+ * containing the filename, URL, file size, and upload date for each report.
+ */
 @Service
 public class ReportService {
+    /**
+     * Protected constructor to prevent direct instantiation.
+     */
+    protected ReportService() {}
+
     @Autowired
     private GridFsOperations operations;
 
@@ -43,9 +75,16 @@ public class ReportService {
     @Autowired
     private SystemConfigService systemConfigService;
 
+    /**
+     * Creates a report for the given period of time.
+     * @param from the start of the period of time
+     * @param to the end of the period of time
+     * @return the name of the report
+     * @throws Exception if an error occurs while creating the report
+     */
     public String createReport(LocalDateTime from, LocalDateTime to) throws Exception {
         List<PrintingHistoryItem> history = printingHistoryService.getPrintingHistory(from, to);
-        List<SystemConfig> configs = systemConfigService.getSystemConfigsHistory(from, to);
+        List<SystemConfig> configs = systemConfigService.getSystemConfigHistory(from, to);
 
         String reportName = "report_" + from.toString().replace(":", "-") + "_" + to.toString().replace(":", "-") + ".xlsx";
 
@@ -165,12 +204,24 @@ public class ReportService {
         return reportName;
     }
 
+    /**
+     * Retrieves a report from GridFS.
+     * @param reportName the name of the report to retrieve
+     * @return the report as a byte array
+     * @throws Exception if an error occurs while retrieving the report
+     */
     public byte[] getReport(String reportName) throws Exception {
         return operations.getResource(reportName)
                 .getInputStream()
                 .readAllBytes();
     }
 
+    /**
+     * Retrieves all reports from GridFS.
+     * @return a list of maps containing the filename, URL, file size, and
+     * upload date for each report
+     * @throws Exception if an error occurs while retrieving the reports
+     */
     public List<Map<String, Object>> getAllReports() throws Exception {
         Query query = new Query();
         query.addCriteria(Criteria.where("filename").regex("^report_.*\\.xlsx$"));

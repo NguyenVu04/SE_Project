@@ -115,7 +115,7 @@ public class SystemConfig {
     /**
      * Sets the paper supply date of the configuration.
      * 
-     * @param paperSupplyDate the new paper supply date
+     * @param paperSupplyDay the new paper supply date
      * @throws Exception if the paper supply date is outside the range of 1
      *                   to 28
      */

@@ -33,7 +33,6 @@ public class PrinterService {
     /**
      * Saves a printer to the database.
      * 
-     * @param url          the URL of the printer
      * @param model        the model of the printer
      * @param description  a description of the printer
      * @param campusName   the name of the campus where the printer is

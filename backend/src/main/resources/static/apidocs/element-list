@@ -5,6 +5,7 @@ spss.project.backend.document
 spss.project.backend.history.printing
 spss.project.backend.order
 spss.project.backend.printer
+spss.project.backend.report
 spss.project.backend.user.admin
 spss.project.backend.user.spso
 spss.project.backend.user.student

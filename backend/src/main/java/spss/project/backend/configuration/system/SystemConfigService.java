@@ -28,6 +28,7 @@ public class SystemConfigService {
     /**
      * Saves the current system configuration to the repository.
      *
+     * @param defaultNumberOfPages the default number of pages
      * @param paperSupplyDay the paper supply day
      * @param createdBy      the user who created the configuration
      * @param fileTypes      the list of allowed file types
@@ -59,7 +60,18 @@ public class SystemConfigService {
         return repo.findTopByOrderByCreatedAtDesc();
     }
 
-    public List<SystemConfig> getSystemConfigsHistory(LocalDateTime from, LocalDateTime to) {
+    /**
+     * Retrieves all system configurations which were created between the given
+     * times, sorted in descending order by the time at which the configurations
+     * were created.
+     *
+     * @param from the start time of the range (inclusive)
+     * @param to   the end time of the range (inclusive)
+     * @return a list of system configurations which were created between the given
+     *         times, sorted by the time at which the configurations were created in
+     *         descending order
+     */
+    public List<SystemConfig> getSystemConfigHistory(LocalDateTime from, LocalDateTime to) {
         return repo.findByCreatedAtBetween(from, to, Sort.by(Direction.DESC, "createdAt"));
     }
 

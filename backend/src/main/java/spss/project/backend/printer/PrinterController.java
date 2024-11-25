@@ -157,7 +157,7 @@ public class PrinterController {
      * Retrieves all orders which were submitted to the given printer and have not yet
      * been printed.
      * 
-     * @param id the id of the printer to find the orders for
+     * @param printerId the id of the printer to find the orders for
      * @return the orders of the printer which have not yet been printed, sorted by the time
      *         at which the orders were submitted in descending order
      */

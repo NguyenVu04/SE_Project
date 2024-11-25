@@ -61,7 +61,7 @@ public class DocumentController {
      * Retrieves a document for a given student ID and file name.
      * 
      * @param studentId the ID of the student
-     * @param fileName the name of the document
+     * @param filename the name of the document
      * @return the document as a byte array wrapped in a ResponseEntity
      */
     @GetMapping("")

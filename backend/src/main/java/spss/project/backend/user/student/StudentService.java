@@ -139,7 +139,7 @@ public class StudentService {
      * to each student. The method iterates through all students in the repository,
      * adding the specified
      * number of pages to each student's balance.
-     * 
+     * @param numberOfPages the number of pages to supply
      * @throws Exception if an error occurs while retrieving the system
      *                   configuration or updating a student's balance
      */

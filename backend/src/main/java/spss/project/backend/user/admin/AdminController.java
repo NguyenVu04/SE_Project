@@ -67,6 +67,9 @@ public class AdminController {
         try {
 
             Admin admin = service.getAdmin(email);
+            if (admin == null) {
+                throw new NullPointerException();
+            }
             return ResponseEntity.ok().body(admin);
 
         } catch (Exception e) {
