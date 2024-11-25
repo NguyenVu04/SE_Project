@@ -20,11 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.ConstraintViolationException;
 import spss.project.backend.Environment;
-import spss.project.backend.document.DocumentService;
 import spss.project.backend.document.PaperSize;
 import spss.project.backend.printer.Printer;
 import spss.project.backend.printer.PrinterService;
-import spss.project.backend.user.student.Student;
 import spss.project.backend.user.student.StudentService;
 
 /**
@@ -58,16 +56,6 @@ public class OrderController {
      */
     @Autowired
     private StudentService studentService;
-
-    /**
-     * The service used to access and manipulate documents.
-     * 
-     * This service is used to retrieve the document id of a document when an order
-     * is
-     * submitted.
-     */
-    @Autowired
-    private DocumentService documentService;
 
     /**
      * Logger for log messages.
@@ -134,14 +122,6 @@ public class OrderController {
             if (!printer.isActive()) {
                 throw new IllegalArgumentException();
             }
-            // TODO: uncomment when printer is ready
-            // printer.printDocument(
-            // orderId,
-            // documentService.convertToFileUrl(fileName, studentId),
-            // paperSize,
-            // pageNumbers,
-            // singleSided,
-            // numberOfCopies);
 
             return ResponseEntity.ok().build();
         } catch (ConstraintViolationException e) {

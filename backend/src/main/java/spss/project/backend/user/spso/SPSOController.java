@@ -103,7 +103,6 @@ public class SPSOController {
     @PostMapping("printer")
     public ResponseEntity<Object> addPrinter(@RequestBody Map<String, Object> body) {
         try {
-            String url = (String) body.get("url");
             String model = (String) body.get("model");
             String description = (String) body.get("description");
             String campusName = (String) body.get("campusName");
@@ -112,7 +111,6 @@ public class SPSOController {
             boolean active = (boolean) body.get("active");
 
             printerService.save(
-                    url,
                     model,
                     description,
                     campusName,

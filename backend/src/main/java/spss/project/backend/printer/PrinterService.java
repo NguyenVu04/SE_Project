@@ -46,7 +46,6 @@ public class PrinterService {
      * @throws Exception if the printer cannot be saved
      */
     public Printer save(
-            String url,
             String model,
             String description,
             String campusName,
@@ -54,7 +53,7 @@ public class PrinterService {
             String roomNumber,
             boolean active) throws DuplicateKeyException, Exception {
 
-        Printer printer = new Printer(url, model, description, campusName, buildingName, roomNumber, active);
+        Printer printer = new Printer(model, description, campusName, buildingName, roomNumber, active);
         return repo.save(printer);
     }
 
@@ -139,7 +138,6 @@ public class PrinterService {
      * Updates a printer with the given id in the database.
      * 
      * @param id           the id of the printer to update
-     * @param url          the URL of the printer
      * @param model        the model of the printer
      * @param description  a description of the printer
      * @param campusName   the name of the campus where the printer is
@@ -154,7 +152,6 @@ public class PrinterService {
      */
     public void updatePrinter(
             String id,
-            String url,
             String model,
             String description,
             String campusName,
@@ -168,7 +165,6 @@ public class PrinterService {
             throw new NameNotFoundException();
         }
 
-        printer.setUrl(url);
         printer.setModel(model);
         printer.setDescription(description);
         printer.setCampusName(campusName);

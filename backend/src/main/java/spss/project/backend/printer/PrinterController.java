@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import spss.project.backend.Environment;
@@ -144,6 +145,29 @@ public class PrinterController {
         } catch (Exception e) {
 
             logger.error("Error processing printer message", e);
+            return ResponseEntity.internalServerError().build();
+
+        }
+    }
+
+    /**
+     * Retrieves all orders which were submitted to the given printer and have not yet
+     * been printed.
+     * 
+     * @param id the id of the printer to find the orders for
+     * @return the orders of the printer which have not yet been printed, sorted by the time
+     *         at which the orders were submitted in descending order
+     */
+    @GetMapping("orders")
+    public ResponseEntity<Object> getPrinterOrders(
+            @RequestParam("printerId") String printerId) {
+        try {
+
+            return ResponseEntity.ok().body(orderService.getPrinterOrders(printerId));
+
+        } catch (Exception e) {
+
+            logger.error("Error getting printer orders", e);
             return ResponseEntity.internalServerError().build();
 
         }

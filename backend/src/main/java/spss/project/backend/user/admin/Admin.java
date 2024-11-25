@@ -12,31 +12,31 @@ public class Admin {
      * The unique identifier of the admin, which is their email address.
      */
     @MongoId
-    private String _email;
+    private String email;
     /**
      * The first name of the admin.
      */
-    private String _firstName;
+    private String firstName;
     /**
      * The last name of the admin.
      */
-    private String _lastName;
+    private String lastName;
 
     /**
      * Creates a new admin.
      *
-     * @param _email    the email address of the admin
-     * @param _firstName the first name of the admin
-     * @param _lastName  the last name of the admin
+     * @param email    the email address of the admin
+     * @param firstName the first name of the admin
+     * @param lastName  the last name of the admin
      */
     public Admin(
-            String _email,
-            String _firstName,
-            String _lastName) {
+            String email,
+            String firstName,
+            String lastName) {
 
-        this._email = _email;
-        this._firstName = _firstName;
-        this._lastName = _lastName;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     /**
@@ -45,7 +45,7 @@ public class Admin {
      * @return the email address of the admin
      */
     public String getEmail() {
-        return _email;
+        return email;
     }
 
     /**
@@ -54,7 +54,7 @@ public class Admin {
      * @return the first name of the admin
      */
     public String getFirstName() {
-        return _firstName;
+        return firstName;
     }
 
     /**
@@ -63,7 +63,7 @@ public class Admin {
      * @param firstName the new first name of the admin
      */
     public void setFirstName(String firstName) {
-        this._firstName = firstName;
+        this.firstName = firstName;
     }
 
     /**
@@ -72,7 +72,7 @@ public class Admin {
      * @return the last name of the admin
      */
     public String getLastName() {
-        return _lastName;
+        return lastName;
     }
 
     /**
@@ -81,6 +81,6 @@ public class Admin {
      * @param lastName the new last name of the admin
      */
     public void setLastName(String lastName) {
-        this._lastName = lastName;
+        this.lastName = lastName;
     }
 }

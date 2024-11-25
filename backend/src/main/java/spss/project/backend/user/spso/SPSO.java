@@ -13,39 +13,39 @@ public class SPSO {
      * The unique identifier for the SPSO.
      */
     @MongoId
-    private String _id;
+    private String id;
 
-    @Indexed(name = "spso_email", unique = true)
+    @Indexed(name = "spsoemail", unique = true)
     /**
      * The email address of the SPSO.
      */
-    private String _email;
+    private String email;
 
     /**
      * The first name of the SPSO.
      */
-    private String _firstName;
+    private String firstName;
 
     /**
      * The last name of the SPSO.
      */
-    private String _lastName;
+    private String lastName;
 
     /**
      * Constructs a new SPSO based on the given email address, first name and
      * last name.
      *
-     * @param _email     the email address of the SPSO
-     * @param _firstName the first name of the SPSO
-     * @param _lastName  the last name of the SPSO
+     * @param email     the email address of the SPSO
+     * @param firstName the first name of the SPSO
+     * @param lastName  the last name of the SPSO
      */
     public SPSO(
-            String _email,
-            String _firstName,
-            String _lastName) {
-        this._email = _email;
-        this._firstName = _firstName;
-        this._lastName = _lastName;
+            String email,
+            String firstName,
+            String lastName) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     /**
@@ -54,7 +54,7 @@ public class SPSO {
      * @return the unique identifier for the SPSO
      */
     public String getId() {
-        return _id;
+        return id;
     }
 
     /**
@@ -63,7 +63,7 @@ public class SPSO {
      * @return the email address of the SPSO
      */
     public String getEmail() {
-        return _email;
+        return email;
     }
 
     /**
@@ -72,7 +72,7 @@ public class SPSO {
      * @return the first name of the SPSO
      */
     public String getFirstName() {
-        return _firstName;
+        return firstName;
     }
 
     /**
@@ -81,7 +81,7 @@ public class SPSO {
      * @param firstName the new first name of the SPSO
      */
     public void setFirstName(String firstName) {
-        this._firstName = firstName;
+        this.firstName = firstName;
     }
 
     /**
@@ -90,7 +90,7 @@ public class SPSO {
      * @return the last name of the SPSO
      */
     public String getLastName() {
-        return _lastName;
+        return lastName;
     }
 
     /**
@@ -99,6 +99,6 @@ public class SPSO {
      * @param lastName the new last name of the SPSO
      */
     public void setLastName(String lastName) {
-        this._lastName = lastName;
+        this.lastName = lastName;
     }
 }

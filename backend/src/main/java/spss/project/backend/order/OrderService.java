@@ -86,6 +86,22 @@ public class OrderService {
     }
 
     /**
+     * Finds all orders which were submitted to the given printer and have not yet
+     * been printed.
+     * 
+     * @param printerId the id of the printer to find the orders for
+     * @return the orders of the printer which have not yet been printed, sorted by
+     *         the time at which the orders were submitted in descending order
+     * @throws Exception if an error occurs while retrieving the orders
+     */
+    public List<Order> getPrinterOrders(String printerId) throws Exception {
+        return repo.findByPrinterIdAndDone(
+                printerId,
+                false,
+                Sort.by(Direction.DESC, "timeOrdered"));
+    }
+
+    /**
      * Finds an order by its id.
      * 
      * @param orderId the id of the order to find

@@ -1,17 +1,7 @@
 package spss.project.backend.printer;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestClient;
-
-import spss.project.backend.document.PaperSize;
 
 /**
  * A class representing a printer.
@@ -23,73 +13,64 @@ public class Printer {
      * The id of the printer, used to identify the printer in the database.
      */
     @MongoId
-    private String _id;
-
-    /**
-     * The URL of the printer's REST API.
-     */
-    @Indexed(name = "printer_url", unique = true)
-    private String _url;
+    private String id;
 
     /**
      * The model of the printer.
      */
-    private String _model;
+    private String model;
 
     /**
      * A description of the printer.
      */
-    private String _description;
+    private String description;
 
     /**
      * The name of the campus where the printer is located.
      */
-    private String _campusName;
+    private String campusName;
 
     /**
      * The name of the building where the printer is located.
      */
-    private String _buildingName;
+    private String buildingName;
 
     /**
      * The room number where the printer is located.
      */
-    private String _roomNumber;
+    private String roomNumber;
 
     /**
      * Whether the printer is active or not.
      */
-    private boolean _active;
+    private boolean active;
 
     /**
      * Constructs a new Printer object.
      * 
-     * @param _url          the URL of the printer
-     * @param _model        the model of the printer
-     * @param _description  a description of the printer
-     * @param _campusName   the name of the campus where the printer is
+     * @param model        the model of the printer
+     * @param description  a description of the printer
+     * @param campusName   the name of the campus where the printer is
      *                     located
-     * @param _buildingName the name of the building where the printer is
+     * @param buildingName the name of the building where the printer is
      *                     located
-     * @param _roomNumber   the room number where the printer is located
-     * @param _active       whether the printer is active or not
+     * @param roomNumber   the room number where the printer is located
+     * @param active       whether the printer is active or not
      */
     public Printer(
-            String _url,
-            String _model,
-            String _description,
-            String _campusName,
-            String _buildingName,
-            String _roomNumber,
-            boolean _active) {
+            String model,
+            String description,
+            String campusName,
+            String buildingName,
+            String roomNumber,
+            boolean active) {
 
-        this._url = _url;
-        this._model = _model;
-        this._description = _description;
-        this._campusName = _campusName;
-        this._buildingName = _buildingName;
-        this._roomNumber = _roomNumber;
-        this._active = _active;
+        this.model = model;
+        this.description = description;
+        this.campusName = campusName;
+        this.buildingName = buildingName;
+        this.roomNumber = roomNumber;
+        this.active = active;
     }
 
     /**
@@ -98,25 +79,7 @@ public class Printer {
      * @return the id of the printer
      */
     public String getId() {
-        return _id;
-    }
-
-    /**
-     * Gets the URL of the printer.
-     * 
-     * @return the URL of the printer
-     */
-    public String getUrl() {
-        return _url;
-    }
-
-    /**
-     * Sets the URL of the printer.
-     * 
-     * @param url the URL to set
-     */
-    public void setUrl(String url) {
-        this._url = url;
+        return id;
     }
 
     /**
@@ -125,7 +88,7 @@ public class Printer {
      * @return the model of the printer
      */
     public String getModel() {
-        return _model;
+        return model;
     }
 
     /**
@@ -134,7 +97,7 @@ public class Printer {
      * @param model the model to set
      */
     public void setModel(String model) {
-        this._model = model;
+        this.model = model;
     }
 
     /**
@@ -143,7 +106,7 @@ public class Printer {
      * @return the description of the printer
      */
     public String getDescription() {
-        return _description;
+        return description;
     }
 
     /**
@@ -152,7 +115,7 @@ public class Printer {
      * @param description the new description
      */
     public void setDescription(String description) {
-        this._description = description;
+        this.description = description;
     }
 
     /**
@@ -161,7 +124,7 @@ public class Printer {
      * @return the name of the campus
      */
     public String getCampusName() {
-        return _campusName;
+        return campusName;
     }
 
     /**
@@ -170,7 +133,7 @@ public class Printer {
      * @param campusName the name of the campus
      */
     public void setCampusName(String campusName) {
-        this._campusName = campusName;
+        this.campusName = campusName;
     }
 
     /**
@@ -179,7 +142,7 @@ public class Printer {
      * @return the name of the building
      */
     public String getBuildingName() {
-        return _buildingName;
+        return buildingName;
     }
 
     /**
@@ -188,7 +151,7 @@ public class Printer {
      * @param buildingName the name of the building
      */
     public void setBuildingName(String buildingName) {
-        this._buildingName = buildingName;
+        this.buildingName = buildingName;
     }
 
     /**
@@ -197,7 +160,7 @@ public class Printer {
      * @return the room number
      */
     public String getRoomNumber() {
-        return _roomNumber;
+        return roomNumber;
     }
 
     /**
@@ -206,7 +169,7 @@ public class Printer {
      * @param roomNumber the room number to set
      */
     public void setRoomNumber(String roomNumber) {
-        this._roomNumber = roomNumber;
+        this.roomNumber = roomNumber;
     }
 
     /**
@@ -215,7 +178,7 @@ public class Printer {
      * @return true if the printer is active, false otherwise
      */
     public boolean isActive() {
-        return _active;
+        return active;
     }
 
     /**
@@ -224,52 +187,6 @@ public class Printer {
      * @param active the new active status
      */
     public void setActive(boolean active) {
-        this._active = active;
-    }
-
-    /**
-     * Prints a document using the printer's REST API.
-     *
-     * @param orderId        the ID of the order
-     * @param fileUrl        the URL of the document to print
-     * @param paperSize      the size of the paper to print on
-     * @param pageNumbers    the page numbers of the document to print
-     * @param singleSided     whether to print single or double sided
-     * @param numberOfCopies the number of copies to print
-     * @throws Exception if the document cannot be printed
-     */
-    public void printDocument(
-            String orderId,
-            String fileUrl,
-            PaperSize paperSize,
-            List<Integer> pageNumbers,
-            boolean singleSided,
-            int numberOfCopies) throws Exception {
-
-        Map<String, Object> printInfo = new HashMap<>();
-
-        printInfo.put("orderId", orderId);
-        printInfo.put("fileUrl", fileUrl);
-        printInfo.put("paperSize", paperSize.toString());
-        printInfo.put("pageNumbers", pageNumbers);
-        printInfo.put("singleSide", singleSided);
-        printInfo.put("numberOfCopies", numberOfCopies);
-
-        RestClient client = RestClient.builder()
-                .baseUrl(this._url)
-                .build();
-
-        ResponseEntity<Void> response = client.post()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(printInfo)
-                .retrieve()
-                .toBodilessEntity();
-
-        if (!response.getStatusCode()
-                .is2xxSuccessful()) {
-
-            throw new Exception("Failed to print document");
-
-        }
+        this.active = active;
     }
 }

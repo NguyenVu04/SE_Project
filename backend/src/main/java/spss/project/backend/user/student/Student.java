@@ -18,55 +18,55 @@ public class Student {
      * The ID of the student.
      */
     @MongoId
-    private String _id;
+    private String id;
 
     /**
      * The email of the student.
      */
-    @Indexed(name = "student_email", unique = true)
-    private String _email;
+    @Indexed(name = "studentemail", unique = true)
+    private String email;
 
     /**
      * The first name of the student.
      */
-    private String _firstName;
+    private String firstName;
 
     /**
      * The last name of the student.
      */
-    private String _lastName;
+    private String lastName;
 
     /**
      * The date of birth of the student.
      */
-    private LocalDate _dateOfBirth;
+    private LocalDate dateOfBirth;
 
     /**
      * The balance of the student.
      */
     @Min(0)
-    private double _balance;
+    private double balance;
 
     /**
      * Constructs a new Student object with the given parameters.
      *
-     * @param _email      the email of the student
-     * @param _firstName  the first name of the student
-     * @param _lastName   the last name of the student
-     * @param _dateOfBirth the date of birth of the student
-     * @param _balance    the balance of the student
+     * @param email      the email of the student
+     * @param firstName  the first name of the student
+     * @param lastName   the last name of the student
+     * @param dateOfBirth the date of birth of the student
+     * @param balance    the balance of the student
      */
     public Student(
-            String _email,
-            String _firstName,
-            String _lastName,
-            LocalDate _dateOfBirth,
-            double _balance) {
-        this._email = _email;
-        this._firstName = _firstName;
-        this._lastName = _lastName;
-        this._dateOfBirth = _dateOfBirth;
-        this._balance = _balance;
+            String email,
+            String firstName,
+            String lastName,
+            LocalDate dateOfBirth,
+            double balance) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.balance = balance;
     }
 
     /**
@@ -75,7 +75,7 @@ public class Student {
      * @return the ID of the student
      */
     public String getId() {
-        return _id;
+        return id;
     }
 
     /**
@@ -84,7 +84,7 @@ public class Student {
      * @return the email of the student
      */
     public String getEmail() {
-        return _email;
+        return email;
     }
 
     /**
@@ -93,7 +93,7 @@ public class Student {
      * @return the first name of the student
      */
     public String getFirstName() {
-        return _firstName;
+        return firstName;
     }
 
     /**
@@ -102,7 +102,7 @@ public class Student {
      * @param firstName the first name to set
      */
     public void setFirstName(String firstName) {
-        this._firstName = firstName;
+        this.firstName = firstName;
     }
 
     /**
@@ -111,7 +111,7 @@ public class Student {
      * @return the last name of the student
      */
     public String getLastName() {
-        return _lastName;
+        return lastName;
     }
 
     /**
@@ -120,7 +120,7 @@ public class Student {
      * @param lastName the last name to set
      */
     public void setLastName(String lastName) {
-        this._lastName = lastName;
+        this.lastName = lastName;
     }
 
     /**
@@ -129,7 +129,7 @@ public class Student {
      * @return the date of birth of the student
      */
     public LocalDate getDateOfBirth() {
-        return _dateOfBirth;
+        return dateOfBirth;
     }
 
     /**
@@ -138,7 +138,7 @@ public class Student {
      * @param dateOfBirth the date of birth to set
      */
     public void setDateOfBirth(LocalDate dateOfBirth) {
-        this._dateOfBirth = dateOfBirth;
+        this.dateOfBirth = dateOfBirth;
     }
 
     /**
@@ -147,7 +147,7 @@ public class Student {
      * @return the balance of the student
      */
     public double getBalance() {
-        return _balance;
+        return balance;
     }
 
     /**
@@ -157,7 +157,7 @@ public class Student {
      * @param balance the balance to set
      */
     public void setBalance(int balance) {
-        this._balance = balance;
+        this.balance = balance;
     }
 
     /**
@@ -166,6 +166,6 @@ public class Student {
      * @param amount the amount to add to the balance
      */
     public void addBalance(double amount) {
-        this._balance += amount;
+        this.balance += amount;
     }
 }

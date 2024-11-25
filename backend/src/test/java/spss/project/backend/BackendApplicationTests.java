@@ -69,7 +69,6 @@ class BackendApplicationTests {
 				Arrays.asList("application/pdf"));
 
 		printerService.save(
-				"http://printer.example.com",
 				"HP LaserJet 5000",
 				"High-speed monochrome printer",
 				"Main Campus",
