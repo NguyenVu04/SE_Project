@@ -1,5 +1,7 @@
 package spss.project.backend;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -11,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import spss.project.backend.configuration.system.SystemConfigService;
 import spss.project.backend.order.OrderService;
 import spss.project.backend.printer.PrinterService;
+import spss.project.backend.report.ReportService;
 import spss.project.backend.user.admin.AdminService;
 import spss.project.backend.user.spso.SPSOService;
 import spss.project.backend.user.student.StudentService;
@@ -34,6 +37,9 @@ class BackendApplicationTests {
 
 	@Autowired
 	private OrderService orderService;
+
+	@Autowired
+	private ReportService reportService;
 
 	@Test
 	void databaseSeeding() throws Exception {
@@ -88,4 +94,12 @@ class BackendApplicationTests {
 				false);
 	}
 
+	@Test
+	void testReport() throws Exception {
+		String reportName = reportService.createReport(
+				LocalDateTime.parse("2022-01-01T00:00"),
+				LocalDateTime.parse("2025-01-02T00:00"));
+
+		Files.write(Path.of("D:\\Project\\" + reportName), reportService.getReport(reportName));
+	}
 }

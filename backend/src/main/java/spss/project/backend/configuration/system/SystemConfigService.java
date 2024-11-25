@@ -1,9 +1,12 @@
 package spss.project.backend.configuration.system;
 
 import java.security.InvalidParameterException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 /**
@@ -41,7 +44,6 @@ public class SystemConfigService {
                 new SystemConfig(
                         paperSupplyDay,
                         createdBy,
-                        cloudUrl,
                         fileTypes));
     }
 
@@ -52,6 +54,10 @@ public class SystemConfigService {
      */
     public SystemConfig getCurrentSystemConfig() {
         return repo.findTopByOrderByCreatedAtDesc();
+    }
+
+    public List<SystemConfig> getSystemConfigsHistory(LocalDateTime from, LocalDateTime to) {
+        return repo.findByCreatedAtBetween(from, to, Sort.by(Direction.DESC, "createdAt"));
     }
 
     /**

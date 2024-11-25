@@ -55,7 +55,6 @@ public class SystemConfig {
     public SystemConfig(
         int paperSupplyDay, 
         String createdBy, 
-        String cloudUrl, 
         List<String> fileTypes) throws InvalidParameterException, Exception {
         if (paperSupplyDay < 1 || paperSupplyDay > 28) {
             throw new InvalidParameterException("Paper supply day must be between 1 and 28.");
