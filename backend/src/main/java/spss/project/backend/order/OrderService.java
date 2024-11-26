@@ -98,7 +98,7 @@ public class OrderService {
         return repo.findByPrinterIdAndDone(
                 printerId,
                 false,
-                Sort.by(Direction.DESC, "timeOrdered"));
+                Sort.by(Direction.ASC, "timeOrdered"));
     }
 
     /**

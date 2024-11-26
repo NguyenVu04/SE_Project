@@ -125,6 +125,10 @@ public class DocumentService {
         return gridFsFileName.split(Environment.FILE_SEPERATOR)[0];
     }
 
+    public String getDocumentUrl(String studentId, String filename) {
+        return Environment.CLOUD_URL + "/document?studentId=" + studentId + "&filename=" + filename;
+    }
+
     /**
      * Finds all documents for the given student ID.
      *

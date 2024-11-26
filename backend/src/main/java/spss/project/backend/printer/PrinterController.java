@@ -1,6 +1,9 @@
 package spss.project.backend.printer;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import spss.project.backend.Environment;
+import spss.project.backend.document.DocumentService;
 import spss.project.backend.document.PaperSize;
 import spss.project.backend.history.printing.PrintingHistoryService;
 import spss.project.backend.order.Order;
@@ -55,6 +59,12 @@ public class PrinterController {
      */
     @Autowired
     private StudentService studentService;
+
+    /**
+     * The service for interacting with the document database.
+     */
+    @Autowired
+    private DocumentService documentService;
 
     /**
      * The service for interacting with the printing history database.
@@ -165,8 +175,20 @@ public class PrinterController {
     public ResponseEntity<Object> getPrinterOrders(
             @RequestParam("printerId") String printerId) {
         try {
+            List<Order> orders = orderService.getPrinterOrders(printerId);
+            List<Map<String, Object>> response = new ArrayList<>(orders.size());
 
-            return ResponseEntity.ok().body(orderService.getPrinterOrders(printerId));
+            for(Order order : orders) {
+                Map<String, Object> orderMap = new HashMap<>();
+                orderMap.put("orderId", order.getId());
+                orderMap.put("documentUrl", documentService.getDocumentUrl(order.getStudentId(), order.getDocumentId()));
+                orderMap.put("paperSize", order.getPaperSize());
+                orderMap.put("pageNumbers", order.getPageNumbers());
+                orderMap.put("numberOfCopies", order.getNumberOfCopies());
+                orderMap.put("singleSided", order.isSingleSided());
+                response.add(orderMap);
+            }
+            return ResponseEntity.ok().body(response);
 
         } catch (Exception e) {
 
