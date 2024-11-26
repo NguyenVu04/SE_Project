@@ -18,6 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import spss.project.backend.Environment;
 import spss.project.backend.user.spso.SPSOService;
 import spss.project.backend.user.student.StudentService;
@@ -62,6 +69,11 @@ public class AdminController {
      * @param email the email of the admin to retrieve
      * @return the admin with the given email, or null if no such admin exists
      */
+    @Operation(description = "Retrieves an admin by their email", parameters = @Parameter(name = "email", description = "The email of the admin to retrieve", required = true, in = ParameterIn.QUERY), responses = {
+            @ApiResponse(description = "Admin retrieved successfully", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Admin.class))),
+            @ApiResponse(description = "Admin not found", responseCode = "404"),
+            @ApiResponse(description = "Error occurred while retrieving the admin", responseCode = "500")
+    })
     @GetMapping("")
     public ResponseEntity<Object> getAdmin(@RequestParam("email") String email) {
         try {
@@ -87,6 +99,16 @@ public class AdminController {
      *             of the admin to add
      * @return a success response if the admin was added successfully
      */
+    @Operation(description = "Add a new admin", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Details of the admin to be added", required = true, content = {
+            @Content(examples = @ExampleObject(name = "admin sample", value = "{\n" +
+                    "    \"email\": \"admin1@hcmut.edu.vn\",\n" +
+                    "    \"firstName\": \"John\",\n" +
+                    "    \"lastName\": \"Doe\"\n" +
+                    "}"))
+    }), responses = {
+            @ApiResponse(responseCode = "200", description = "Admin added successfully"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @PostMapping("")
     public ResponseEntity<Object> addAdmin(@RequestBody Map<String, Object> body) {
         try {
@@ -112,6 +134,20 @@ public class AdminController {
      *             date of birth, and balance of the student to add
      * @return a success response if the student was added successfully
      */
+    @Operation(description = "Adds a new student", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Details of the student to be added", required = true, content = @Content(
+        examples = @ExampleObject(name = "student sample", value = "{\n" +
+                "    \"email\": \"student1@hcmut.edu.vn\",\n" +
+                "    \"firstName\": \"John\",\n" +
+                "    \"lastName\": \"Doe\",\n" +
+                "    \"dateOfBirth\": \"2000-01-01\",\n" +
+                "    \"balance\": 100\n" +
+                "}")
+    )), responses = {
+            @ApiResponse(description = "Student added successfully", responseCode = "200"),
+            @ApiResponse(description = "Student already exists", responseCode = "409"),
+            @ApiResponse(description = "Invalid request data", responseCode = "400"),
+            @ApiResponse(description = "Error occurred while adding student", responseCode = "500")
+    })
     @PostMapping("student")
     public ResponseEntity<Object> addStudent(@RequestBody Map<String, Object> body) {
 
@@ -149,6 +185,10 @@ public class AdminController {
      * @param id the id of the student to delete
      * @return a success response if the student was deleted successfully
      */
+    @Operation(description = "Deletes a student by their ID", parameters = @Parameter(name = "id", description = "The ID of the student to delete", required = true, in = ParameterIn.QUERY), responses = {
+            @ApiResponse(description = "Student deleted successfully", responseCode = "200"),
+            @ApiResponse(description = "Error occurred while deleting the student", responseCode = "500")
+    })
     @DeleteMapping("student")
     public ResponseEntity<Object> deleteStudent(@RequestParam("id") String id) {
 
@@ -168,6 +208,19 @@ public class AdminController {
      *             of the SPSO to add
      * @return a success response if the SPSO was added successfully
      */
+    @Operation(description = "Adds a new SPSO (Smart Printing Service Operator)", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Details of the SPSO to be added", required = true, content = @Content(examples = @ExampleObject(
+            name = "SPSO sample",
+            value = "{\n" +
+                    "    \"email\": \"spso1@hcmut.edu.vn\",\n" +
+                    "    \"firstName\": \"John\",\n" +
+                    "    \"lastName\": \"Doe\"\n" +
+                    "}"
+    ))), responses = {
+            @ApiResponse(description = "SPSO added successfully", responseCode = "200"),
+            @ApiResponse(description = "SPSO already exists", responseCode = "409"),
+            @ApiResponse(description = "Invalid request data", responseCode = "400"),
+            @ApiResponse(description = "Error occurred while adding SPSO", responseCode = "500")
+    })
     @PostMapping("spso")
     public ResponseEntity<Object> addSPSO(@RequestBody Map<String, Object> body) {
 
@@ -203,6 +256,10 @@ public class AdminController {
      * @param id the id of the SPSO to delete
      * @return a success response if the SPSO was deleted successfully
      */
+    @Operation(description = "Deletes an SPSO by their ID", parameters = @Parameter(name = "id", description = "The ID of the SPSO to delete", required = true, in = ParameterIn.QUERY), responses = {
+            @ApiResponse(description = "SPSO deleted successfully", responseCode = "200"),
+            @ApiResponse(description = "Error occurred while deleting the SPSO", responseCode = "500")
+    })
     @DeleteMapping("spso")
     public ResponseEntity<Object> deleteSPSO(@RequestParam("id") String id) {
         try {

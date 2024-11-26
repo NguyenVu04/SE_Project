@@ -20,6 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.StringToClassMapItem;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import spss.project.backend.Environment;
 import spss.project.backend.printer.PrinterService;
 
@@ -59,6 +67,14 @@ public class SPSOController {
      * @param email the email of the SPSO to find the id for
      * @return a map containing the SPSO id, or null if no such SPSO exists
      */
+    @Operation(summary = "Get SPSO ID by email", description = "Retrieves the SPSO id for a given email", parameters = {
+            @Parameter(name = "email", description = "The email of the SPSO to find the id for", required = true, in = ParameterIn.QUERY)
+    }, responses = {
+            @ApiResponse(responseCode = "200", description = "SPSO ID retrieved successfully", content = @Content(schema = @Schema(type = "object", properties = {
+                    @StringToClassMapItem(key = "id", value = String.class)
+            }))),
+            @ApiResponse(responseCode = "404", description = "SPSO not found")
+    })
     @GetMapping("id")
     public ResponseEntity<Object> getSPSOId(@RequestParam("email") String email) {
         try {
@@ -82,6 +98,12 @@ public class SPSOController {
      * @param id the id of the SPSO to retrieve
      * @return the SPSO with the given id, or null if no such SPSO exists
      */
+    @Operation(summary = "Get SPSO by ID", parameters = {
+            @Parameter(name = "id", description = "The ID of the SPSO to retrieve", required = true, in = ParameterIn.QUERY)
+    }, responses = {
+            @ApiResponse(responseCode = "200", description = "SPSO retrieved successfully", content = @Content(schema = @Schema(implementation = SPSO.class))),
+            @ApiResponse(responseCode = "404", description = "SPSO not found")
+    })
     @GetMapping("")
     public ResponseEntity<Object> getSPSO(@RequestParam("id") String id) {
         try {
@@ -100,6 +122,21 @@ public class SPSOController {
      *             printer
      * @return a success response if the printer was added successfully
      */
+    @Operation(summary = "Add a new printer")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Details of the printer to be added", required = true, content = @Content(mediaType = "application/json", schema = @Schema(properties = {
+            @StringToClassMapItem(key = "model", value = String.class),
+            @StringToClassMapItem(key = "description", value = String.class),
+            @StringToClassMapItem(key = "campusName", value = String.class),
+            @StringToClassMapItem(key = "buildingName", value = String.class),
+            @StringToClassMapItem(key = "roomNumber", value = String.class),
+            @StringToClassMapItem(key = "active", value = Boolean.class)
+    })))
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Printer added successfully"),
+            @ApiResponse(responseCode = "409", description = "Printer already exists"),
+            @ApiResponse(responseCode = "400", description = "Invalid request body"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @PostMapping("printer")
     public ResponseEntity<Object> addPrinter(@RequestBody Map<String, Object> body) {
         try {
@@ -145,6 +182,16 @@ public class SPSOController {
      * @param status the new status of the printer, either "active" or "inactive"
      * @return a response entity indicating the outcome of the operation
      */
+    @Operation(summary = "Set printer status", parameters = {
+            @Parameter(name = "id", description = "The ID of the printer to update", required = true, in = ParameterIn.QUERY),
+            @Parameter(name = "status", description = "The new status of the printer: \"active\" or \"inactive\"", required = true, in = ParameterIn.QUERY)
+    })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Printer status updated successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request"),
+            @ApiResponse(responseCode = "404", description = "Printer not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @PatchMapping("printer")
     public ResponseEntity<Object> setPrinterStatus(
             @RequestParam("id") String id,

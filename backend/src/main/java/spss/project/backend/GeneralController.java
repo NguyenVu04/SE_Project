@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
+import io.swagger.v3.oas.annotations.Hidden;
+
 /**
  * Handles requests for general resources, such as the Javadocs for the API.
  */
@@ -23,6 +25,7 @@ public class GeneralController {
      * 
      * @return a redirection to the Javadocs
      */
+    @Hidden
     @GetMapping("javadocs")
     public RedirectView getJavadocs() {
         return new RedirectView("./apidocs/index.html");
