@@ -25,6 +25,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.StringToClassMapItem;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -98,7 +99,7 @@ public class SPSOController {
      * @param id the id of the SPSO to retrieve
      * @return the SPSO with the given id, or null if no such SPSO exists
      */
-    @Operation(summary = "Get SPSO by ID", parameters = {
+    @Operation(description = "Get SPSO by ID", summary = "Get SPSO by ID", parameters = {
             @Parameter(name = "id", description = "The ID of the SPSO to retrieve", required = true, in = ParameterIn.QUERY)
     }, responses = {
             @ApiResponse(responseCode = "200", description = "SPSO retrieved successfully", content = @Content(schema = @Schema(implementation = SPSO.class))),
@@ -122,15 +123,16 @@ public class SPSOController {
      *             printer
      * @return a success response if the printer was added successfully
      */
-    @Operation(summary = "Add a new printer")
-    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Details of the printer to be added", required = true, content = @Content(mediaType = "application/json", schema = @Schema(properties = {
-            @StringToClassMapItem(key = "model", value = String.class),
-            @StringToClassMapItem(key = "description", value = String.class),
-            @StringToClassMapItem(key = "campusName", value = String.class),
-            @StringToClassMapItem(key = "buildingName", value = String.class),
-            @StringToClassMapItem(key = "roomNumber", value = String.class),
-            @StringToClassMapItem(key = "active", value = Boolean.class)
-    })))
+    @Operation(description = "Add a new printer", summary = "Add a new printer")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Details of the printer to be added", required = true, content = @Content(mediaType = "application/json", examples = @ExampleObject(name = "printer sample", 
+    value = "{\n" +
+            "    \"model\": \"Printer Model\",\n" +
+            "    \"description\": \"Printer Description\",\n" +
+            "    \"campusName\": \"Campus Name\",\n" +
+            "    \"buildingName\": \"Building Name\",\n" +
+            "    \"roomNumber\": \"Room Number\",\n" +
+            "    \"active\": true\n" +
+            "}")))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Printer added successfully"),
             @ApiResponse(responseCode = "409", description = "Printer already exists"),
@@ -182,7 +184,7 @@ public class SPSOController {
      * @param status the new status of the printer, either "active" or "inactive"
      * @return a response entity indicating the outcome of the operation
      */
-    @Operation(summary = "Set printer status", parameters = {
+    @Operation(description = "Set printer status", summary = "Set printer status", parameters = {
             @Parameter(name = "id", description = "The ID of the printer to update", required = true, in = ParameterIn.QUERY),
             @Parameter(name = "status", description = "The new status of the printer: \"active\" or \"inactive\"", required = true, in = ParameterIn.QUERY)
     })

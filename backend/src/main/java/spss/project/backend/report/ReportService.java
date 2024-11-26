@@ -231,7 +231,7 @@ public class ReportService {
         while (files.hasNext()) {
             GridFSFile file = files.next();
             Map<String, Object> report = Map.of(
-                    "fileName", file.getFilename(),
+                    "filename", file.getFilename(),
                     "url", Environment.CLOUD_URL + "/report?filename=" + file.getFilename(),
                     "fileSize", file.getLength(),
                     "uploadDate", file.getUploadDate());

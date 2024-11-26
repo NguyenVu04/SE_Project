@@ -16,6 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import spss.project.backend.Environment;
 
 /**
@@ -42,6 +47,12 @@ public class SystemConfigController {
      * 
      * @return the current system configuration
      */
+    @Operation(description = "Returns the current system configuration", summary = "Returns the current system configuration", responses = {
+            @ApiResponse(description = "Current system configuration", responseCode = "200", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = SystemConfig.class))
+            }),
+            @ApiResponse(description = "Error occurred while getting the current system configuration", responseCode = "500")
+    })
     @GetMapping("")
     public ResponseEntity<Object> getCurrentConfig() {
         try {
@@ -49,10 +60,9 @@ public class SystemConfigController {
                     .body(service.getCurrentSystemConfig());
         } catch (Exception e) {
             logger.error("Error getting current config", e);
+            return ResponseEntity.internalServerError()
+                    .build();
         }
-
-        return ResponseEntity.internalServerError()
-                .build();
     }
 
     /**
@@ -60,6 +70,12 @@ public class SystemConfigController {
      * 
      * @return a list of all saved system configurations
      */
+    @Operation(description = "Returns all saved system configurations", summary = "Returns all saved system configurations", responses = {
+            @ApiResponse(description = "All saved system configurations", responseCode = "200", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = SystemConfig.class))
+            }),
+            @ApiResponse(description = "Error occurred while getting all saved system configurations", responseCode = "500")
+    })
     @GetMapping("all")
     public ResponseEntity<Object> getAllConfig() {
         try {
@@ -77,6 +93,22 @@ public class SystemConfigController {
      * @param body the request body containing the new system configuration
      * @return a success response if the configuration was saved successfully
      */
+    @Operation(description = "Saves the current system configuration", summary = "Saves the current system configuration", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "New system configuration", required = true, content = {
+            @Content(examples = @ExampleObject(name = "system config sample", value = "{\n" +
+                    "    \"defaultNumberOfPages\": 10,\n" +
+                    "    \"paperSupplyDay\": 7,\n" +
+                    "    \"createdBy\": \"admin\",\n" +
+                    "    \"fileTypes\": [\n" +
+                    "        \"application/pdf\",\n" +
+                    "        \"application/vnd.openxmlformats-officedocument.wordprocessingml.document\",\n" +
+                    "        \"application/vnd.openxmlformats-officedocument.presentationml.presentation\"\n" +
+                    "    ]\n" +
+                    "}"))
+    }), responses = {
+            @ApiResponse(description = "Current system configuration saved successfully", responseCode = "200"),
+            @ApiResponse(description = "Invalid parameter", responseCode = "400"),
+            @ApiResponse(description = "Error occurred while saving the current system configuration", responseCode = "500")
+    })
     @PostMapping("")
     public ResponseEntity<Object> saveCurrentConfig(@RequestBody Map<String, Object> body) {
         try {

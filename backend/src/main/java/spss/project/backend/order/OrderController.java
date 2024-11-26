@@ -18,6 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.ConstraintViolationException;
 import spss.project.backend.Environment;
 import spss.project.backend.document.PaperSize;
@@ -69,6 +76,14 @@ public class OrderController {
      * @return the orders of the student, sorted by the time at which the
      *         orders were submitted in descending order
      */
+    @Operation(description = "Retrieves all orders submitted by a given student", summary = "Retrieves all orders submitted by a given student", parameters = {
+            @Parameter(name = "id", description = "The id of the student to find the orders for", required = true, in = ParameterIn.QUERY)
+    }, responses = {
+            @ApiResponse(responseCode = "200", description = "Orders retrieved", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = Order.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Error getting student orders")
+    })
     @GetMapping("all/student")
     public ResponseEntity<Object> getStudentOrders(
             @RequestParam("id") String id) {
@@ -92,13 +107,27 @@ public class OrderController {
      *             order to add
      * @return a success response if the order was added successfully
      */
+    @Operation(description = "Add a new order", summary = "Add order", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Details of the order to be added", required = true, content = {
+            @Content(examples = @ExampleObject(name = "order sample", value = "{\n" +
+                    "    \"studentId\": \"student1@hcmut.edu.vn\",\n" +
+                    "    \"printerId\": \"printer1\",\n" +
+                    "    \"filename\": \"document.pdf\",\n" +
+                    "    \"paperSize\": \"A4\",\n" +
+                    "    \"pageNumbers\": [1, 2, 3],\n" +
+                    "    \"singleSided\": true,\n" +
+                    "    \"numberOfCopies\": 2\n" +
+                    "}"))
+    }), responses = {
+            @ApiResponse(responseCode = "200", description = "Order added successfully"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @PostMapping("student")
     public ResponseEntity<Object> addStudentOrders(
             @RequestBody Map<String, Object> body) {
         try {
             String studentId = (String) body.get("studentId");
             String printerId = (String) body.get("printerId");
-            String fileName = (String) body.get("fileName");
+            String filename = (String) body.get("filename");
             PaperSize paperSize = PaperSize.valueOf((String) body.get("paperSize"));
             @SuppressWarnings("unchecked")
             List<Integer> pageNumbers = (ArrayList<Integer>) body.get("pageNumbers");
@@ -108,7 +137,7 @@ public class OrderController {
             Order order = service.save(
                     studentId,
                     printerId,
-                    fileName,
+                    filename,
                     paperSize.toString(),
                     pageNumbers,
                     numberOfCopies,

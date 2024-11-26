@@ -19,6 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import spss.project.backend.Environment;
 import spss.project.backend.document.DocumentService;
 import spss.project.backend.document.PaperSize;
@@ -37,7 +44,8 @@ public class PrinterController {
     /**
      * Prevent direct instantiation.
      */
-    protected PrinterController() {}
+    protected PrinterController() {
+    }
 
     /**
      * The service for interacting with the printer database.
@@ -82,6 +90,12 @@ public class PrinterController {
      * 
      * @return a list of all printers in the database
      */
+    @Operation(description = "Retrieves all printers from the database", summary = "Retrieves all printers from the database", responses = {
+            @ApiResponse(responseCode = "200", description = "Printers retrieved", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = Printer.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Error getting all printer")
+    })
     @GetMapping("all")
     public ResponseEntity<Object> getAllPrinters() {
         try {
@@ -97,6 +111,12 @@ public class PrinterController {
      * 
      * @return a list of all active printers in the database
      */
+    @Operation(description = "Retrieves all active printers from the database", summary = "Retrieves all active printers from the database", responses = {
+            @ApiResponse(responseCode = "200", description = "Printers retrieved", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = Printer.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Error getting active printer")
+    })
     @GetMapping("active")
     public ResponseEntity<Object> getActivePrinters() {
         try {
@@ -114,6 +134,16 @@ public class PrinterController {
      *                whether the print job was successful
      * @return a success response if the message was processed successfully
      */
+    @Operation(description = "Handles a message from a printer about the status of a print job", summary = "Handles a message from a printer about the status of a print job", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Details of the printer message", required = true, content = {
+            @Content(examples = {
+                    @ExampleObject(name = "Printer Message", value = "{ \"orderId\": \"123\", \"successful\": true, \"timeReceived\": \"2022-01-01T12:34:56\", \"timePrinted\": \"2022-01-01T12:34:56\" }")
+            }, mediaType = "application/json")
+    }), responses = {
+            @ApiResponse(responseCode = "200", description = "Message processed successfully"),
+            @ApiResponse(responseCode = "404", description = "Order not found"),
+            @ApiResponse(responseCode = "400", description = "Invalid printer message"),
+            @ApiResponse(responseCode = "500", description = "Error processing message")
+    })
     @PostMapping("message")
     public ResponseEntity<Object> getMessage(@RequestBody Map<String, Object> message) {
         try {
@@ -164,13 +194,23 @@ public class PrinterController {
     }
 
     /**
-     * Retrieves all orders which were submitted to the given printer and have not yet
+     * Retrieves all orders which were submitted to the given printer and have not
+     * yet
      * been printed.
      * 
      * @param printerId the id of the printer to find the orders for
-     * @return the orders of the printer which have not yet been printed, sorted by the time
+     * @return the orders of the printer which have not yet been printed, sorted by
+     *         the time
      *         at which the orders were submitted in descending order
      */
+    @Operation(description = "Retrieves all orders which were submitted to the given printer and have not yet been printed", summary = "Retrieves all orders which were submitted to the given printer and have not yet been printed", parameters = {
+            @Parameter(name = "printerId", description = "The id of the printer to find the orders for", required = true, in = ParameterIn.PATH)
+    }, responses = {
+            @ApiResponse(responseCode = "200", description = "Orders retrieved", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = Order.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Error getting printer orders")
+    })
     @GetMapping("orders")
     public ResponseEntity<Object> getPrinterOrders(
             @RequestParam("printerId") String printerId) {
@@ -178,10 +218,11 @@ public class PrinterController {
             List<Order> orders = orderService.getPrinterOrders(printerId);
             List<Map<String, Object>> response = new ArrayList<>(orders.size());
 
-            for(Order order : orders) {
+            for (Order order : orders) {
                 Map<String, Object> orderMap = new HashMap<>();
                 orderMap.put("orderId", order.getId());
-                orderMap.put("documentUrl", documentService.getDocumentUrl(order.getStudentId(), order.getDocumentId()));
+                orderMap.put("documentUrl",
+                        documentService.getDocumentUrl(order.getStudentId(), order.getDocumentId()));
                 orderMap.put("paperSize", order.getPaperSize());
                 orderMap.put("pageNumbers", order.getPageNumbers());
                 orderMap.put("numberOfCopies", order.getNumberOfCopies());

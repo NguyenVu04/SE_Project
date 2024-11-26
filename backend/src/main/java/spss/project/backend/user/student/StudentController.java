@@ -13,6 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.StringToClassMapItem;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import spss.project.backend.Environment;
 
 /**
@@ -46,11 +53,25 @@ public class StudentController {
      * @param id the id of the student to retrieve
      * @return the student with the given id, or null if no such student exists
      */
+    @Operation(description = "Retrieves a student by its id", summary = "Retrieves a student by its id", parameters = {
+        @Parameter(name = "id", description = "The id of the student to retrieve", required = true, in = ParameterIn.QUERY)
+    }, responses = {
+        @ApiResponse(responseCode = "200", description = "Student found", content = {
+            @Content(mediaType = "application/json", schema = @Schema(type = "object", implementation = Student.class))
+        }),
+        @ApiResponse(responseCode = "404", description = "Student not found"),
+        @ApiResponse(responseCode = "500", description = "Error getting student")
+    })
     @GetMapping("")
     public ResponseEntity<Object> getStudent(@RequestParam("id") String id) {
         try {
-            return ResponseEntity.ok()
-                    .body(service.getStudent(id));
+            Student student = service.getStudent(id);
+
+            if (student == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            return ResponseEntity.ok().body(student);
         } catch (Exception e) {
             logger.error("Error getting student", e);
             return ResponseEntity.internalServerError().build();
@@ -63,6 +84,16 @@ public class StudentController {
      * @param email the email of the student to find the id for
      * @return a map containing the student id, or null if no such student exists
      */
+    @Operation(description = "Retrieves the student id for a given email", summary = "Retrieves the student id for a given email", parameters = {
+        @Parameter(name = "email", description = "The email of the student to find the id for", required = true, in = ParameterIn.QUERY)
+    }, responses = {
+        @ApiResponse(responseCode = "200", description = "Student id found", content = {
+            @Content(mediaType = "application/json", schema = @Schema(type = "object", properties = {
+                @StringToClassMapItem(key = "id", value = String.class)
+            }))
+        }),
+        @ApiResponse(responseCode = "404", description = "Student not found"),
+    })
     @GetMapping("id")
     public ResponseEntity<Object> getStudentId(@RequestParam("email") String email) {
         try {

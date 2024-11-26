@@ -69,7 +69,7 @@ public class AdminController {
      * @param email the email of the admin to retrieve
      * @return the admin with the given email, or null if no such admin exists
      */
-    @Operation(description = "Retrieves an admin by their email", parameters = @Parameter(name = "email", description = "The email of the admin to retrieve", required = true, in = ParameterIn.QUERY), responses = {
+    @Operation(description = "Retrieves an admin by their email", summary = "Get admin by email", parameters = @Parameter(name = "email", description = "The email of the admin to retrieve", required = true, in = ParameterIn.QUERY), responses = {
             @ApiResponse(description = "Admin retrieved successfully", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Admin.class))),
             @ApiResponse(description = "Admin not found", responseCode = "404"),
             @ApiResponse(description = "Error occurred while retrieving the admin", responseCode = "500")
@@ -99,7 +99,7 @@ public class AdminController {
      *             of the admin to add
      * @return a success response if the admin was added successfully
      */
-    @Operation(description = "Add a new admin", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Details of the admin to be added", required = true, content = {
+    @Operation(description = "Add a new admin", summary = "Add admin", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Details of the admin to be added", required = true, content = {
             @Content(examples = @ExampleObject(name = "admin sample", value = "{\n" +
                     "    \"email\": \"admin1@hcmut.edu.vn\",\n" +
                     "    \"firstName\": \"John\",\n" +
@@ -134,7 +134,7 @@ public class AdminController {
      *             date of birth, and balance of the student to add
      * @return a success response if the student was added successfully
      */
-    @Operation(description = "Adds a new student", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Details of the student to be added", required = true, content = @Content(
+    @Operation(description = "Adds a new student", summary = "Adds a new student", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Details of the student to be added", required = true, content = @Content(
         examples = @ExampleObject(name = "student sample", value = "{\n" +
                 "    \"email\": \"student1@hcmut.edu.vn\",\n" +
                 "    \"firstName\": \"John\",\n" +
@@ -185,7 +185,7 @@ public class AdminController {
      * @param id the id of the student to delete
      * @return a success response if the student was deleted successfully
      */
-    @Operation(description = "Deletes a student by their ID", parameters = @Parameter(name = "id", description = "The ID of the student to delete", required = true, in = ParameterIn.QUERY), responses = {
+    @Operation(description = "Deletes a student by their ID", summary = "Deletes a student by their ID", parameters = @Parameter(name = "id", description = "The ID of the student to delete", required = true, in = ParameterIn.QUERY), responses = {
             @ApiResponse(description = "Student deleted successfully", responseCode = "200"),
             @ApiResponse(description = "Error occurred while deleting the student", responseCode = "500")
     })
@@ -208,7 +208,7 @@ public class AdminController {
      *             of the SPSO to add
      * @return a success response if the SPSO was added successfully
      */
-    @Operation(description = "Adds a new SPSO (Smart Printing Service Operator)", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Details of the SPSO to be added", required = true, content = @Content(examples = @ExampleObject(
+    @Operation(description = "Adds a new SPSO (Smart Printing Service Operator)",summary = "Adds a new SPSO (Smart Printing Service Operator)", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Details of the SPSO to be added", required = true, content = @Content(examples = @ExampleObject(
             name = "SPSO sample",
             value = "{\n" +
                     "    \"email\": \"spso1@hcmut.edu.vn\",\n" +
@@ -256,7 +256,7 @@ public class AdminController {
      * @param id the id of the SPSO to delete
      * @return a success response if the SPSO was deleted successfully
      */
-    @Operation(description = "Deletes an SPSO by their ID", parameters = @Parameter(name = "id", description = "The ID of the SPSO to delete", required = true, in = ParameterIn.QUERY), responses = {
+    @Operation(description = "Deletes an SPSO by their ID", summary = "Deletes an SPSO by their ID", parameters = @Parameter(name = "id", description = "The ID of the SPSO to delete", required = true, in = ParameterIn.QUERY), responses = {
             @ApiResponse(description = "SPSO deleted successfully", responseCode = "200"),
             @ApiResponse(description = "Error occurred while deleting the SPSO", responseCode = "500")
     })
