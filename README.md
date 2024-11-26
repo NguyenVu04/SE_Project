@@ -52,9 +52,12 @@ Ensure you have the following installed:
    ```bash
    npm install
    ```
-3. Set up environment variables in a `.env.local` file:
+3. Set up environment variables in a `.env` file:
    ```env
-   NEXT_PUBLIC_API_BASE_URL=http://localhost:8080/api
+   GOOGLE_CLIENT_ID=******
+   GOOGLE_CLIENT_SECRET=******
+   NEXTAUTH_SECRET=******
+   BACKEND_URL=http://127.0.0.1:8080
    ```
 4. Start the development server:
    ```bash
@@ -72,8 +75,16 @@ Ensure you have the following installed:
    ```
 3. Set up environment variables in `application.properties` or `application.yml`:
    ```properties
-   spring.data.mongodb.uri=mongodb://localhost:27017/smart-printing
-   jwt.secret=your_secret_key
+   spring.application.name=backend
+   spring.data.mongodb.host=localhost
+   spring.data.mongodb.port=27017
+   spring.data.mongodb.database=SE_Project
+
+   logging.level.root=info
+   logging.file.name=logs/application.log
+
+   spring.servlet.multipart.max-file-size=1GB
+   spring.servlet.multipart.max-request-size=1GB
    ```
 4. Run the application:
    ```bash
@@ -84,20 +95,15 @@ Ensure you have the following installed:
 
 ## API Endpoints
 
-### Authentication
-- `POST /api/auth/register` - Register a new user
-- `POST /api/auth/login` - Authenticate and retrieve a token
+### OpenAPI Documents
 
-### Print Requests
-- `GET /api/prints` - Get all print requests (Admin only)
-- `POST /api/prints` - Create a new print request
-- `PUT /api/prints/{id}` - Update a print request
-- `DELETE /api/prints/{id}` - Delete a print request
+http://127.0.0.1:8080/swagger-ui.html
 
-### Users
-- `GET /api/users` - Get all users (Admin only)
-- `GET /api/users/{id}` - Get user details
-- `PUT /api/users/{id}` - Update user details
+---
+
+## Documents
+
+http://127.0.0.1:8080/javadocs
 
 ---
 
