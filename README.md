@@ -95,8 +95,10 @@ Ensure you have the following installed:
 
 ## API Endpoints
 
-###OpenAPI Documents
+### OpenAPI Documents
+
 http://127.0.0.1:8080/swagger-ui.html
+
 ---
 
 ## Deployment
