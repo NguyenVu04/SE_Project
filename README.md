@@ -103,7 +103,7 @@ http://127.0.0.1:8080/swagger-ui.html
 
 ## Documents
 
-http://127.0.0.1:8080//javadocs
+http://127.0.0.1:8080/javadocs
 
 ---
 
