@@ -11,6 +11,8 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        'hcmut-light': "#0381FF", // Add quotes and use kebab-case
+        'hcmut-dark': "#02067A", // Add quotes and use kebab-case
       },
     },
   },
