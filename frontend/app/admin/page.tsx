@@ -24,8 +24,8 @@ export default function AdminPage() {
           <RecentJobs />
         </div>
         <div className="space-y-5">
-          <Notifications />
-          <CurrentJobs />
+          {/* <Notifications /> */}
+          {/* <CurrentJobs /> */}
           <PrinterList />
         </div>
       </div>
