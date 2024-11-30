@@ -24,6 +24,11 @@ export type HistoryItem = {
     successful: boolean;
 }
 
+import { FaListUl } from "react-icons/fa";
+import { FaRegUserCircle } from "react-icons/fa";
+import { redirect } from 'next/navigation'
+import { useState } from "react";
+import Image from "next/image";
 export default function Home() {
     const [studentId, setStudentId] = useState<string>("");
     const [isStudentFormOpen, setStudentFormOpen] = useState(false);
@@ -69,7 +74,9 @@ export default function Home() {
                 alert("Error fetching printer history: " + printerId);
             });
     }, [printerId, printerHistoryFrom, printerHistoryTo]);
-
+    const handleRedirect = () => {
+        redirect('/spso');
+    };
     return (
         <div className="grid grid-cols-[16rem_auto] h-screen">
             {/* Sidebar */}
@@ -116,7 +123,7 @@ export default function Home() {
                     }}>Clear</Button>
                 </div>
                 {/* History part */}
-                <div>
+                <div className="p-4">
                     {isStudentFormOpen && (
                         <StudentPopUp
                             value={studentId}

@@ -7,10 +7,19 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import createPrinter from "@/lib/add-printer";
 import { useSearchParams } from "next/navigation";
-export default function AddPrinter() {
+import Link from "next/link";
+
+interface AddPrinterProps {
+    showAddPrinter: boolean;
+    setShowAddPrinter: (value: boolean) => void;
+}
+
+const AddPrinter: React.FC<AddPrinterProps> = ({ showAddPrinter, setShowAddPrinter }) => {
     const params = useSearchParams();
     const error = params?.get("error");
-
+    const handleCancel = () => {
+        setShowAddPrinter(false); // Update the state in the parent
+    };
     return (
         <div className="flex flex-col min-h-screen">
             <TopBar></TopBar>
@@ -92,6 +101,7 @@ export default function AddPrinter() {
                             <Button type="submit" className="w-full bg-hcmut-dark" size="lg">
                                 Hoàn thành
                             </Button>
+                            <Button type="submit" className="w-full bg-hcmut-dark mt-4" size="lg" onClick={handleCancel}>Quay lại</Button>
                         </div>
                     </form>
                 </div>
@@ -99,3 +109,4 @@ export default function AddPrinter() {
         </div>
     );
 }
+export default AddPrinter;

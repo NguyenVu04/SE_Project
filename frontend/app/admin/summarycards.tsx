@@ -1,14 +1,18 @@
 import React from 'react';
 
-const SummaryCards = () => {
-  const cards = [
-    { title: 'Số máy in', value: 6 },
-    { title: 'Lệnh in', value: 120 },
-    { title: 'Số trang', value: 1560 },
-  ];
+interface SummaryCard {
+  title: string;
+  value: number;
+}
+interface SummaryCardsProps {
+  cards_prob: SummaryCard[];
+}
+
+const SummaryCards: React.FC<SummaryCardsProps> = ({cards_prob}) => {
+  const cards = cards_prob;
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 rounded-2xl">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 rounded-2xl">
       {cards.map((card, index) => (
         <div key={index} className="bg-white p-4 rounded shadow text-center">
           <h2 className="text-gray-600">{card.title}</h2>

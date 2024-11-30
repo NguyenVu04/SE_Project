@@ -13,7 +13,7 @@ export default function Home() {
     }}>
       <h1 className="text-6xl font-bold text-orange-600">Welcome to the Printer Management System</h1>
       <p className="text-white mt-4">Please login to continue</p>
-      <Button className="mt-4 hover:bg-orange-600" onClick={handleSignInClick}>Sign In</Button>
+      <Button className="mt-4 bg-orange-600" onClick={handleSignInClick}>Sign In</Button>
     </div>
   );
 }
