@@ -4,6 +4,7 @@ import StudentPopUp from "./popupstudent";
 import PrinterPopUp from "./popupprinter";
 import { PiStudent } from "react-icons/pi";
 import { TfiPrinter } from "react-icons/tfi";
+import { redirect } from "next/navigation";
 // import { FaListUl } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import getStudentHistory from "@/lib/get-student-history";
@@ -24,11 +25,6 @@ export type HistoryItem = {
     successful: boolean;
 }
 
-import { FaListUl } from "react-icons/fa";
-import { FaRegUserCircle } from "react-icons/fa";
-import { redirect } from 'next/navigation'
-import { useState } from "react";
-import Image from "next/image";
 export default function Home() {
     const [studentId, setStudentId] = useState<string>("");
     const [isStudentFormOpen, setStudentFormOpen] = useState(false);
