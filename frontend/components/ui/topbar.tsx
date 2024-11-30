@@ -14,9 +14,10 @@ const TopBar = () => {
   };
 
   return (
-    <div className="flex items-center justify-between px-4 py-2 mb-2 top-0">
+    <div className="flex items-center justify-between p-4 py-2 mb-2 top-0">
       <Image src="/640px-HCMUT_official_logo.png" alt="logo-hcmut" width={50} height={50} />
       <FaRegUserCircle
+        size={40}
         className="text-4xl text-hcmut-dark cursor-pointer"
         onClick={navigateUpOneFolder} // Trigger navigation on click
       />

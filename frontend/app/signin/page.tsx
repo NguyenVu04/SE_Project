@@ -14,9 +14,9 @@ export default function SignInPage() {
           }}>
             <h1 className="text-6xl font-bold text-orange-600">Welcome to the Printer Management System</h1>
             <p className="text-white text-xl">Choose your service</p>
-            <Button onClick={() => signInWithGoogle("student")} className="mt-4 w-40 hover:bg-orange-600 text-xl">Student Login</Button>
-            <Button onClick={() => signInWithGoogle("spso")} className="mt-4 w-40 hover:bg-orange-600 text-xl">SPSO Login</Button>
-            <Button onClick={() => signInWithGoogle("admin")} className="mt-4 w-40 hover:bg-orange-600 text-xl">Admin Login</Button>
+            <Button onClick={() => signInWithGoogle("student")} className="mt-4 w-40 bg-orange-600 text-xl">Student Login</Button>
+            <Button onClick={() => signInWithGoogle("spso")} className="mt-4 w-40 bg-orange-600 text-xl">SPSO Login</Button>
+            <Button onClick={() => signInWithGoogle("admin")} className="mt-4 w-40 bg-orange-600 text-xl">Admin Login</Button>
         </div>
     );
 }

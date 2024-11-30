@@ -1,5 +1,6 @@
 'use client';
 import ServicePage from "./service/manage";
+import OrderPage from "./order/page";
 import AddPrinter from "./service/add";
 import { useState } from "react";
 export default function PrinterPage() {
@@ -8,12 +9,17 @@ export default function PrinterPage() {
     const handleAddPrinterClick = () => {
         setShowAddPrinter(true);  // Set the state to true when the button is clicked
     };
+
+    const [printerId, setPrinterId] = useState('');
     return ( 
         <div>
-            {showAddPrinter ? (
-                <AddPrinter />  // Render AddPrinter if showAddPrinter is true
+            {(showAddPrinter) ? (
+                <AddPrinter 
+                    showAddPrinter={showAddPrinter} 
+                    setShowAddPrinter={setShowAddPrinter} 
+                />  // Render AddPrinter if showAddPrinter is true
             ) : (
-                <ServicePage onAddPrinterClick={handleAddPrinterClick} />  // Pass the handler to ServicePage
+                <ServicePage onAddPrinterClick={handleAddPrinterClick}/>  // Pass the handler to ServicePage
             )}
         </div>
     );
