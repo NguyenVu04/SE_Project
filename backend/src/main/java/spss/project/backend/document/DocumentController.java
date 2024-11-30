@@ -26,9 +26,9 @@ import com.mongodb.client.gridfs.model.GridFSFile;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.StringToClassMapItem;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -114,12 +114,8 @@ public class DocumentController {
             @Parameter(name = "studentId", description = "The ID of the student", required = true, in = ParameterIn.QUERY)
     }, responses = {
             @ApiResponse(responseCode = "200", description = "Documents found", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(type = "array", properties = {
-                            @StringToClassMapItem(key = "fileName", value = String.class),
-                            @StringToClassMapItem(key = "fileSize", value = Long.class),
-                            @StringToClassMapItem(key = "url", value = String.class),
-                            @StringToClassMapItem(key = "uploadDate", value = String.class)
-                    }))
+                    @Content(mediaType = "application/json", 
+                    examples = @ExampleObject(value = "[\n{\"fileName\": \"document.pdf\", \"url\": \"https://example.com/document.pdf\", \"fileSize\": 12345, \"uploadDate\": \"2021-01-01T00:00:00Z\"}\n]"))
             }),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })

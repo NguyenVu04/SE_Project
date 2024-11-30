@@ -11,7 +11,7 @@ const MainFooter = () => {
       <Link href="/student/upload">
         <button
           type='button'
-          className="bg-[#6000D5] text-white py-4 px-8 rounded-lg flex flex-col items-center justify-center border-2 border-black">
+          className="bg-[#6000D5] text-white py-4 px-8 rounded-lg flex flex-col items-center justify-center border-2 border-black hover:bg-blue-500">
           <FaPrint className="text-white mb-1 text-5xl" /> {/* Thay đổi vị trí biểu tượng máy in */}
           <span className="text-lg mt-5">IN TÀI LIỆU</span>
         </button>
