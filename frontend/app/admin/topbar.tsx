@@ -172,7 +172,7 @@ const TopBar = () => {
               onSubmit={(e) => {
                 e.preventDefault();
                 // Add your form submission logic here
-                console.log("Student created!");
+                console.log("Student deleted!");
                 toggleStudentDeleteForm(); // Close the modal after submission
               }}
             >
@@ -180,7 +180,7 @@ const TopBar = () => {
               <div className="mb-4">
                 <label className="block text-gray-700">Student ID</label>
                 <input
-                  type="email"
+                  type="number"
                   className="w-full border border-gray-300 p-2 rounded-md"
                   placeholder="Nhập ID của sinh viên"
                 />
