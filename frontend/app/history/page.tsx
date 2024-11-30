@@ -4,7 +4,7 @@ import StudentPopUp from "./popupstudent";
 import PrinterPopUp from "./popupprinter";
 import { PiStudent } from "react-icons/pi";
 import { TfiPrinter } from "react-icons/tfi";
-import { FaListUl } from "react-icons/fa";
+// import { FaListUl } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import getStudentHistory from "@/lib/get-student-history";
 import getPrinterHistory from "@/lib/get-printer-history";
@@ -69,156 +69,6 @@ export default function Home() {
                 alert("Error fetching printer history: " + printerId);
             });
     }, [printerId, printerHistoryFrom, printerHistoryTo]);
-    // const studentHistory = [
-    //     {
-    //         "id": "1",
-    //         "studentId": "2213994",
-    //         "printerId": "P001",
-    //         "documentId": "D001",
-    //         "paperSize": "A4",
-    //         "pageNumbers": [1, 2, 3],
-    //         "numberOfCopies": 2,
-    //         "singleSided": true,
-    //         "timeOrdered": "2024-11-30T08:30:00.000Z",
-    //         "timeReceived": "2024-11-30T08:31:00.000Z",
-    //         "timePrinted": "2024-11-30T08:35:00.000Z",
-    //         "successful": true
-    //     },
-    //     {
-    //         "id": "2",
-    //         "studentId": "2213994",
-    //         "printerId": "P002",
-    //         "documentId": "D002",
-    //         "paperSize": "A3",
-    //         "pageNumbers": [1, 2],
-    //         "numberOfCopies": 1,
-    //         "singleSided": false,
-    //         "timeOrdered": "2024-11-30T09:00:00.000Z",
-    //         "timeReceived": "2024-11-30T09:02:00.000Z",
-    //         "timePrinted": "2024-11-30T09:10:00.000Z",
-    //         "successful": false
-    //     },
-    //     {
-    //         "id": "3",
-    //         "studentId": "S12347",
-    //         "printerId": "P003",
-    //         "documentId": "D003",
-    //         "paperSize": "Letter",
-    //         "pageNumbers": [1],
-    //         "numberOfCopies": 3,
-    //         "singleSided": true,
-    //         "timeOrdered": "2024-11-30T10:00:00.000Z",
-    //         "timeReceived": "2024-11-30T10:01:00.000Z",
-    //         "timePrinted": "2024-11-30T10:05:00.000Z",
-    //         "successful": true
-    //     },
-    //     {
-    //         "id": "4",
-    //         "studentId": "S12348",
-    //         "printerId": "P001",
-    //         "documentId": "D004",
-    //         "paperSize": "Legal",
-    //         "pageNumbers": [1, 2, 3, 4],
-    //         "numberOfCopies": 1,
-    //         "singleSided": false,
-    //         "timeOrdered": "2024-11-30T11:00:00.000Z",
-    //         "timeReceived": "2024-11-30T11:02:00.000Z",
-    //         "timePrinted": "2024-11-30T11:15:00.000Z",
-    //         "successful": true
-    //     },
-    //     {
-    //         "id": "5",
-    //         "studentId": "S12349",
-    //         "printerId": "P004",
-    //         "documentId": "D005",
-    //         "paperSize": "A4",
-    //         "pageNumbers": [1, 2, 3, 4, 5],
-    //         "numberOfCopies": 2,
-    //         "singleSided": true,
-    //         "timeOrdered": "2024-11-30T12:00:00.000Z",
-    //         "timeReceived": "2024-11-30T12:01:00.000Z",
-    //         "timePrinted": "2024-11-30T12:10:00.000Z",
-    //         "successful": false
-    //     }
-    // ];
-    // const printerHistory = [
-    //     {
-    //         "id": "P1001-01",
-    //         "studentId": "S2001",
-    //         "printerId": "P1001",
-    //         "documentId": "D1001",
-    //         "paperSize": "A4",
-    //         "pageNumbers": [1, 2, 3],
-    //         "numberOfCopies": 2,
-    //         "singleSided": true,
-    //         "timeOrdered": "2024-11-30T08:00:00.000Z",
-    //         "timeReceived": "2024-11-30T08:01:00.000Z",
-    //         "timePrinted": "2024-11-30T08:05:00.000Z",
-    //         "successful": true
-    //     },
-    //     {
-    //         "id": "P1001-02",
-    //         "studentId": "S2002",
-    //         "printerId": "P1001",
-    //         "documentId": "D1002",
-    //         "paperSize": "A3",
-    //         "pageNumbers": [1, 2],
-    //         "numberOfCopies": 1,
-    //         "singleSided": false,
-    //         "timeOrdered": "2024-11-30T09:00:00.000Z",
-    //         "timeReceived": "2024-11-30T09:01:00.000Z",
-    //         "timePrinted": "2024-11-30T09:10:00.000Z",
-    //         "successful": false
-    //     },
-    //     {
-    //         "id": "P1001-03",
-    //         "studentId": "S2003",
-    //         "printerId": "P1001",
-    //         "documentId": "D1003",
-    //         "paperSize": "Letter",
-    //         "pageNumbers": [1],
-    //         "numberOfCopies": 3,
-    //         "singleSided": true,
-    //         "timeOrdered": "2024-11-30T10:00:00.000Z",
-    //         "timeReceived": "2024-11-30T10:01:00.000Z",
-    //         "timePrinted": "2024-11-30T10:05:00.000Z",
-    //         "successful": true
-    //     },
-    //     {
-    //         "id": "P1001-04",
-    //         "studentId": "S2004",
-    //         "printerId": "P1001",
-    //         "documentId": "D1004",
-    //         "paperSize": "Legal",
-    //         "pageNumbers": [1, 2, 3, 4],
-    //         "numberOfCopies": 1,
-    //         "singleSided": false,
-    //         "timeOrdered": "2024-11-30T11:00:00.000Z",
-    //         "timeReceived": "2024-11-30T11:02:00.000Z",
-    //         "timePrinted": "2024-11-30T11:15:00.000Z",
-    //         "successful": true
-    //     },
-    //     {
-    //         "id": "P1001-05",
-    //         "studentId": "S2005",
-    //         "printerId": "P1001",
-    //         "documentId": "D1005",
-    //         "paperSize": "A4",
-    //         "pageNumbers": [1, 2, 3, 4, 5],
-    //         "numberOfCopies": 2,
-    //         "singleSided": true,
-    //         "timeOrdered": "2024-11-30T12:00:00.000Z",
-    //         "timeReceived": "2024-11-30T12:01:00.000Z",
-    //         "timePrinted": "2024-11-30T12:10:00.000Z",
-    //         "successful": false
-    //     }
-    // ];
-    // const filteredHistoryStudent = studentHistory.filter(
-    //     (history) => history.studentId === studentId
-    // );
-    // const filteredHistoryPrinter = printerHistory.filter(
-    //     (history) => history.printerId === printerId
-    // );
 
     return (
         <div className="grid grid-cols-[16rem_auto] h-screen">
@@ -247,12 +97,12 @@ export default function Home() {
                     </div>
 
                     {/* Printer List */}
-                    <div
+                    {/* <div
                         className="flex items-center gap-4 cursor-pointer p-3 rounded-md  text-gray-700
                     hover:bg-gray-700 hover:text-white transition-colors duration-200">
                         <FaListUl size={24} />
                         <p className="text-sm font-medium ">Lịch sử lệnh in</p>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             {/* Main content */}
