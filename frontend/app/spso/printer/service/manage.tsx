@@ -26,8 +26,8 @@ export default function ServicePage({ onAddPrinterClick }: ServicePageProps) {
   const [printers, setPrinters] = useState<Printer[]>([]);
 
   useEffect(() => {
-    getAllPrinters().then((response) => {
-      setPrinters(response.data);
+    getAllPrinters().then((printers) => {
+      setPrinters(printers);
     }).catch((error) => {
       alert(error);
     })
@@ -93,18 +93,6 @@ export default function ServicePage({ onAddPrinterClick }: ServicePageProps) {
           </div>
         </div>
       </div>
-    </div>
-  );
-  return (
-    <div>
-      {/* {
-                orders.map((order) => (
-                    <div key={order.orderId}>
-                        {order.documentUrl}
-                    </div>
-                ))
-            } */}
-
     </div>
   );
 }
