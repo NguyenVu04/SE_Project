@@ -35,7 +35,7 @@ export default function SPSOPage() {
                 </Button>
                 <Button className="h-40 bg-purple-600 rounded-xl text-white text-xl mx-4 my-2 flex flex-col items-center justify-center"
                     onClick={handlePolicy}    >
-                    <FiBook className="text-5xl mb-2" />
+                    <FiBook className="mb-2"/>
                     Quản lý chính sách
                 </Button>
             </div>

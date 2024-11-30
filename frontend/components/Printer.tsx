@@ -80,7 +80,7 @@ const Printer = () => {
                     <div className="flex flex-row space-x-4 w-1/2">
                         <div className="flex flex-col items-center">
                             <FiPrinter className='text-6xl mb-3'/>
-                            <Link href="/loading">
+                            <Link href="/student/loading">
                                 <button
                                     style = {{background: '#08FF3D', width: '60px'}}
                                     className="p-1 rounded-lg border-black border-2"
@@ -103,7 +103,7 @@ const Printer = () => {
                     <div className="flex flex-row space-x-4 w-1/2">
                         <div className="flex flex-col items-center">
                             <FiPrinter className='text-6xl mb-3'/>
-                            <Link href="/loading">
+                            <Link href="/student/loading">
                                 <button
                                     style = {{background: '#08FF3D', width: '60px'}}
                                     className="p-1 rounded-lg border-black border-2"
@@ -123,7 +123,7 @@ const Printer = () => {
                     <div className="flex flex-row space-x-4 w-1/2">
                         <div className="flex flex-col items-center">
                             <FiPrinter className='text-6xl mb-3'/>
-                            <Link href="/loading">
+                            <Link href="/student/loading">
                                 <button
                                     style = {{background: '#08FF3D', width: '60px'}}
                                     className="p-1 rounded-lg border-black border-2"
@@ -143,7 +143,7 @@ const Printer = () => {
                 </div>
             </div>
         </div>
-        <Link href="/student">
+        <Link href="/student/student">
             <button
                 style = {{background: '#EC221F', width: '100px'}}
                 className="text-white p-4 rounded-lg"

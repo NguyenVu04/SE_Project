@@ -17,29 +17,29 @@ const ChooseDocument = () => {
                         <IoDocumentOutline className='text-3xl'/>
                         <span className="ml-2">myfile.pdf</span>
                     </Link>
-                    <Link href="/configDoc" className="bg-white flex items-center border-2 border-black p-2 rounded-lg w-1/2">
+                    <Link href="/student/configdoc" className="bg-white flex items-center border-2 border-black p-2 rounded-lg w-1/2">
                         <IoDocumentOutline className='text-3xl'/>
                         <span className="ml-2">myfile.pdf</span>
                     </Link>
                 </div>
 
                 <div className="flex flex-row space-x-10 w-full">
-                    <Link href="/configDoc" className="bg-white flex items-center border-2 border-black p-2 rounded-lg w-1/2">
+                    <Link href="/student/configdoc" className="bg-white flex items-center border-2 border-black p-2 rounded-lg w-1/2">
                         <IoDocumentOutline className='text-3xl'/>
                         <span className="ml-2">myfile.pdf</span>
                     </Link>
-                    <Link href="/configDoc" className="bg-white flex items-center border-2 border-black p-2 rounded-lg w-1/2">
+                    <Link href="/student/configdoc" className="bg-white flex items-center border-2 border-black p-2 rounded-lg w-1/2">
                         <IoDocumentOutline className='text-3xl'/>
                         <span className="ml-2">myfile.pdf</span>
                     </Link>
                 </div>
 
                 <div className="flex flex-row space-x-10 w-full">
-                    <Link href="/configDoc" className="bg-white flex items-center border-2 border-black p-2 rounded-lg w-1/2">
+                    <Link href="/student/configdoc" className="bg-white flex items-center border-2 border-black p-2 rounded-lg w-1/2">
                         <IoDocumentOutline className='text-3xl'/>
                         <span className="ml-2">myfile.pdf</span>
                     </Link>
-                    <Link href="/configDoc" className="bg-white flex items-center border-2 border-black p-2 rounded-lg w-1/2">
+                    <Link href="/student/configdoc" className="bg-white flex items-center border-2 border-black p-2 rounded-lg w-1/2">
                         <IoDocumentOutline className='text-3xl'/>
                         <span className="ml-2">myfile.pdf</span>
                     </Link>
