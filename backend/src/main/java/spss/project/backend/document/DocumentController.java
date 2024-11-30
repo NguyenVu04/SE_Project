@@ -124,12 +124,13 @@ public class DocumentController {
         try {
             MongoCursor<GridFSFile> files = service.getDocuments(studentId);
             List<Map<String, Object>> documents = new ArrayList<>();
-
+            
             while (files.hasNext()) {
                 GridFSFile file = files.next();
+                String fileName = service.extractFileName(file.getFilename());
                 Map<String, Object> document = Map.of(
-                        "fileName", service.extractFileName(file.getFilename()),
-                        "url", service.getDocumentUrl(studentId, file.getFilename()),
+                        "fileName", fileName,
+                        "url", service.getDocumentUrl(studentId, fileName),
                         "fileSize", file.getLength(),
                         "uploadDate", file.getUploadDate());
                 documents.add(document);

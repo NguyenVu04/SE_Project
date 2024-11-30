@@ -1,4 +1,5 @@
 'use server';
+import { FileInfo } from "@/components/DocumentUpload";
 import { spssAxios } from "./axios-config";
 
 export default async function getDocuments(studentId: string) {
@@ -7,5 +8,5 @@ export default async function getDocuments(studentId: string) {
             studentId: studentId
         }
     });
-    return response.data;
+    return response.data as FileInfo[];
 }
