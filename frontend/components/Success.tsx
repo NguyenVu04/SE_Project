@@ -20,7 +20,7 @@ const Success = () => {
                 TÀI LIỆU CỦA BẠN ĐÃ ĐƯỢC IN THÀNH CÔNG!!!
             </h1>
         </div>
-        <Link href="/success">
+        <Link href="/student/success">
             <button
                 style = {{background: '#EC221F', width: '100px'}}
                 className=" text-white p-4 rounded-lg"
