@@ -32,9 +32,8 @@ export default function ChangePolicy() {
             <TopBar></TopBar>
             {/* main content */}
             <div
-                style={{ background: 'linear-gradient(to bottom, #0381FF, #02067A)' }}
                 id="main-content"
-                className="flex-grow flex flex-col items-center justify-center text-black"
+                className="flex-grow flex flex-col items-center justify-center text-black bg-gradient-to-b from-[#0381FF] to-[#02067A]"
             >
             {/* manage printer */}
                 <div className="bg-white p-6 rounded-lg shadow-lg max-w-5xl w-full mt-3 mb-3 justify-center items-center">

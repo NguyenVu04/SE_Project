@@ -1,28 +1,26 @@
 // 'use server';
 'use client';
-import getUserId from "@/lib/user-id";
+// import getUserId from "@/lib/user-id";
 import TopBar from "../../components/ui/topbar";
 import { Button } from "@/components/ui/button";
 import { FiPrinter } from "react-icons/fi";
 import { FiBook } from "react-icons/fi";
-import { useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 export default function SPSOPage() {
     // const id = await getUserId("spso");
-    const router = useRouter();
     
     const handlePrinter = () => {
-        router.push('/spso/printer');
+        redirect('/spso/printer');
     }
     const handlePolicy = () => {
-        router.push('/spso/policy');
+        redirect('/spso/policy');
     }
     return (
         <div className="flex flex-col min-h-screen">
             <TopBar />
             <div
-                style={{ background: 'linear-gradient(to bottom, #0381FF, #02067A)' }}
                 id="main-content"
-                className="flex-grow flex flex-col items-center justify-center text-white"
+                className="flex-grow flex flex-col items-center justify-center text-white bg-gradient-to-b from-[#0381FF] to-[#02067A]"
             >
                 <h1 className="text-6xl text-orange-600">Welcome to SPSO page</h1>
                 <p>

@@ -126,12 +126,12 @@ public class SPSOController {
     @Operation(description = "Add a new printer", summary = "Add a new printer")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Details of the printer to be added", required = true, content = @Content(mediaType = "application/json", examples = @ExampleObject(name = "printer sample", 
     value = "{\n" +
+            "    \"manufacturer\": \"Printer Manufacturer\",\n" +
             "    \"model\": \"Printer Model\",\n" +
             "    \"description\": \"Printer Description\",\n" +
             "    \"campusName\": \"Campus Name\",\n" +
             "    \"buildingName\": \"Building Name\",\n" +
-            "    \"roomNumber\": \"Room Number\",\n" +
-            "    \"active\": true\n" +
+            "    \"roomNumber\": \"Room Number\"\n" +
             "}")))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Printer added successfully"),
@@ -142,20 +142,21 @@ public class SPSOController {
     @PostMapping("printer")
     public ResponseEntity<Object> addPrinter(@RequestBody Map<String, Object> body) {
         try {
+            String manufacturer = (String) body.get("manufacturer");
             String model = (String) body.get("model");
             String description = (String) body.get("description");
             String campusName = (String) body.get("campusName");
             String buildingName = (String) body.get("buildingName");
             String roomNumber = (String) body.get("roomNumber");
-            boolean active = (boolean) body.get("active");
 
             printerService.save(
+                    manufacturer,
                     model,
                     description,
                     campusName,
                     buildingName,
                     roomNumber,
-                    active);
+                    true);
 
             return ResponseEntity.ok().build();
 

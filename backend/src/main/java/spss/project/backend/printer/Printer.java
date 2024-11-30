@@ -16,6 +16,11 @@ public class Printer {
     private String id;
 
     /**
+     * The manufacturer of the printer.
+     */
+    private String manufacturer;
+
+    /**
      * The model of the printer.
      */
     private String model;
@@ -58,6 +63,7 @@ public class Printer {
      * @param active       whether the printer is active or not
      */
     public Printer(
+            String manufacturer,
             String model,
             String description,
             String campusName,
@@ -65,6 +71,7 @@ public class Printer {
             String roomNumber,
             boolean active) {
 
+        this.manufacturer = manufacturer;
         this.model = model;
         this.description = description;
         this.campusName = campusName;
@@ -80,6 +87,24 @@ public class Printer {
      */
     public String getId() {
         return id;
+    }
+
+    /**
+     * Gets the manufacturer of the printer.
+     * 
+     * @return the manufacturer of the printer
+     */
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    /**
+     * Sets the manufacturer of the printer.
+     * 
+     * @param manufacturer the manufacturer to set
+     */
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
     }
 
     /**

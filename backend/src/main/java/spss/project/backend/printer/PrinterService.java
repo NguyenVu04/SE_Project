@@ -45,6 +45,7 @@ public class PrinterService {
      * @throws Exception if the printer cannot be saved
      */
     public Printer save(
+            String manufacturer,
             String model,
             String description,
             String campusName,
@@ -52,7 +53,7 @@ public class PrinterService {
             String roomNumber,
             boolean active) throws DuplicateKeyException, Exception {
 
-        Printer printer = new Printer(model, description, campusName, buildingName, roomNumber, active);
+        Printer printer = new Printer(manufacturer, model, description, campusName, buildingName, roomNumber, active);
         return repo.save(printer);
     }
 
