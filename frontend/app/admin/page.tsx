@@ -11,14 +11,13 @@ import PrinterList from './printerlist';
 export default function AdminPage() {
   return (
     
-    <div className="flex">
+    <div className="grid grid-cols-[16rem_auto]">
       {/* Sidebar and Topbar */}
       <SideBar/>
-      
+      <TopBar></TopBar>
       {/* Main page  */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4 pt-20 pl-2 w-[calc(100%-64px)] pr-2">
-        <TopBar></TopBar>
-        <div className="lg:col-span-2 space-y-4">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 mt-4 pt-20 pl-2 w-[calc(100%-64px)]">
+        <div className="col-start-1 lg:col-span-2 space-y-4">
           <SummaryCards />
           <StatisticsChart />
           <RecentJobs />
