@@ -5,42 +5,33 @@ import { Alert } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import createPrinter from "@/lib/add-printer";
+import { useSearchParams } from "next/navigation";
 export default function AddPrinter() {
-    const [manufacturer, setManufacturer] = React.useState('');
-    const [model, setModel] = React.useState('');
-    const [schoolname, setSchoolname] = React.useState('');
-    const [building, setBuilding] = React.useState('');
-    const [room, setRoom] = React.useState('');
-    const [description, setDescription] = React.useState('');
-    const [error, setError] = React.useState('');
-    
-    const onSubmit = () => {
+    const params = useSearchParams();
+    const error = params?.get("error");
 
-    }
-    
-      return (
+    return (
         <div className="flex flex-col min-h-screen">
             <TopBar></TopBar>
             {/* main content */}
             <div
-                style={{ background: 'linear-gradient(to bottom, #0381FF, #02067A)' }}
                 id="main-content"
-                className="flex-grow flex flex-col items-center justify-center text-black"
+                className="flex-grow flex flex-col items-center justify-center text-black bg-gradient-to-b from-[#0381FF] to-[#02067A]"
             >
-            {/* manage printer */}
+                {/* manage printer */}
                 <div className="bg-white p-6 rounded-lg shadow-lg max-w-5xl w-full mt-3 mb-3 justify-center items-center">
                     <h1 className="text-center text-4xl">THÊM MÁY IN</h1>
-                    <hr className="h-1 mx-auto bg-black border-0 rounded md:my-5 dark:bg-gray-700 mb-5"/>
-                    <form onSubmit={onSubmit} className="space-y-12">
+                    <hr className="h-1 mx-auto bg-black border-0 rounded md:my-5 dark:bg-gray-700 mb-5" />
+                    <form action={createPrinter} className="space-y-12">
                         <div className="grid w-full items-center gap-1.5">
-                            <Label htmlFor="manufacture">Nhà sản xuất</Label>
+                            <Label htmlFor="manufacturer">Nhà sản xuất</Label>
                             <Input
                                 className="w-full"
                                 required
-                                value={manufacturer}
-                                onChange={(e) => setManufacturer(e.target.value)}
-                                id="manufacture"
+                                id="manufacturer"
                                 type="text"
+                                name="manufacturer"
                             />
                         </div>
                         <div className="grid w-full items-center gap-1.5">
@@ -48,45 +39,41 @@ export default function AddPrinter() {
                             <Input
                                 className="w-full"
                                 required
-                                value={model}
-                                onChange={(e) => setModel(e.target.value)}
                                 id="model"
                                 type="text"
+                                name="model"
                             />
                         </div>
                         <div className="grid w-full items-center gap-1.5">
-                            <Label htmlFor="schoolname">Tên trường</Label>
+                            <Label htmlFor="campusName">Tên trường</Label>
                             <Input
                                 className="w-full"
                                 required
-                                value={schoolname}
-                                onChange={(e) => setSchoolname(e.target.value)}
-                                id="schoolname"
+                                id="campusName"
                                 type="text"
+                                name="campusName"
                             />
                         </div>
                         {/* Toàn nhà and Số phòng side by side */}
                         <div className="grid grid-cols-2 gap-6">
                             <div className="grid items-center gap-1.5">
-                                <Label htmlFor="building">Toà nhà</Label>
+                                <Label htmlFor="buildingName">Toà nhà</Label>
                                 <Input
                                     className="w-full"
                                     required
-                                    value={building}
-                                    onChange={(e) => setBuilding(e.target.value)}
-                                    id="building"
+                                    id="buildingName"
                                     type="text"
+                                    name="buildingName"
                                 />
                             </div>
                             <div className="grid items-center gap-1.5">
-                                <Label htmlFor="room">Số phòng</Label>
+                                <Label htmlFor="roomNumber">Số phòng</Label>
                                 <Input
                                     className="w-full"
                                     required
-                                    value={room}
-                                    onChange={(e) => setRoom(e.target.value)}
-                                    id="room"
+                                    id="roomNumber"
                                     type="text"
+                                    name="roomNumber"
                                 />
                             </div>
                         </div>
@@ -95,15 +82,14 @@ export default function AddPrinter() {
                             <Input
                                 className="w-full h-20"
                                 required
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
                                 id="description"
                                 type="text"
+                                name="description"
                             />
                         </div>
                         {error && <Alert>{error}</Alert>}
                         <div className="w-full">
-                            <Button className="w-full bg-hcmut-dark" size="lg">
+                            <Button type="submit" className="w-full bg-hcmut-dark" size="lg">
                                 Hoàn thành
                             </Button>
                         </div>
@@ -111,5 +97,5 @@ export default function AddPrinter() {
                 </div>
             </div>
         </div>
-      );
+    );
 }

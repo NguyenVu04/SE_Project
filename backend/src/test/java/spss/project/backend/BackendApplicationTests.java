@@ -75,11 +75,30 @@ class BackendApplicationTests {
 				Arrays.asList("application/pdf"));
 
 		printerService.save(
+				"HP",
 				"HP LaserJet 5000",
 				"High-speed monochrome printer",
 				"Main Campus",
 				"Engineering Building",
 				"101A",
+				true);
+
+		printerService.save(
+				"HP",
+				"HP LaserJet 5000",
+				"High-speed monochrome printer",
+				"Main Campus",
+				"Engineering Building",
+				"102A",
+				true);
+
+		printerService.save(
+				"HP",
+				"HP LaserJet 5000",
+				"High-speed monochrome printer",
+				"Main Campus",
+				"Engineering Building",
+				"104A",
 				true);
 
 		orderService.save(
