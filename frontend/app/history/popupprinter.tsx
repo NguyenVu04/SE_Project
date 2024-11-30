@@ -4,15 +4,20 @@ interface PrinterPopUpProps {
   value: string; // Passed from the parent
   togglePrinterForm: () => void;
   onSubmitPrinterId: (printerId: string) => void; // Setter function to update parent state
+  onSubmitHistoryFrom: (printerHistoryFrom: string) => void;
+  onSubmitHistoryTo: (printerHistoryTo: string) => void;
 }
 
 export default function PrinterPopUp({
-    value,
-    togglePrinterForm,
-    onSubmitPrinterId,
+  value,
+  togglePrinterForm,
+  onSubmitPrinterId,
+  onSubmitHistoryFrom,
+  onSubmitHistoryTo,
 }: PrinterPopUpProps) {
   const [printerId, setPrinterId] = useState(value); // Initialize with the value passed from parent
-
+  const [printerHistoryFrom, setPrinterHistoryFrom] = useState<string>(""); // Initialize with the value passed from parent
+  const [printerHistoryTo, setPrinterHistoryTo] = useState<string>(""); // Initialize with the value passed from parent
   // Update local state if the parent value changes
   useEffect(() => {
     setPrinterId(value);
@@ -26,16 +31,38 @@ export default function PrinterPopUp({
           onSubmit={(e) => {
             e.preventDefault();
             onSubmitPrinterId(printerId); // Update the parent with the new printerId
+            onSubmitHistoryFrom(printerHistoryFrom); // Update the parent with the new printerHistoryFrom
+            onSubmitHistoryTo(printerHistoryTo); // Update the parent with the new printerHistoryTo
           }}
         >
           <div className="mb-4">
-            <label className="block text-gray-700">Printer ID</label>
+            <label className="block text-gray-700">ID máy in</label>
             <input
               type="text"
               value={printerId}
               onChange={(e) => setPrinterId(e.target.value)} // Manage the input field
               className="w-full border border-gray-300 p-2 rounded-md"
-              placeholder="Nhập ID của sinh viên"
+              placeholder="Nhập ID của máy in"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700" htmlFor="historyFrom">Từ:</label>
+            <input
+              type="datetime-local"
+              className="w-full border border-gray-300 p-2 rounded-md"
+              onChange={(e) => setPrinterHistoryFrom(e.target.value)}
+              name="historyFrom"
+              title="historyFrom"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700" htmlFor="historyTo">Đến</label>
+            <input
+              type="datetime-local"
+              className="w-full border border-gray-300 p-2 rounded-md"
+              onChange={(e) => setPrinterHistoryTo(e.target.value)}
+              name="historyTo"
+              title="historyTo"
             />
           </div>
           <div className="flex justify-end">

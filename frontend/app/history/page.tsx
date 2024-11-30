@@ -5,282 +5,327 @@ import PrinterPopUp from "./popupprinter";
 import { PiStudent } from "react-icons/pi";
 import { TfiPrinter } from "react-icons/tfi";
 import { FaListUl } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import getStudentHistory from "@/lib/get-student-history";
+import getPrinterHistory from "@/lib/get-printer-history";
+
+export type HistoryItem = {
+    id: string;
+    studentId: string;
+    printerId: string;
+    documentId: string;
+    paperSize: string;
+    pageNumbers: number[];
+    numberOfCopies: number;
+    singleSided: boolean;
+    timeOrdered: string;
+    timeReceived: string;
+    timePrinted: string;
+    successful: boolean;
+}
+
 export default function Home() {
-    const [studentId, setStudentId] = useState("null");
+    const [studentId, setStudentId] = useState<string>("");
     const [isStudentFormOpen, setStudentFormOpen] = useState(false);
-    const [printerId, setPrinterId] = useState("null");
+    const [printerId, setPrinterId] = useState<string>("");
     const [isPrinterFormOpen, setPrinterFormOpen] = useState(false);
+    const [printerHistoryFrom, setPrinterHistoryFrom] = useState<string>("");
+    const [printerHistoryTo, setPrinterHistoryTo] = useState<string>("");
     function toggleStudentForm() {
-        console.log(isStudentFormOpen?"Student form open":"Student form close");
         setStudentFormOpen(!isStudentFormOpen);
-        
+
     }
     function togglePrinterForm() {
-        console.log(isPrinterFormOpen?"Printer form open":"Printer form close");
         setPrinterFormOpen(!isPrinterFormOpen);
     }
-    const studentHistory = [
-    {
-        "id": "1",
-        "studentId": "2213994",
-        "printerId": "P001",
-        "documentId": "D001",
-        "paperSize": "A4",
-        "pageNumbers": [1, 2, 3],
-        "numberOfCopies": 2,
-        "singleSided": true,
-        "timeOrdered": "2024-11-30T08:30:00.000Z",
-        "timeReceived": "2024-11-30T08:31:00.000Z",
-        "timePrinted": "2024-11-30T08:35:00.000Z",
-        "successful": true
-    },
-    {
-        "id": "2",
-        "studentId": "2213994",
-        "printerId": "P002",
-        "documentId": "D002",
-        "paperSize": "A3",
-        "pageNumbers": [1, 2],
-        "numberOfCopies": 1,
-        "singleSided": false,
-        "timeOrdered": "2024-11-30T09:00:00.000Z",
-        "timeReceived": "2024-11-30T09:02:00.000Z",
-        "timePrinted": "2024-11-30T09:10:00.000Z",
-        "successful": false
-    },
-    {
-        "id": "3",
-        "studentId": "S12347",
-        "printerId": "P003",
-        "documentId": "D003",
-        "paperSize": "Letter",
-        "pageNumbers": [1],
-        "numberOfCopies": 3,
-        "singleSided": true,
-        "timeOrdered": "2024-11-30T10:00:00.000Z",
-        "timeReceived": "2024-11-30T10:01:00.000Z",
-        "timePrinted": "2024-11-30T10:05:00.000Z",
-        "successful": true
-    },
-    {
-        "id": "4",
-        "studentId": "S12348",
-        "printerId": "P001",
-        "documentId": "D004",
-        "paperSize": "Legal",
-        "pageNumbers": [1, 2, 3, 4],
-        "numberOfCopies": 1,
-        "singleSided": false,
-        "timeOrdered": "2024-11-30T11:00:00.000Z",
-        "timeReceived": "2024-11-30T11:02:00.000Z",
-        "timePrinted": "2024-11-30T11:15:00.000Z",
-        "successful": true
-    },
-    {
-        "id": "5",
-        "studentId": "S12349",
-        "printerId": "P004",
-        "documentId": "D005",
-        "paperSize": "A4",
-        "pageNumbers": [1, 2, 3, 4, 5],
-        "numberOfCopies": 2,
-        "singleSided": true,
-        "timeOrdered": "2024-11-30T12:00:00.000Z",
-        "timeReceived": "2024-11-30T12:01:00.000Z",
-        "timePrinted": "2024-11-30T12:10:00.000Z",
-        "successful": false
-    }
-    ];
-    const printerHistory = [
-        {
-            "id": "P1001-01",
-            "studentId": "S2001",
-            "printerId": "P1001",
-            "documentId": "D1001",
-            "paperSize": "A4",
-            "pageNumbers": [1, 2, 3],
-            "numberOfCopies": 2,
-            "singleSided": true,
-            "timeOrdered": "2024-11-30T08:00:00.000Z",
-            "timeReceived": "2024-11-30T08:01:00.000Z",
-            "timePrinted": "2024-11-30T08:05:00.000Z",
-            "successful": true
-        },
-        {
-            "id": "P1001-02",
-            "studentId": "S2002",
-            "printerId": "P1001",
-            "documentId": "D1002",
-            "paperSize": "A3",
-            "pageNumbers": [1, 2],
-            "numberOfCopies": 1,
-            "singleSided": false,
-            "timeOrdered": "2024-11-30T09:00:00.000Z",
-            "timeReceived": "2024-11-30T09:01:00.000Z",
-            "timePrinted": "2024-11-30T09:10:00.000Z",
-            "successful": false
-        },
-        {
-            "id": "P1001-03",
-            "studentId": "S2003",
-            "printerId": "P1001",
-            "documentId": "D1003",
-            "paperSize": "Letter",
-            "pageNumbers": [1],
-            "numberOfCopies": 3,
-            "singleSided": true,
-            "timeOrdered": "2024-11-30T10:00:00.000Z",
-            "timeReceived": "2024-11-30T10:01:00.000Z",
-            "timePrinted": "2024-11-30T10:05:00.000Z",
-            "successful": true
-        },
-        {
-            "id": "P1001-04",
-            "studentId": "S2004",
-            "printerId": "P1001",
-            "documentId": "D1004",
-            "paperSize": "Legal",
-            "pageNumbers": [1, 2, 3, 4],
-            "numberOfCopies": 1,
-            "singleSided": false,
-            "timeOrdered": "2024-11-30T11:00:00.000Z",
-            "timeReceived": "2024-11-30T11:02:00.000Z",
-            "timePrinted": "2024-11-30T11:15:00.000Z",
-            "successful": true
-        },
-        {
-            "id": "P1001-05",
-            "studentId": "S2005",
-            "printerId": "P1001",
-            "documentId": "D1005",
-            "paperSize": "A4",
-            "pageNumbers": [1, 2, 3, 4, 5],
-            "numberOfCopies": 2,
-            "singleSided": true,
-            "timeOrdered": "2024-11-30T12:00:00.000Z",
-            "timeReceived": "2024-11-30T12:01:00.000Z",
-            "timePrinted": "2024-11-30T12:10:00.000Z",
-            "successful": false
+
+    const [studentHistory, setStudentHistory] = useState<HistoryItem[]>([]);
+    const [printerHistory, setPrinterHistory] = useState<HistoryItem[]>([]);
+
+    useEffect(() => {
+        if (!studentId) {
+            return;
         }
-    ];
-    const filteredHistoryStudent = studentHistory.filter(
-    (history) => history.studentId === studentId
-    );
-    const filteredHistoryPrinter = printerHistory.filter(
-        (history) => history.printerId === printerId
-    );
+
+        getStudentHistory(studentId)
+            .then((history) => {
+                setStudentHistory(history);
+            })
+            .catch(() => {
+                alert("Error fetching student history: " + studentId);
+            });
+    }, [studentId]);
+
+    useEffect(() => {
+        if (!printerId || !printerHistoryFrom || !printerHistoryTo) {
+            return;
+        }
+
+        getPrinterHistory(printerId, printerHistoryFrom, printerHistoryTo)
+            .then((history) => {
+                setPrinterHistory(history);
+            })
+            .catch(() => {
+                alert("Error fetching printer history: " + printerId);
+            });
+    }, [printerId, printerHistoryFrom, printerHistoryTo]);
+    // const studentHistory = [
+    //     {
+    //         "id": "1",
+    //         "studentId": "2213994",
+    //         "printerId": "P001",
+    //         "documentId": "D001",
+    //         "paperSize": "A4",
+    //         "pageNumbers": [1, 2, 3],
+    //         "numberOfCopies": 2,
+    //         "singleSided": true,
+    //         "timeOrdered": "2024-11-30T08:30:00.000Z",
+    //         "timeReceived": "2024-11-30T08:31:00.000Z",
+    //         "timePrinted": "2024-11-30T08:35:00.000Z",
+    //         "successful": true
+    //     },
+    //     {
+    //         "id": "2",
+    //         "studentId": "2213994",
+    //         "printerId": "P002",
+    //         "documentId": "D002",
+    //         "paperSize": "A3",
+    //         "pageNumbers": [1, 2],
+    //         "numberOfCopies": 1,
+    //         "singleSided": false,
+    //         "timeOrdered": "2024-11-30T09:00:00.000Z",
+    //         "timeReceived": "2024-11-30T09:02:00.000Z",
+    //         "timePrinted": "2024-11-30T09:10:00.000Z",
+    //         "successful": false
+    //     },
+    //     {
+    //         "id": "3",
+    //         "studentId": "S12347",
+    //         "printerId": "P003",
+    //         "documentId": "D003",
+    //         "paperSize": "Letter",
+    //         "pageNumbers": [1],
+    //         "numberOfCopies": 3,
+    //         "singleSided": true,
+    //         "timeOrdered": "2024-11-30T10:00:00.000Z",
+    //         "timeReceived": "2024-11-30T10:01:00.000Z",
+    //         "timePrinted": "2024-11-30T10:05:00.000Z",
+    //         "successful": true
+    //     },
+    //     {
+    //         "id": "4",
+    //         "studentId": "S12348",
+    //         "printerId": "P001",
+    //         "documentId": "D004",
+    //         "paperSize": "Legal",
+    //         "pageNumbers": [1, 2, 3, 4],
+    //         "numberOfCopies": 1,
+    //         "singleSided": false,
+    //         "timeOrdered": "2024-11-30T11:00:00.000Z",
+    //         "timeReceived": "2024-11-30T11:02:00.000Z",
+    //         "timePrinted": "2024-11-30T11:15:00.000Z",
+    //         "successful": true
+    //     },
+    //     {
+    //         "id": "5",
+    //         "studentId": "S12349",
+    //         "printerId": "P004",
+    //         "documentId": "D005",
+    //         "paperSize": "A4",
+    //         "pageNumbers": [1, 2, 3, 4, 5],
+    //         "numberOfCopies": 2,
+    //         "singleSided": true,
+    //         "timeOrdered": "2024-11-30T12:00:00.000Z",
+    //         "timeReceived": "2024-11-30T12:01:00.000Z",
+    //         "timePrinted": "2024-11-30T12:10:00.000Z",
+    //         "successful": false
+    //     }
+    // ];
+    // const printerHistory = [
+    //     {
+    //         "id": "P1001-01",
+    //         "studentId": "S2001",
+    //         "printerId": "P1001",
+    //         "documentId": "D1001",
+    //         "paperSize": "A4",
+    //         "pageNumbers": [1, 2, 3],
+    //         "numberOfCopies": 2,
+    //         "singleSided": true,
+    //         "timeOrdered": "2024-11-30T08:00:00.000Z",
+    //         "timeReceived": "2024-11-30T08:01:00.000Z",
+    //         "timePrinted": "2024-11-30T08:05:00.000Z",
+    //         "successful": true
+    //     },
+    //     {
+    //         "id": "P1001-02",
+    //         "studentId": "S2002",
+    //         "printerId": "P1001",
+    //         "documentId": "D1002",
+    //         "paperSize": "A3",
+    //         "pageNumbers": [1, 2],
+    //         "numberOfCopies": 1,
+    //         "singleSided": false,
+    //         "timeOrdered": "2024-11-30T09:00:00.000Z",
+    //         "timeReceived": "2024-11-30T09:01:00.000Z",
+    //         "timePrinted": "2024-11-30T09:10:00.000Z",
+    //         "successful": false
+    //     },
+    //     {
+    //         "id": "P1001-03",
+    //         "studentId": "S2003",
+    //         "printerId": "P1001",
+    //         "documentId": "D1003",
+    //         "paperSize": "Letter",
+    //         "pageNumbers": [1],
+    //         "numberOfCopies": 3,
+    //         "singleSided": true,
+    //         "timeOrdered": "2024-11-30T10:00:00.000Z",
+    //         "timeReceived": "2024-11-30T10:01:00.000Z",
+    //         "timePrinted": "2024-11-30T10:05:00.000Z",
+    //         "successful": true
+    //     },
+    //     {
+    //         "id": "P1001-04",
+    //         "studentId": "S2004",
+    //         "printerId": "P1001",
+    //         "documentId": "D1004",
+    //         "paperSize": "Legal",
+    //         "pageNumbers": [1, 2, 3, 4],
+    //         "numberOfCopies": 1,
+    //         "singleSided": false,
+    //         "timeOrdered": "2024-11-30T11:00:00.000Z",
+    //         "timeReceived": "2024-11-30T11:02:00.000Z",
+    //         "timePrinted": "2024-11-30T11:15:00.000Z",
+    //         "successful": true
+    //     },
+    //     {
+    //         "id": "P1001-05",
+    //         "studentId": "S2005",
+    //         "printerId": "P1001",
+    //         "documentId": "D1005",
+    //         "paperSize": "A4",
+    //         "pageNumbers": [1, 2, 3, 4, 5],
+    //         "numberOfCopies": 2,
+    //         "singleSided": true,
+    //         "timeOrdered": "2024-11-30T12:00:00.000Z",
+    //         "timeReceived": "2024-11-30T12:01:00.000Z",
+    //         "timePrinted": "2024-11-30T12:10:00.000Z",
+    //         "successful": false
+    //     }
+    // ];
+    // const filteredHistoryStudent = studentHistory.filter(
+    //     (history) => history.studentId === studentId
+    // );
+    // const filteredHistoryPrinter = printerHistory.filter(
+    //     (history) => history.printerId === printerId
+    // );
 
     return (
         <div className="grid grid-cols-[16rem_auto] h-screen">
-        {/* Sidebar */}
-        <div className="w-64 border-solid border-2 border-gray-500 shadow-md grid grid-rows-4">
-            <div className="flex items-center justify-center text-xl">Printing History Management</div>
-            {/* Menu Items */}
-            <div className="flex flex-col gap-6 w-full">
-                {/* Dashboard */}
-                <button 
-                    className="flex items-center gap-4 cursor-pointer p-3 rounded-md  text-gray-700
+            {/* Sidebar */}
+            <div className="w-64 border-solid border-2 border-gray-500 shadow-md grid grid-rows-4">
+                <div className="flex items-center justify-center text-xl uppercase font-bold">quản lý lịch sử in</div>
+                {/* Menu Items */}
+                <div className="flex flex-col gap-6 w-full">
+                    {/* Dashboard */}
+                    <button
+                        type="button"
+                        className="flex items-center gap-4 cursor-pointer p-3 rounded-md  text-gray-700
                     hover:bg-gray-700 hover:text-white transition-colors duration-200"
-                    onClick={toggleStudentForm}>
-                <PiStudent size={24}/>
-                <p className="text-sm font-medium ">Lịch sử in của sinh viên</p>
-                </button>
+                        onClick={toggleStudentForm}>
+                        <PiStudent size={24} />
+                        <p className="text-sm font-medium ">Lịch sử in của sinh viên</p>
+                    </button>
 
-                {/* Print History */}
-                <div 
-                    className="flex items-center gap-4 cursor-pointer p-3 rounded-md  text-gray-700
+                    {/* Print History */}
+                    <div
+                        className="flex items-center gap-4 cursor-pointer p-3 rounded-md  text-gray-700
                     hover:bg-gray-700 hover:text-white transition-colors duration-200"
-                    onClick={togglePrinterForm}>
-                <TfiPrinter size={24}/>
-                <p className="text-sm font-medium ">Lịch sử in của máy in</p>
-                </div>
+                        onClick={togglePrinterForm}>
+                        <TfiPrinter size={24} />
+                        <p className="text-sm font-medium ">Lịch sử in của máy in</p>
+                    </div>
 
-                {/* Printer List */}
-                <div 
-                    className="flex items-center gap-4 cursor-pointer p-3 rounded-md  text-gray-700
+                    {/* Printer List */}
+                    <div
+                        className="flex items-center gap-4 cursor-pointer p-3 rounded-md  text-gray-700
                     hover:bg-gray-700 hover:text-white transition-colors duration-200">
-                <FaListUl size={24}/>
-                <p className="text-sm font-medium ">Lịch sử lệnh in</p>
+                        <FaListUl size={24} />
+                        <p className="text-sm font-medium ">Lịch sử lệnh in</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        {/* Main content */}
+            {/* Main content */}
             <div className="border-solid border-2 border-gray-500 shadow-md p-2 grid grid-rows-[4rem_auto]">
-                <div className="flex justify-between border-b">
-                    <div>History here</div>
+                <div className="flex justify-end border-b">
                     <Button type='button' onClick={() => {
-                        setStudentId('null');
-                        setPrinterId('null');
+                        setStudentId("");
+                        setPrinterId("");
+                        setPrinterHistoryFrom("");
+                        setPrinterHistoryTo("");
                     }}>Clear</Button>
                 </div>
                 {/* History part */}
                 <div>
                     {isStudentFormOpen && (
-                    <StudentPopUp 
-                        value={studentId}
-                        toggleStudentForm={toggleStudentForm} 
-                        onSubmitStudentId={setStudentId}
-                    />
+                        <StudentPopUp
+                            value={studentId}
+                            toggleStudentForm={toggleStudentForm}
+                            onSubmitStudentId={setStudentId}
+                        />
                     )}
                     {/* render list of history of a student */}
                     <div>
-                        <h2>Printing History for Student {studentId}</h2>
-                        {/* history of student containter */}
-                        {filteredHistoryStudent.length === 0 ? (
-                            <p>No history found for this student.</p>
-                        ) : (
-                            <ul className="grid grid-cols-3">
-                            {filteredHistoryStudent.map((history) => (
+                        {studentId && <h2 className="text-xl text-red-500">Lịch sử in của sinh viên: {studentId}</h2>}
+                        <ul className="grid grid-cols-3">
+                            {studentHistory.map((history) => (
                                 <li key={history.id} className="border py-2 rounded-xl m-2 p-2">
-                                <strong>Document ID:</strong> {history.documentId} <br />
-                                <strong>Printer ID:</strong> {history.printerId} <br />
-                                <strong>Paper Size:</strong> {history.paperSize} <br />
-                                <strong>Page Numbers:</strong> {history.pageNumbers.join(", ")} <br />
-                                <strong>Copies:</strong> {history.numberOfCopies} <br />
-                                <strong>Single-sided:</strong> {history.singleSided ? "Yes" : "No"} <br />
-                                <strong>Ordered At:</strong> {new Date(history.timeOrdered).toLocaleString()} <br />
-                                <strong>Received At:</strong> {new Date(history.timeReceived).toLocaleString()} <br />
-                                <strong>Printed At:</strong> {new Date(history.timePrinted).toLocaleString()} <br />
-                                <strong>Status:</strong> {history.successful ? "Successful" : "Failed"}
+                                    <strong>Document ID:</strong> {history.documentId} <br />
+                                    <strong>Printer ID:</strong> {history.printerId} <br />
+                                    <strong>Paper Size:</strong> {history.paperSize} <br />
+                                    <strong>Page Numbers:</strong> {history.pageNumbers.join(", ")} <br />
+                                    <strong>Copies:</strong> {history.numberOfCopies} <br />
+                                    <strong>Single-sided:</strong> {history.singleSided ? "Yes" : "No"} <br />
+                                    <strong>Ordered At:</strong> {new Date(history.timeOrdered).toLocaleString()} <br />
+                                    <strong>Received At:</strong> {new Date(history.timeReceived).toLocaleString()} <br />
+                                    <strong>Printed At:</strong> {new Date(history.timePrinted).toLocaleString()} <br />
+                                    <strong>Status:</strong> {history.successful ? "Successful" : "Failed"}
                                 </li>
                             ))}
-                            </ul>
-                        )}
+                        </ul>
                     </div>
                     {isPrinterFormOpen && (
-                        <PrinterPopUp 
+                        <PrinterPopUp
                             value={printerId}
                             togglePrinterForm={togglePrinterForm}
                             onSubmitPrinterId={setPrinterId}
+                            onSubmitHistoryFrom={setPrinterHistoryFrom}
+                            onSubmitHistoryTo={setPrinterHistoryTo}
                         />
                     )}
                     {/* render list of history of a printer */}
                     <div>
-                        <h2> Printing history for printer {printerId}</h2>
-                        {filteredHistoryPrinter.length === 0 ? (
-                            <p>No history found for this printer.</p>
-                        ) : (
-                            <ul className="grid grid-cols-3">
-                            {filteredHistoryPrinter.map((history) => (
+                        {printerId && <h2 className="text-xl text-red-500"> Lịch sử in của máy in: {printerId}</h2>}
+
+                        <ul className="grid grid-cols-3">
+                            {printerHistory.map((history) => (
                                 <li key={history.id} className="border py-2 rounded-xl m-2 p-2">
-                                <strong>Document ID:</strong> {history.documentId} <br />
-                                <strong>Printer ID:</strong> {history.printerId} <br />
-                                <strong>Paper Size:</strong> {history.paperSize} <br />
-                                <strong>Page Numbers:</strong> {history.pageNumbers.join(", ")} <br />
-                                <strong>Copies:</strong> {history.numberOfCopies} <br />
-                                <strong>Single-sided:</strong> {history.singleSided ? "Yes" : "No"} <br />
-                                <strong>Ordered At:</strong> {new Date(history.timeOrdered).toLocaleString()} <br />
-                                <strong>Received At:</strong> {new Date(history.timeReceived).toLocaleString()} <br />
-                                <strong>Printed At:</strong> {new Date(history.timePrinted).toLocaleString()} <br />
-                                <strong>Status:</strong> {history.successful ? "Successful" : "Failed"}
+                                    <strong>Document ID:</strong> {history.documentId} <br />
+                                    <strong>Printer ID:</strong> {history.printerId} <br />
+                                    <strong>Paper Size:</strong> {history.paperSize} <br />
+                                    <strong>Page Numbers:</strong> {history.pageNumbers.join(", ")} <br />
+                                    <strong>Copies:</strong> {history.numberOfCopies} <br />
+                                    <strong>Single-sided:</strong> {history.singleSided ? "Yes" : "No"} <br />
+                                    <strong>Ordered At:</strong> {new Date(history.timeOrdered).toLocaleString()} <br />
+                                    <strong>Received At:</strong> {new Date(history.timeReceived).toLocaleString()} <br />
+                                    <strong>Printed At:</strong> {new Date(history.timePrinted).toLocaleString()} <br />
+                                    <strong>Status:</strong> {history.successful ? "Successful" : "Failed"}
                                 </li>
                             ))}
-                            </ul>
-                        )}
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-  );
+    );
 }
