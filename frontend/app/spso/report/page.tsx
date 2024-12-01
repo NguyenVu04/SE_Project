@@ -86,6 +86,19 @@ export default function ReportPage() {
   //   uploadDate: "2022-01-10T00:00:00"
   // }
   //   ];
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
+  const handleSubmit = () => {
+    if (!startDate || !endDate) {
+      alert("Please fill in both dates.");
+      return;
+    }
+    // Example: Send data to the backend
+    // fetch "/api/report"
+  };
 
   return (
     <div>
@@ -95,7 +108,7 @@ export default function ReportPage() {
           id="main-content"
           className="flex-grow flex flex-col items-center justify-center text-white"
         >
-          <h1 className="text-6xl text-red-500 m-5 uppercase">danh sách báo cáo</h1>
+          <h1 className="text-6xl text-white m-5 uppercase">danh sách báo cáo</h1>
 
         </div>
         {/* Render report */}
@@ -130,8 +143,55 @@ export default function ReportPage() {
             </li>
           ))}
         </ul>
+          <div className="flex items-center justify-center h-screen">
+            < button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mt-2"
+            onClick={() => setIsModalOpen(true)}>
+              Thêm báo cáo
+            </button>
+          </div>  
+           {/* Modal */}
+            {isModalOpen && (
+              <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+                <div className="bg-white rounded-lg p-6 w-96">
+                  <h2 className="text-lg font-bold mb-4">Chọn khoảng thời gian lấy báo cáo</h2>
+                  <div className="mb-4">
+                    <label className="block text-sm font-bold mb-2">Ngày bắt đầu:</label>
+                    <input
+                      type="date"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                      className="w-full border px-2 py-1 rounded"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-sm font-bold mb-2">Ngày kết thúc:</label>
+                    <input
+                      type="date"
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                      className="w-full border px-2 py-1 rounded"
+                    />
+                  </div>
+                  <div className="flex justify-end space-x-4">
+                    <button
+                      onClick={() => setIsModalOpen(false)}
+                      className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-3 rounded"
+                    >
+                      Hủy
+                    </button>
+                    <button
+                      onClick={handleSubmit}
+                      className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded"
+                    >
+                      Gửi
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
       </div>
+          
     </div >
-
+    
   );
 }
