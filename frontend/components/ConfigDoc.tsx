@@ -114,7 +114,7 @@ const ConfigDoc = (
                                         return;
                                     }
                                     setOrder({
-                                        fileName: fileName as string,
+                                        filename: fileName as string,
                                         paperSize: paperSize,
                                         singleSided: singleSided,
                                         numberOfCopies: numberOfCopies,
@@ -141,6 +141,7 @@ const ConfigDoc = (
                                                     type='button'
                                                     className="p-1 rounded-lg border-black border-2 bg-[#08FF3D] w-[60px]"
                                                     onClick={async () => {
+                                                        // studentId = "674ac231b537070a6cae8bad";
                                                         const status = await addOrder(studentId, printer.id, order);
                                                         if (status !== 200) {
                                                             alert('Có lỗi xảy ra! Vui lòng thử lại')

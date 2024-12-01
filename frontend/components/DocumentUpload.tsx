@@ -13,7 +13,7 @@ export type FileInfo = {
   uploadDate: Date
 }
 
-const studentId = "admin";
+const studentId = "674ac231b537070a6cae8bad";
 const DocumentUpload = () => {
   const [uploadedFiles, setUploadedFiles] = React.useState<FileInfo[]>([]);
 

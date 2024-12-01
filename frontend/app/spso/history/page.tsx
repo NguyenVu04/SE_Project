@@ -71,7 +71,9 @@ export default function Home() {
                 alert("Error fetching printer history: " + printerId);
             });
     }, [printerId, printerHistoryFrom, printerHistoryTo]);
-
+    const handleRedirect = () => {
+        redirect("/spso");
+    }
     return (
         <div className="grid grid-cols-[16rem_auto] h-screen">
             {/* Sidebar */}
