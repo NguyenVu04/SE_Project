@@ -6,10 +6,10 @@ import { PiStudent } from "react-icons/pi";
 import { TfiPrinter } from "react-icons/tfi";
 import { redirect } from "next/navigation";
 import Image from "next/image";
-// import { FaListUl } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import getStudentHistory from "@/lib/get-student-history";
 import getPrinterHistory from "@/lib/get-printer-history";
+import getUserId from "@/lib/user-id";
 
 export type HistoryItem = {
     id: string;
@@ -27,6 +27,17 @@ export type HistoryItem = {
 }
 
 export default function Home() {
+    const [id, setId] = useState<string | null>(null);
+    useEffect(() => {
+        getUserId("spso")
+            .then((id) => {
+                setId(id);
+            })
+            .catch(() => {
+                redirect("/");
+            })
+    }, []);
+
     const [studentId, setStudentId] = useState<string>("");
     const [isStudentFormOpen, setStudentFormOpen] = useState(false);
     const [printerId, setPrinterId] = useState<string>("");
@@ -70,9 +81,18 @@ export default function Home() {
                 alert("Error fetching printer history: " + printerId);
             });
     }, [printerId, printerHistoryFrom, printerHistoryTo]);
-    
+
     const handleRedirect = () => {
         redirect("/spso");
+    }
+
+
+    if (!id) {
+        return (
+            <div className="flex flex-col min-h-screen justify-center items-center">
+                <Image src={"/hcmut.svg"} alt="logo" width={64} height={64} />
+            </div>
+        )
     }
     return (
         <div className="grid grid-cols-[16rem_auto] h-screen">
@@ -113,8 +133,8 @@ export default function Home() {
             <div className="shadow-md p-2 grid grid-rows-[4rem_auto]">
                 {/* Top Bar */}
                 <div className="flex justify-evenly border-b">
-                    <Image src="/640px-HCMUT_official_logo.png" alt="logo-hcmut"  style={{ objectFit: "contain" }} width={50} height={50} className="cursor-pointer"
-                        onClick={handleRedirect}/>
+                    <Image src="/640px-HCMUT_official_logo.png" alt="logo-hcmut" style={{ objectFit: "contain" }} width={50} height={50} className="cursor-pointer"
+                        onClick={handleRedirect} />
                     <h1 className="mt-4 text-2xl font-bold">Quản lý lịch sử in</h1>
                     <Button type='button' onClick={() => {
                         setStudentId("");
@@ -125,8 +145,8 @@ export default function Home() {
                         setPrinterHistory([]);
                     }}
                         className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mt-2"
-                        >
-                            Clear</Button>
+                    >
+                        Clear</Button>
                 </div>
                 {/* History part */}
                 <div className="p-4 bg-gradient-to-b from-[#0381FF] to-[#02067A]">

@@ -2,13 +2,13 @@
 import React, { useEffect, useState } from "react";
 import TopBar from "../../../components/ui/topbar";
 import { Alert } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import getConfig from "@/lib/get-config";
 import addConfig from "@/lib/add-config";
 import { redirect } from "next/navigation";
-import { spsoid as id } from "@/lib/student-id";
+import getUserId from "@/lib/user-id";
+import Image from "next/image";
 
 export type Config = {
     defaultNumberOfPages: number,
@@ -16,8 +16,18 @@ export type Config = {
     createdBy: string,
     fileTypes: string[]
 }
-const spsoid = id;
 export default function ChangePolicy() {
+    const [id, setId] = useState<string | null>(null);
+    useEffect(() => {
+        getUserId("spso")
+            .then((id) => {
+                setId(id);
+            })
+            .catch(() => {
+                redirect("/");
+            })
+    }, []);
+
     const [pagenum, setPageNum] = useState<number>(0);
     const [day, setDay] = useState<number>(0);
     const [topics, setTopics] = useState<string[]>([]);
@@ -46,6 +56,14 @@ export default function ChangePolicy() {
     const handleRemoveTopic = (topicToRemove: string) => {
         setTopics(topics.filter((topic) => topic !== topicToRemove));
     };
+
+    if (!id) {
+        return (
+            <div className="flex flex-col min-h-screen justify-center items-center">
+                <Image src={"/hcmut.svg"} alt="logo" width={64} height={64} />
+            </div>
+        )
+    }
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -112,20 +130,30 @@ export default function ChangePolicy() {
                         </div>
                         {error && <Alert>{error}</Alert>}
                         <div className="w-full">
-                            <Button className="w-full bg-hcmut-light" size="lg" onClick={async () => {
+                            <button type="button" className="w-full bg-hcmut-light text-white rounded-md p-2 hover:bg-red-600" onClick={async () => {
                                 const response = await addConfig({
                                     defaultNumberOfPages: pagenum,
                                     paperSupplyDay: day,
-                                    createdBy: spsoid,//TODO: change to spso id later
+                                    createdBy: "aaaa",
                                     fileTypes: topics
                                 });
 
-                                if (response.status !== 200) {
+                                if (response !== 200) {
                                     setError('Có lỗi xảy ra! vui lòng thử lại.');
+                                    return;
+                                }
+
+                                const newConfig = await getConfig();
+                                if (newConfig) {
+                                    setPageNum(newConfig.defaultNumberOfPages);
+                                    setDay(newConfig.paperSupplyDay);
+                                    setTopics(newConfig.fileTypes);
+                                } else {
+                                    alert('Có lỗi xảy ra! Vui lòng thử lại...')
                                 }
                             }}>
                                 Lưu
-                            </Button>
+                            </button>
                             <button onClick={() => redirect("/spso")} type="button" className="w-full mt-5 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
                                 Hoàn thành
                             </button>

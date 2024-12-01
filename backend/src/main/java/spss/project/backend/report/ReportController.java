@@ -1,7 +1,9 @@
 package spss.project.backend.report;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -111,11 +114,11 @@ public class ReportController {
             @ApiResponse(responseCode = "500", description = "Error creating report")
     })
     @PostMapping("")
-    public ResponseEntity<Object> createReport(@RequestParam("from") String from, @RequestParam("to") String to) {
+    public ResponseEntity<Object> createReport(@RequestBody Map<String, String> body) {
         try {
 
-            LocalDateTime fromTime = LocalDateTime.parse(from);
-            LocalDateTime toTime = LocalDateTime.parse(to);
+            LocalDateTime fromTime = LocalDateTime.parse(body.get("from"), DateTimeFormatter.ISO_DATE_TIME);
+            LocalDateTime toTime = LocalDateTime.parse(body.get("to"), DateTimeFormatter.ISO_DATE_TIME);
             service.createReport(fromTime, toTime);
             return ResponseEntity.ok().build();
 

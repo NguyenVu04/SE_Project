@@ -5,8 +5,22 @@ import TopBar from "@/components/ui/topbar";
 import Link from "next/link";
 import getPrinterOrder, { Order } from "@/lib/printer-order";
 import updateOrderStatus from "@/lib/update-order-status";
+import getUserId from "@/lib/user-id";
+import Image from "next/image";
 
 export default function OrderPage() {
+  const [id, setId] = useState<string | null>(null);
+
+  useEffect(() => {
+    getUserId("spso")
+      .then((id) => {
+        setId(id);
+      })
+      .catch(() => {
+        redirect("/");
+      });
+  }, []);
+
   const params = useSearchParams();
   const printerId = params?.get("printerId");
 
@@ -23,6 +37,14 @@ export default function OrderPage() {
         alert("Có lỗi xảy ra! Vui lòng thử lại");
       });
   }, [printerId]);
+
+  if (!id) {
+    return (
+      <div className="flex w-screen h-screen justify-center items-center">
+        <Image src="/hcmut.svg" alt="HCMUT" width={64} height={64} />
+      </div>
+    )
+  }
 
   return (
     <div>

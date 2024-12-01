@@ -4,15 +4,14 @@ import Link from 'next/link';
 import { IoDocumentOutline } from "react-icons/io5";
 import { FileInfo } from './DocumentUpload';
 import getDocuments from '@/lib/get-documents';
-import { studentId as id } from '@/lib/student-id';
-const studentId = id;
-const ChooseDocument = () => {
+
+const ChooseDocument = ({ studentId }: { studentId: string }) => {
     const [uploadedFiles, setUploadedFiles] = useState<FileInfo[]>([]);
     useEffect(() => {
         getDocuments(studentId)
             .then((res) => setUploadedFiles(res))
             .catch(err => alert(err));
-    }, [])
+    }, [studentId])
 
     return (
         <div

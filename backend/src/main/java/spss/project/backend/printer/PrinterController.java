@@ -171,7 +171,7 @@ public class PrinterController {
                     successful);
 
             if (!successful) {
-                studentService.addBalance(orderId, order.getCost());
+                studentService.addBalance(order.getStudentId(), order.getCost());
             }
 
             return ResponseEntity.ok().build();

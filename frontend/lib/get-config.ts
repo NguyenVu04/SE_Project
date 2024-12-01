@@ -1,3 +1,4 @@
+'use server';
 import { Config } from "@/app/spso/policy/page";
 import { spssAxios } from "./axios-config";
 

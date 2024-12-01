@@ -4,9 +4,8 @@ import Link from 'next/link';
 import payByMomo from '@/lib/momo';
 import { redirect } from 'next/navigation';
 import updateBalance from '@/lib/update-balance';
-import { studentId } from '@/lib/student-id';
 
-const Payment = () => {
+const Payment = ({ studentId }: { studentId: string }) => {
     const [numberOfPages, setNumberOfPages] = useState<number>(0);
     return (
         <div

@@ -1,18 +1,12 @@
-'use client';
+'use server';
 import Order from '@/components/Order'
-import React from 'react'
-import { useState, useEffect } from 'react'
+import getUserId from '@/lib/user-id';
 
-const Page = () => {
-    const [studentId, setStudentId] = useState<string>("");
-    useEffect(() => {
-        setStudentId("1");
-    }, []);
-    // hardcode order
-    
+const Page = async () => {
+    const studentId = await getUserId("student");
     return (
-        <div 
-        className="bg-gray-100 w-screen min-h-screen flex flex-col bg-gradient-to-b from-[#0381FF] to-[#02067A]">
+        <div
+            className="bg-gray-100 w-screen min-h-screen flex flex-col bg-gradient-to-b from-[#0381FF] to-[#02067A]">
             <Order studentId={studentId}></Order>
         </div>
     )

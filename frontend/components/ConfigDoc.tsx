@@ -29,10 +29,11 @@ const ConfigDoc = (
     const [order, setOrder] = useState<OrderInfo | null>(null);
 
     useEffect(() => {
-        getActivePrinter().then((printers) => {
+        getActivePrinter()
+        .then((printers) => {
             setActivePrinter(printers);
         }).catch(() => {
-            alert('Có lỗi xảy ra! Vui lòng thử lại');
+            alert('Có lỗi xảy ra! Vui lòng thử lại...');
         })
     }, []);
 

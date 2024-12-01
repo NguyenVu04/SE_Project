@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import spss.project.backend.configuration.system.SystemConfigService;
-import spss.project.backend.order.OrderService;
 import spss.project.backend.printer.PrinterService;
 import spss.project.backend.report.ReportService;
 import spss.project.backend.user.admin.AdminService;
@@ -36,9 +35,6 @@ class BackendApplicationTests {
 	private PrinterService printerService;
 
 	@Autowired
-	private OrderService orderService;
-
-	@Autowired
 	private ReportService reportService;
 
 	@Test
@@ -58,13 +54,20 @@ class BackendApplicationTests {
 				LocalDate.of(2000, 1, 1),
 				500);
 
+		studentService.save(
+				"laughingjack750@gmail.com",
+				"Random2",
+				"Student2",
+				LocalDate.of(2000, 1, 1),
+				500);
+
 		adminService.save(
-				"admin@example.com",
+				"laughingjack750@gmail.com",
 				"Admin",
 				"User");
 
 		spsoService.save(
-				"spso@example.com",
+				"laughingjack750@gmail.com",
 				"SPSO",
 				"User");
 
@@ -100,17 +103,6 @@ class BackendApplicationTests {
 				"Engineering Building",
 				"104A",
 				true);
-
-		orderService.save(
-				"student123",
-				"printer456",
-				"document789",
-				"A4",
-				Arrays.asList(1, 2, 3, 5, 7),
-				2,
-				true,
-				LocalDateTime.now(),
-				false);
 	}
 
 	@Test

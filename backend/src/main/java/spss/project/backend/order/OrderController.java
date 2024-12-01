@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -183,4 +184,26 @@ public class OrderController {
         }
     }
 
+    /**
+     * Deletes an order by its id.
+     * 
+     * @param id the id of the order to delete
+     * @return a success response if the order was deleted successfully
+     */
+    @Operation(description = "Deletes an order by their ID", summary = "Deletes an order by their ID", parameters = {
+            @Parameter(name = "id", description = "The ID of the order to delete", required = true, in = ParameterIn.QUERY)
+    }, responses = {
+            @ApiResponse(description = "Order deleted successfully", responseCode = "200"),
+            @ApiResponse(description = "Error occurred while deleting the order", responseCode = "500")
+    })
+    @DeleteMapping("")
+    public ResponseEntity<Object> deleteOrder(@RequestParam("id") String id) {
+        try {
+            service.deleteOrder(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            logger.error("Error deleting order", e);
+            return ResponseEntity.internalServerError().build();
+        }   
+    }
 }

@@ -1,15 +1,25 @@
-// 'use server';
 'use client';
-// import getUserId from "@/lib/user-id";
+import getUserId from "@/lib/user-id";
 import TopBar from "../../components/ui/topbar";
 import { FiPrinter } from "react-icons/fi";
 import { FiBook } from "react-icons/fi";
 import { MdHistory } from "react-icons/md";
 import { redirect } from 'next/navigation'
 import { SiMicrosoftexcel } from "react-icons/si";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 export default function SPSOPage() {
-    // const id = await getUserId("spso");
-    
+    const [id, setId] = useState<string | null>(null);
+    useEffect(() => {
+        getUserId("spso")
+            .then((id) => {
+                setId(id);
+            })
+            .catch(() => {
+                redirect("/");
+            })
+    })
+
     const handlePrinter = () => {
         redirect('/spso/printer');
     }
@@ -22,6 +32,15 @@ export default function SPSOPage() {
     const handleReport = () => {
         redirect('/spso/report');
     }
+    
+    if (!id) {
+        return (
+            <div className="flex w-screen h-screen justify-center items-center">
+                <Image src="/hcmut.svg" alt="hcmut" width={64} height={64} />
+            </div>
+        )
+    }
+
     return (
         <div className="flex flex-col min-h-screen">
             <TopBar />
@@ -38,22 +57,22 @@ export default function SPSOPage() {
                 <button className="h-40 bg-purple-600 rounded-xl text-white text-xl mx-4 my-2 flex flex-col items-center justify-center p-2"
                     onClick={handlePrinter}    >
                     Quản lý máy in
-                    <FiPrinter size={30} className="mt-4"/>
+                    <FiPrinter size={30} className="mt-4" />
                 </button>
                 <button className="h-40 bg-purple-600 rounded-xl text-white text-xl mx-4 my-2 flex flex-col items-center justify-center p-2"
                     onClick={handlePolicy}    >
                     Quản lý chính sách
-                    <FiBook size={30} className="mt-4"/>
+                    <FiBook size={30} className="mt-4" />
                 </button>
                 <button className="h-40 bg-purple-600 rounded-xl text-white text-xl mx-4 my-2 flex flex-col items-center justify-center p-2"
                     onClick={handleHistory}    >
                     Quản lý lịch sử in
-                    <MdHistory size={35} className="mt-4"/>
+                    <MdHistory size={35} className="mt-4" />
                 </button>
                 <button className="h-40 bg-purple-600 rounded-xl text-white text-xl mx-4 my-2 flex flex-col items-center justify-center p-2"
                     onClick={handleReport}    >
                     Xem báo cáo
-                    <SiMicrosoftexcel size={35} className="mt-4"/>
+                    <SiMicrosoftexcel size={35} className="mt-4" />
                 </button>
             </div>
         </div>

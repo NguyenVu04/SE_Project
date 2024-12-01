@@ -1,6 +1,7 @@
+'use server';
+
 import ConfigDoc from '@/components/ConfigDoc'
-import { studentId as id } from '@/lib/student-id'
-import React from 'react'
+import getUserId from '@/lib/user-id';
 export type OrderInfo = {
   filename: string
   paperSize: string
@@ -9,8 +10,8 @@ export type OrderInfo = {
   numberOfCopies: number
 }
 
-const studentId = id;
-const Page = () => {
+const Page = async () => {
+  const studentId = await getUserId("student");
   return (
     <div
       className="bg-gray-100 w-screen min-h-screen flex flex-col bg-gradient-to-b from-[#0381FF] to-[#02067A]">
