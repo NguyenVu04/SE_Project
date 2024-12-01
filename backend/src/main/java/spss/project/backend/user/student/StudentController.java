@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +41,8 @@ public class StudentController {
      * This constructor is declared protected to prevent instantiation
      * outside of this class.
      */
-    protected StudentController() {}
+    protected StudentController() {
+    }
 
     /**
      * Logger for logging StudentController events.
@@ -54,13 +56,13 @@ public class StudentController {
      * @return the student with the given id, or null if no such student exists
      */
     @Operation(description = "Retrieves a student by its id", summary = "Retrieves a student by its id", parameters = {
-        @Parameter(name = "id", description = "The id of the student to retrieve", required = true, in = ParameterIn.QUERY)
+            @Parameter(name = "id", description = "The id of the student to retrieve", required = true, in = ParameterIn.QUERY)
     }, responses = {
-        @ApiResponse(responseCode = "200", description = "Student found", content = {
-            @Content(mediaType = "application/json", schema = @Schema(type = "object", implementation = Student.class))
-        }),
-        @ApiResponse(responseCode = "404", description = "Student not found"),
-        @ApiResponse(responseCode = "500", description = "Error getting student")
+            @ApiResponse(responseCode = "200", description = "Student found", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(type = "object", implementation = Student.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Student not found"),
+            @ApiResponse(responseCode = "500", description = "Error getting student")
     })
     @GetMapping("")
     public ResponseEntity<Object> getStudent(@RequestParam("id") String id) {
@@ -85,14 +87,14 @@ public class StudentController {
      * @return a map containing the student id, or null if no such student exists
      */
     @Operation(description = "Retrieves the student id for a given email", summary = "Retrieves the student id for a given email", parameters = {
-        @Parameter(name = "email", description = "The email of the student to find the id for", required = true, in = ParameterIn.QUERY)
+            @Parameter(name = "email", description = "The email of the student to find the id for", required = true, in = ParameterIn.QUERY)
     }, responses = {
-        @ApiResponse(responseCode = "200", description = "Student id found", content = {
-            @Content(mediaType = "application/json", schema = @Schema(type = "object", properties = {
-                @StringToClassMapItem(key = "id", value = String.class)
-            }))
-        }),
-        @ApiResponse(responseCode = "404", description = "Student not found"),
+            @ApiResponse(responseCode = "200", description = "Student id found", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(type = "object", properties = {
+                            @StringToClassMapItem(key = "id", value = String.class)
+                    }))
+            }),
+            @ApiResponse(responseCode = "404", description = "Student not found"),
     })
     @GetMapping("id")
     public ResponseEntity<Object> getStudentId(@RequestParam("email") String email) {
@@ -108,6 +110,34 @@ public class StudentController {
         } catch (Exception e) {
             logger.error("Error getting student id", e);
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
+     * Updates the balance of a student with the given id by a specified amount.
+     * 
+     * @param id     the id of the student whose balance is to be updated
+     * @param amount the amount to add to the student's balance
+     * @return a response entity indicating the outcome of the operation
+     */
+    @Operation(description = "Updates the balance of a student with the given id by a specified amount", summary = "Updates the balance of a student with the given id by a specified amount", parameters = {
+            @Parameter(name = "id", description = "The id of the student whose balance is to be updated", required = true, in = ParameterIn.QUERY),
+            @Parameter(name = "amount", description = "The amount to add to the student's balance", required = true, in = ParameterIn.QUERY)
+    }, responses = {
+            @ApiResponse(responseCode = "200", description = "Balance updated successfully"),
+            @ApiResponse(responseCode = "500", description = "Error updating student balance")
+    })
+    @PatchMapping("balance")
+    public ResponseEntity<Object> updateBalance(
+            @RequestParam("id") String id,
+            @RequestParam("amount") int amount) {
+
+        try {
+            service.addBalance(id, amount);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            logger.error("Error updating student balance", e);
+            return ResponseEntity.internalServerError().build();
         }
     }
 }
