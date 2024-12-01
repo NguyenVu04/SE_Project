@@ -5,6 +5,7 @@ import { MdUploadFile } from "react-icons/md";
 import { IoDocumentOutline } from "react-icons/io5";
 import addFile from '@/lib/add-file';
 import getDocuments from '@/lib/get-documents';
+import { studentId as id } from '@/lib/student-id';
 
 export type FileInfo = {
   fileName: string,
@@ -13,7 +14,7 @@ export type FileInfo = {
   uploadDate: Date
 }
 
-const studentId = "674ac231b537070a6cae8bad";
+const studentId = id;
 const DocumentUpload = () => {
   const [uploadedFiles, setUploadedFiles] = React.useState<FileInfo[]>([]);
 

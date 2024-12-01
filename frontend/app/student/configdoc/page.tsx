@@ -1,4 +1,5 @@
 import ConfigDoc from '@/components/ConfigDoc'
+import { studentId as id } from '@/lib/student-id'
 import React from 'react'
 export type OrderInfo = {
   filename: string
@@ -8,7 +9,7 @@ export type OrderInfo = {
   numberOfCopies: number
 }
 
-const studentId = "674a95a79654906c311d05da";
+const studentId = id;
 const Page = () => {
   return (
     <div

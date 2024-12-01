@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import getConfig from "@/lib/get-config";
 import addConfig from "@/lib/add-config";
 import { redirect } from "next/navigation";
+import { spsoid as id } from "@/lib/student-id";
 
 export type Config = {
     defaultNumberOfPages: number,
@@ -15,7 +16,7 @@ export type Config = {
     createdBy: string,
     fileTypes: string[]
 }
-
+const spsoid = id;
 export default function ChangePolicy() {
     const [pagenum, setPageNum] = useState<number>(0);
     const [day, setDay] = useState<number>(0);
@@ -115,7 +116,7 @@ export default function ChangePolicy() {
                                 const response = await addConfig({
                                     defaultNumberOfPages: pagenum,
                                     paperSupplyDay: day,
-                                    createdBy: 'admin',//TODO: change to spso id later
+                                    createdBy: spsoid,//TODO: change to spso id later
                                     fileTypes: topics
                                 });
 
