@@ -4,6 +4,9 @@ import StudentPopUp from "./popupstudent";
 import PrinterPopUp from "./popupprinter";
 import { PiStudent } from "react-icons/pi";
 import { TfiPrinter } from "react-icons/tfi";
+import { redirect } from "next/navigation";
+import Image from "next/image";
+// import { FaListUl } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import getStudentHistory from "@/lib/get-student-history";
 import getPrinterHistory from "@/lib/get-printer-history";
@@ -72,8 +75,8 @@ export default function Home() {
     return (
         <div className="grid grid-cols-[16rem_auto] h-screen">
             {/* Sidebar */}
-            <div className="w-64 border-solid border-2 border-gray-500 shadow-md grid grid-rows-4">
-                <div className="flex items-center justify-center text-xl uppercase font-bold">quản lý lịch sử in</div>
+            <div className="w-64 shadow-md grid grid-rows-4">
+                <div className="flex items-center justify-center text-xl uppercase font-bold">Bảng điều kiển</div>
                 {/* Menu Items */}
                 <div className="flex flex-col gap-6 w-full">
                     {/* Dashboard */}
@@ -105,19 +108,24 @@ export default function Home() {
                 </div>
             </div>
             {/* Main content */}
-            <div className="border-solid border-2 border-gray-500 shadow-md p-2 grid grid-rows-[4rem_auto]">
-                <div className="flex justify-end border-b">
+            <div className="shadow-md p-2 grid grid-rows-[4rem_auto]">
+                {/* Top Bar */}
+                <div className="flex justify-evenly border-b">
+                    <Image src="/640px-HCMUT_official_logo.png" alt="logo-hcmut"  style={{ objectFit: "contain" }} width={50} height={50} className="cursor-pointer"
+                        onClick={handleRedirect}/>
+                    <h1 className="mt-4 text-2xl font-bold">Quản lý lịch sử in</h1>
                     <Button type='button' onClick={() => {
                         setStudentId("");
                         setPrinterId("");
                         setPrinterHistoryFrom("");
                         setPrinterHistoryTo("");
-                        setStudentHistory([]);
-                        setPrinterHistory([]);
-                    }}>Clear</Button>
+                    }}
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mt-2"
+                        >
+                            Clear</Button>
                 </div>
                 {/* History part */}
-                <div className="p-4">
+                <div className="p-4 bg-gradient-to-b from-[#0381FF] to-[#02067A]">
                     {isStudentFormOpen && (
                         <StudentPopUp
                             value={studentId}
@@ -127,7 +135,8 @@ export default function Home() {
                     )}
                     {/* render list of history of a student */}
                     <div>
-                        {studentId && <h2 className="text-xl text-red-500">Lịch sử in của sinh viên: {studentId}</h2>}
+                        {studentId && <h2 className="text-3xl text-orange-600 font-bold m-4">Lịch sử in của sinh viên: {studentId}</h2>}
+                        {!studentId && <h2 className=" text-white m-4">Chọn mã số sinh viên ở sidebar</h2>}
                         <ul className="grid grid-cols-3">
                             {studentHistory.map((history) => (
                                 <li key={history.id} className="border py-2 rounded-xl m-2 p-2">
@@ -155,8 +164,8 @@ export default function Home() {
                     )}
                     {/* render list of history of a printer */}
                     <div>
-                        {printerId && <h2 className="text-xl text-red-500"> Lịch sử in của máy in: {printerId}</h2>}
-
+                        {printerId && <h2 className="text-3xl text-orange-600 font-bold m-4"> Lịch sử in của máy in: {printerId}</h2>}
+                        {!printerId && <h2 className=" text-white m-4">Chọn mã máy in ở sidebar</h2>}
                         <ul className="grid grid-cols-3">
                             {printerHistory.map((history) => (
                                 <li key={history.id} className="border py-2 rounded-xl m-2 p-2">
