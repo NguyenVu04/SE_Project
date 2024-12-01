@@ -29,7 +29,7 @@ export default function SPSOPage() {
                 id="main-content"
                 className="flex-grow flex flex-col items-center justify-center text-white bg-gradient-to-b from-[#0381FF] to-[#02067A]"
             >
-                <h1 className="text-6xl text-orange-600">Welcome to SPSO page</h1>
+                <h1 className="text-6xl text-orange-600">Welcome to SPSS</h1>
                 <p>
                     where quality printing meets exceptional service – bringing your ideas to life, one print at a time!
                 </p>

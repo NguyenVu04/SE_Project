@@ -10,8 +10,8 @@ export default function Home() {
     <div className="flex flex-col w-full h-full fixed items-center justify-center" style={{
       background: 'linear-gradient(to bottom, #0381FF, #02067A)'
     }}>
-      <h1 className="text-6xl font-bold text-orange-600">Welcome to the Printer Management System</h1>
-      <p className="text-white mt-4">Please login to continue</p>
+      <h1 className="text-6xl font-bold text-orange-600 uppercase text-center">chào mừng đến với hệ thống in thông minh</h1>
+      <p className="text-white mt-4">Vui lòng đăng nhập để tiếp tục</p>
       <Button className="mt-4 bg-orange-600" onClick={handleSignInClick}>Sign In</Button>
     </div>
   );

@@ -119,7 +119,9 @@ public class OrderController {
                     "}"))
     }), responses = {
             @ApiResponse(responseCode = "200", description = "Order added successfully"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = "400", description = "Invalid request body"),
+            @ApiResponse(responseCode = "500", description = "Internal server error"),
+            @ApiResponse(responseCode = "503", description = "Student balance not enough")
     })
     @PostMapping("student")
     public ResponseEntity<Object> addStudentOrders(
