@@ -7,7 +7,9 @@ export type Order = {
     paperSize: string;
     pageNumbers: number[];
     numberOfCopies: number;
-    singleSide: boolean;
+    singleSided: boolean;
+    timeReceived?: string;
+    timePrinted?: string;
 }
 
 export default async function getPrinterOrder(printerId: string): Promise<Order[]> {

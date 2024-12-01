@@ -4,8 +4,6 @@ import StudentPopUp from "./popupstudent";
 import PrinterPopUp from "./popupprinter";
 import { PiStudent } from "react-icons/pi";
 import { TfiPrinter } from "react-icons/tfi";
-import { redirect } from "next/navigation";
-// import { FaListUl } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import getStudentHistory from "@/lib/get-student-history";
 import getPrinterHistory from "@/lib/get-printer-history";
@@ -70,9 +68,7 @@ export default function Home() {
                 alert("Error fetching printer history: " + printerId);
             });
     }, [printerId, printerHistoryFrom, printerHistoryTo]);
-    const handleRedirect = () => {
-        redirect('/spso');
-    };
+
     return (
         <div className="grid grid-cols-[16rem_auto] h-screen">
             {/* Sidebar */}
@@ -116,6 +112,8 @@ export default function Home() {
                         setPrinterId("");
                         setPrinterHistoryFrom("");
                         setPrinterHistoryTo("");
+                        setStudentHistory([]);
+                        setPrinterHistory([]);
                     }}>Clear</Button>
                 </div>
                 {/* History part */}
@@ -133,7 +131,6 @@ export default function Home() {
                         <ul className="grid grid-cols-3">
                             {studentHistory.map((history) => (
                                 <li key={history.id} className="border py-2 rounded-xl m-2 p-2">
-                                    <strong>Document ID:</strong> {history.documentId} <br />
                                     <strong>Printer ID:</strong> {history.printerId} <br />
                                     <strong>Paper Size:</strong> {history.paperSize} <br />
                                     <strong>Page Numbers:</strong> {history.pageNumbers.join(", ")} <br />
@@ -163,7 +160,6 @@ export default function Home() {
                         <ul className="grid grid-cols-3">
                             {printerHistory.map((history) => (
                                 <li key={history.id} className="border py-2 rounded-xl m-2 p-2">
-                                    <strong>Document ID:</strong> {history.documentId} <br />
                                     <strong>Printer ID:</strong> {history.printerId} <br />
                                     <strong>Paper Size:</strong> {history.paperSize} <br />
                                     <strong>Page Numbers:</strong> {history.pageNumbers.join(", ")} <br />

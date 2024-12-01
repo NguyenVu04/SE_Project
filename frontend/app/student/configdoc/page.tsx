@@ -1,7 +1,7 @@
 import ConfigDoc from '@/components/ConfigDoc'
 import React from 'react'
 export type OrderInfo = {
-  fileName: string
+  filename: string
   paperSize: string
   pageNumbers: number[],
   singleSided: boolean

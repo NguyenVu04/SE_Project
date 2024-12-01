@@ -43,17 +43,17 @@ export default function SPSOPage() {
                 <button className="h-40 bg-purple-600 rounded-xl text-white text-xl mx-4 my-2 flex flex-col items-center justify-center p-2"
                     onClick={handlePolicy}    >
                     Quản lý chính sách
-                    <FiBook   size={30} className="mt-4"/>
+                    <FiBook size={30} className="mt-4"/>
                 </button>
                 <button className="h-40 bg-purple-600 rounded-xl text-white text-xl mx-4 my-2 flex flex-col items-center justify-center p-2"
                     onClick={handleHistory}    >
                     Quản lý lịch sử in
-                    <MdHistory   size={35} className="mt-4"/>
+                    <MdHistory size={35} className="mt-4"/>
                 </button>
                 <button className="h-40 bg-purple-600 rounded-xl text-white text-xl mx-4 my-2 flex flex-col items-center justify-center p-2"
                     onClick={handleReport}    >
                     Xem báo cáo
-                    <SiMicrosoftexcel   size={35} className="mt-4"/>
+                    <SiMicrosoftexcel size={35} className="mt-4"/>
                 </button>
             </div>
         </div>

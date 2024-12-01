@@ -26,7 +26,9 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import spss.project.backend.Environment;
+import spss.project.backend.user.spso.SPSO;
 import spss.project.backend.user.spso.SPSOService;
+import spss.project.backend.user.student.Student;
 import spss.project.backend.user.student.StudentService;
 
 /**
@@ -134,20 +136,19 @@ public class AdminController {
      *             date of birth, and balance of the student to add
      * @return a success response if the student was added successfully
      */
-    @Operation(description = "Adds a new student", summary = "Adds a new student", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Details of the student to be added", required = true, content = @Content(
-        examples = @ExampleObject(name = "student sample", value = "{\n" +
-                "    \"email\": \"student1@hcmut.edu.vn\",\n" +
-                "    \"firstName\": \"John\",\n" +
-                "    \"lastName\": \"Doe\",\n" +
-                "    \"dateOfBirth\": \"2000-01-01\",\n" +
-                "    \"balance\": 100\n" +
-                "}")
-    )), responses = {
-            @ApiResponse(description = "Student added successfully", responseCode = "200"),
-            @ApiResponse(description = "Student already exists", responseCode = "409"),
-            @ApiResponse(description = "Invalid request data", responseCode = "400"),
-            @ApiResponse(description = "Error occurred while adding student", responseCode = "500")
-    })
+    @Operation(description = "Adds a new student", summary = "Adds a new student", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Details of the student to be added", required = true, content = @Content(examples = @ExampleObject(name = "student sample", value = "{\n"
+            +
+            "    \"email\": \"student1@hcmut.edu.vn\",\n" +
+            "    \"firstName\": \"John\",\n" +
+            "    \"lastName\": \"Doe\",\n" +
+            "    \"dateOfBirth\": \"2000-01-01\",\n" +
+            "    \"balance\": 100\n" +
+            "}"))), responses = {
+                    @ApiResponse(description = "Student added successfully", responseCode = "200"),
+                    @ApiResponse(description = "Student already exists", responseCode = "409"),
+                    @ApiResponse(description = "Invalid request data", responseCode = "400"),
+                    @ApiResponse(description = "Error occurred while adding student", responseCode = "500")
+            })
     @PostMapping("student")
     public ResponseEntity<Object> addStudent(@RequestBody Map<String, Object> body) {
 
@@ -157,7 +158,7 @@ public class AdminController {
             String firstName = (String) body.get("firstName");
             String lastName = (String) body.get("lastName");
             LocalDate dateOfBirth = LocalDate.parse((String) body.get("dateOfBirth"));
-            int balance = (int) body.get("balance");
+            int balance = Integer.parseInt((String) body.get("balance"));
 
             studentService.save(email, firstName, lastName, dateOfBirth, balance);
             return ResponseEntity.ok().build();
@@ -208,19 +209,17 @@ public class AdminController {
      *             of the SPSO to add
      * @return a success response if the SPSO was added successfully
      */
-    @Operation(description = "Adds a new SPSO (Smart Printing Service Operator)",summary = "Adds a new SPSO (Smart Printing Service Operator)", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Details of the SPSO to be added", required = true, content = @Content(examples = @ExampleObject(
-            name = "SPSO sample",
-            value = "{\n" +
-                    "    \"email\": \"spso1@hcmut.edu.vn\",\n" +
-                    "    \"firstName\": \"John\",\n" +
-                    "    \"lastName\": \"Doe\"\n" +
-                    "}"
-    ))), responses = {
-            @ApiResponse(description = "SPSO added successfully", responseCode = "200"),
-            @ApiResponse(description = "SPSO already exists", responseCode = "409"),
-            @ApiResponse(description = "Invalid request data", responseCode = "400"),
-            @ApiResponse(description = "Error occurred while adding SPSO", responseCode = "500")
-    })
+    @Operation(description = "Adds a new SPSO (Smart Printing Service Operator)", summary = "Adds a new SPSO (Smart Printing Service Operator)", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Details of the SPSO to be added", required = true, content = @Content(examples = @ExampleObject(name = "SPSO sample", value = "{\n"
+            +
+            "    \"email\": \"spso1@hcmut.edu.vn\",\n" +
+            "    \"firstName\": \"John\",\n" +
+            "    \"lastName\": \"Doe\"\n" +
+            "}"))), responses = {
+                    @ApiResponse(description = "SPSO added successfully", responseCode = "200"),
+                    @ApiResponse(description = "SPSO already exists", responseCode = "409"),
+                    @ApiResponse(description = "Invalid request data", responseCode = "400"),
+                    @ApiResponse(description = "Error occurred while adding SPSO", responseCode = "500")
+            })
     @PostMapping("spso")
     public ResponseEntity<Object> addSPSO(@RequestBody Map<String, Object> body) {
 
@@ -267,6 +266,52 @@ public class AdminController {
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             logger.error("Error deleting SPSO", e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    /**
+     * Retrieves all students from the database.
+     * 
+     * @return a list of all students in the database
+     */
+    @Operation(description = "Retrieves all students from the database", summary = "Retrieves all students from the database", responses = {
+            @ApiResponse(responseCode = "200", description = "Students retrieved", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = Student.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Error getting all students")
+    })
+    @GetMapping("students")
+    public ResponseEntity<Object> getAllStudents() {
+        try {
+            return ResponseEntity.ok()
+                    .body(studentService.getRepo()
+                            .findAll());
+        } catch (Exception e) {
+            logger.error("Error getting all students", e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    /**
+     * Returns all saved SPSOs.
+     * 
+     * @return a list of all saved SPSOs
+     */
+    @Operation(description = "Returns all saved SPSOs", summary = "Returns all saved SPSOs", responses = {
+            @ApiResponse(responseCode = "200", description = "SPSOs retrieved", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = SPSO.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Error getting all SPSOs")
+    })
+    @GetMapping("spsos")
+    public ResponseEntity<Object> getAllSPSOs() {
+        try {
+            return ResponseEntity.ok()
+                    .body(spsoService.getRepo()
+                            .findAll());
+        } catch (Exception e) {
+            logger.error("Error getting all SPSOs", e);
             return ResponseEntity.internalServerError().build();
         }
     }

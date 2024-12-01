@@ -1,6 +1,5 @@
 'use client';
 import ServicePage from "./service/manage";
-import OrderPage from "./order/page";
 import AddPrinter from "./service/add";
 import { useState } from "react";
 export default function PrinterPage() {
@@ -10,7 +9,6 @@ export default function PrinterPage() {
         setShowAddPrinter(true);  // Set the state to true when the button is clicked
     };
 
-    const [printerId, setPrinterId] = useState('');
     return ( 
         <div>
             {(showAddPrinter) ? (

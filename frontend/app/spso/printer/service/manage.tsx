@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import setPrinterStatus from "@/lib/printer-status";
 import { redirect } from "next/navigation";
 import getAllPrinters from "@/lib/get-printer";
-import { useRouter } from "next/navigation";
 
 interface ServicePageProps {
   onAddPrinterClick: () => void;
@@ -48,9 +47,8 @@ export default function ServicePage({ onAddPrinterClick}: ServicePageProps) {
   }, []);
 
   const redirectToOrderPage = (printerId: string) => {
-    const router = useRouter();
     return () => {
-      router.push(`/spso/printer/order?printerId=${printerId}`);
+      redirect(`/spso/printer/order?printerId=${printerId}`);
     };
   };
   return (
@@ -82,10 +80,10 @@ export default function ServicePage({ onAddPrinterClick}: ServicePageProps) {
               >
                 <p><strong>Nhà sản xuất:</strong> {printer.manufacturer}</p>
                 <p><strong>Mẫu máy in:</strong> {printer.model}</p>
-                <p><strong>Mã máy in:</strong> {printer.id}</p>
                 <p><strong>Tên trường:</strong> {printer.campusName}</p>
                 <p><strong>Tên tòa:</strong> {printer.buildingName}</p>
                 <p><strong>Số phòng:</strong> {printer.roomNumber}</p>
+                <p><strong>Mô tả:</strong> {printer.description}</p>
                 <div className="mt-4 grid grid-cols-2 gap-4">
                   <button
                     type="button"
@@ -106,7 +104,7 @@ export default function ServicePage({ onAddPrinterClick}: ServicePageProps) {
                     {!printer.active ? "Kích hoạt" : "Vô hiệu"}
                   </button>
                   <button className="bg-hcmut-light text-white rounded-sm" 
-                    onClick={redirectToOrderPage("P001")}>
+                    onClick={redirectToOrderPage(printer.id)}>
                     Xem đơn hàng
                   </button>
                 </div>

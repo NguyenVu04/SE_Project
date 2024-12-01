@@ -1,6 +1,7 @@
 package spss.project.backend.printer;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -150,8 +151,8 @@ public class PrinterController {
 
             String orderId = (String) message.get("orderId");
             boolean successful = (boolean) message.get("successful");
-            LocalDateTime timeReceived = LocalDateTime.parse((String) message.get("timeReceived"));
-            LocalDateTime timePrinted = LocalDateTime.parse((String) message.get("timePrinted"));
+            LocalDateTime timeReceived = LocalDateTime.parse((String) message.get("timeReceived"), DateTimeFormatter.ISO_DATE_TIME);
+            LocalDateTime timePrinted = LocalDateTime.parse((String) message.get("timePrinted"), DateTimeFormatter.ISO_DATE_TIME);
 
             Order order = orderService.updateOrderStatus(orderId, true);
             PaperSize paperSize = PaperSize.valueOf(order.getPaperSize());
@@ -207,7 +208,7 @@ public class PrinterController {
             @Parameter(name = "printerId", description = "The id of the printer to find the orders for", required = true, in = ParameterIn.PATH)
     }, responses = {
             @ApiResponse(responseCode = "200", description = "Orders retrieved", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(type = "array", implementation = Order.class))
+                    @Content(mediaType = "application/json", schema = @Schema(example = "[{ \"orderId\": \"123\", \"documentUrl\": \"https://example.com/document.pdf\", \"paperSize\": \"A4\", \"pageNumbers\": 1, \"numberOfCopies\": 1, \"singleSided\": true }]"))
             }),
             @ApiResponse(responseCode = "500", description = "Error getting printer orders")
     })
