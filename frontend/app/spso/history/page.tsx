@@ -48,7 +48,6 @@ export default function Home() {
         if (!studentId) {
             return;
         }
-
         getStudentHistory(studentId)
             .then((history) => {
                 setStudentHistory(history);
@@ -71,6 +70,7 @@ export default function Home() {
                 alert("Error fetching printer history: " + printerId);
             });
     }, [printerId, printerHistoryFrom, printerHistoryTo]);
+    
     const handleRedirect = () => {
         redirect("/spso");
     }
@@ -139,11 +139,11 @@ export default function Home() {
                     )}
                     {/* render list of history of a student */}
                     <div>
-                        {studentId && <h2 className="text-3xl text-orange-600 font-bold m-4">Lịch sử in của sinh viên: {studentId}</h2>}
+                        {studentId && <h2 className="text-3xl text-white font-bold m-4">Lịch sử in của sinh viên: {studentId}</h2>}
                         {!studentId && <h2 className=" text-white m-4">Chọn mã số sinh viên ở sidebar</h2>}
                         <ul className="grid grid-cols-3">
                             {studentHistory.map((history) => (
-                                <li key={history.id} className="border py-2 rounded-xl m-2 p-2">
+                                <li key={history.id} className="border py-2 rounded-xl m-2 p-2 bg-white">
                                     <strong>Printer ID:</strong> {history.printerId} <br />
                                     <strong>Paper Size:</strong> {history.paperSize} <br />
                                     <strong>Page Numbers:</strong> {history.pageNumbers.join(", ")} <br />
@@ -168,7 +168,7 @@ export default function Home() {
                     )}
                     {/* render list of history of a printer */}
                     <div>
-                        {printerId && <h2 className="text-3xl text-orange-600 font-bold m-4"> Lịch sử in của máy in: {printerId}</h2>}
+                        {printerId && <h2 className="text-3xl text-white font-bold m-4"> Lịch sử in của máy in: {printerId}</h2>}
                         {!printerId && <h2 className=" text-white m-4">Chọn mã máy in ở sidebar</h2>}
                         <ul className="grid grid-cols-3">
                             {printerHistory.map((history) => (
