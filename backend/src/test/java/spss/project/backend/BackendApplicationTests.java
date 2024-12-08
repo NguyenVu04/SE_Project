@@ -55,19 +55,19 @@ class BackendApplicationTests {
 				500);
 
 		studentService.save(
-				"laughingjack750@gmail.com",
+				"vu.lam2404@hcmut.edu.vn",
 				"Random2",
 				"Student2",
 				LocalDate.of(2000, 1, 1),
 				500);
 
 		adminService.save(
-				"laughingjack750@gmail.com",
+				"vu.lam2404@hcmut.edu.vn",
 				"Admin",
 				"User");
 
 		spsoService.save(
-				"laughingjack750@gmail.com",
+				"vu.lam2404@hcmut.edu.vn",
 				"SPSO",
 				"User");
 

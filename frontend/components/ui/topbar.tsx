@@ -19,11 +19,21 @@ const TopBar = () => {
       <Link href="/spso">
         <Image src="/640px-HCMUT_official_logo.png" alt="logo-hcmut" width={50} height={50} className='cursor-pointer'/>
       </Link>
-      <FaRegUserCircle
+
+      
+        <FaRegUserCircle
         size={40}
         className="text-4xl text-hcmut-dark cursor-pointer"
         onClick={navigateUpOneFolder} // Trigger navigation on click
-      />
+        />
+        <Link href="http://localhost:3000/api/auth/signout">
+          <button type='button' className=" ml-3 px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-hcmut-light focus:ring-2 focus:ring-blue-400">
+            Log out
+          </button>
+        </Link>
+      
+      
+      
     </div>
   );
 };

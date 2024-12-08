@@ -7,6 +7,7 @@ import { SPSO, Student } from './page';
 import getAllStudents from '@/lib/get-all-students';
 import getAllSPSOs from '@/lib/get-all-spsos';
 import addSpso from '@/lib/add-spso';
+import Link from 'next/link';
 const TopBar = (
   { onAddStudent, onAddSPSO }: {
     onAddStudent: (students: Student[]) => void;
@@ -25,7 +26,7 @@ const TopBar = (
   };
 
   return (
-    <div className="bg-white shadow grid grid-cols-3 grid-rows-1 p-4 fixed top-0 left-64 w-[calc(100%-256px)] z-50 round-xl">
+    <div className="bg-white shadow grid grid-cols-4 grid-rows-1 p-4 fixed top-0 left-64 w-[calc(100%-256px)] z-50 round-xl">
       {/* Left Section: Title */}
       <h1 className="text-xl font-semibold text-gray-800">Bảng điều khiển</h1>
       {/* Right Section: Add Button */}
@@ -37,6 +38,12 @@ const TopBar = (
         onClick={toggleSpsoForm}>
         + Thêm SPSO
       </button>
+      <Link href="http://localhost:3000/api/auth/signout">
+        <button type='button' className=" ml-3 px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-hcmut-light focus:ring-2 focus:ring-blue-400">
+          Log out
+        </button>
+      </Link>
+      
 
       {isStudentFormOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

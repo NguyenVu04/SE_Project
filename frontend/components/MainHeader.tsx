@@ -15,7 +15,11 @@ const MainHeader = ({balance}: {balance: number}) => {
         <Link href="/student">
         <FaRegUserCircle className='text-4xl'/>
         </Link>
-        
+        <Link href="http://localhost:3000/api/auth/signout">
+        <button type='button' className=" ml-3 px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-hcmut-light focus:ring-2 focus:ring-blue-400">
+          Log out
+        </button>
+        </Link>
       </div>
     </div>
   );
